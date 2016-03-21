@@ -102,10 +102,12 @@ Class MainWindow
 
 
     Private Sub dataGridUrgent_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridUrgent.SelectionChanged
+        'dataGridUrgent
         ShowTrainStation()
     End Sub
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+
         If dataGridUrgent IsNot Nothing Then
             dataGridUrgent.SelectedIndex = 0
             dataGridUrgent.Focus()

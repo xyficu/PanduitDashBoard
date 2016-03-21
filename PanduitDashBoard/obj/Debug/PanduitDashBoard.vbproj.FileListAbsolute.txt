@@ -28,3 +28,4 @@ D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\Window1.baml
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.g.resources
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.Resources.resources
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbproj.GenerateResource.Cache
+D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbprojResolveAssemblyReference.cache

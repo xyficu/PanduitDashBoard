@@ -6,4 +6,5 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         mc:Ignorable="d"
         Title="Window1" Height="300" Width="300">
+    
 </Window>
