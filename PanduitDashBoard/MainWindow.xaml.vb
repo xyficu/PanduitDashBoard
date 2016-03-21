@@ -49,8 +49,8 @@ Class MainWindow
 
         'StartTimer()
         'Refresh()
-        FillDataGrid()
-
+        'FillDataGrid()
+        RollOrders()
 
 
     End Sub
@@ -59,29 +59,12 @@ Class MainWindow
     '    shapeTotal.Fill = New SolidColorBrush(Colors.Red)
     'End Sub
 
-    Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
-        'Dim dataRow As DataRowView
-        'dataRow = dataGridUrgent.SelectedItem
-        'trainStation = New TrainStation(dataRow)
-        'trainStation.ShowDialog()
-        'ShowTrainStation()
 
-    End Sub
+    Private Function RollOrders()
 
-
-
-    Private Function Refresh()
-
-        'db.GetUrgentOrders(dtUrgent)
-        'If dtUrgent.Rows.Count = 0 Then
-        '    dtUrgent.Clear()
-        'End If
-
-
-        'db.GetNotBookedOrders(dtNotBooked)
-        'If dtNotBooked Is Nothing Then
-        '    dtNotBooked.Clear()
-        'End If
+        Dim index As Int32 = dataGridUrgent.SelectedIndex
+        dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
+        dataGridUrgent.Focus()
 
         Return Nothing
 
@@ -90,8 +73,8 @@ Class MainWindow
 
     Private Sub StartTimer()
         timer.Interval = 2000
-        AddHandler timer.Elapsed, AddressOf Refresh
-        timer.AutoReset = False
+        AddHandler timer.Elapsed, AddressOf RollOrders
+        timer.AutoReset = True
         timer.Enabled = True
     End Sub
 
@@ -104,7 +87,6 @@ Class MainWindow
         Dim dr As DataRowView
         dr = dataGridUrgent.SelectedItem
 
-
         labelLoginTime.Content = dr.Item("Login_Order_Time").ToString
         labelPriceRequestTime.Content = dr.Item("Send_To_Pricing_Time").ToString
 
@@ -115,12 +97,19 @@ Class MainWindow
         Dim t4 As TimeSpan = priceTime - loginTime
         labelPriceSubLoginTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
 
-
         Return Nothing
     End Function
 
 
     Private Sub dataGridUrgent_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridUrgent.SelectionChanged
         ShowTrainStation()
+    End Sub
+
+    Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        If dataGridUrgent IsNot Nothing Then
+            dataGridUrgent.SelectedIndex = 0
+            dataGridUrgent.Focus()
+        End If
+
     End Sub
 End Class

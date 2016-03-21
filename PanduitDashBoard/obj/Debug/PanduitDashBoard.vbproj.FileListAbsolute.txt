@@ -15,7 +15,6 @@ D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\ko\Microsoft
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\ru\Microsoft.Expression.Drawing.resources.dll
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\zh-Hans\Microsoft.Expression.Drawing.resources.dll
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\zh-Hant\Microsoft.Expression.Drawing.resources.dll
-D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbprojResolveAssemblyReference.cache
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\MainWindow.g.vb
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\TrainStation.g.vb
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\Window1.g.vb

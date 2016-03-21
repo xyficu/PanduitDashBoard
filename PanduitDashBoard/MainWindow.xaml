@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Name="PanduitDashboardMain" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="Dashboard-Panduit" Height="1015.949" Width="800">
+        Title="Dashboard-Panduit" Height="947.949" Width="800">
     <Window.Resources>
         <Style x:Key="GridStyle1" TargetType="{x:Type Grid}"/>
     </Window.Resources>
-    <Grid Height="983" VerticalAlignment="Top">
+    <Grid Margin="0,0,0,1.949">
         <Grid.Background>
             <ImageBrush ImageSource="background.png"/>
         </Grid.Background>
@@ -20,16 +20,15 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGridUrgent" Margin="10,25,10,0" Height="377" VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A"/>
-        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="92" d:LayoutOverrides="HorizontalAlignment"/>
-        <Label x:Name="label3" Content="Status" HorizontalAlignment="Left" Margin="0,407,0,0" VerticalAlignment="Top" Width="82"/>
-        <Grid Margin="10,437.24,10,313.76" Background="#FFF0F0F0">
+        <DataGrid x:Name="dataGridUrgent" Margin="10,73,10,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" Height="346.24" VerticalAlignment="Top"/>
+        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="136" d:LayoutOverrides="HorizontalAlignment" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="Red"/>
+        <Grid Margin="10,424.24,10,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
             <Rectangle Fill="#FFBDD7EE" Margin="69,76.76,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="74,50.28,0,54.72" Stretch="None" Stroke="Black" StartAngle="90" Width="197" StrokeThickness="0" d:LayoutOverrides="VerticalAlignment"/>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="75,49.64,0,43.36" Stretch="None" Stroke="Black" StartAngle="90" Width="197" StrokeThickness="0"/>
             <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="69,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
@@ -40,17 +39,17 @@
                     <DropShadowEffect ShadowDepth="3"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="152,0,0,54.72" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="41" d:LayoutOverrides="VerticalAlignment">
+            <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="33.246,30.319,0,0" FontSize="18.667" VerticalAlignment="Top"/>
+            <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="234,30.319,0,0" FontSize="18.667" VerticalAlignment="Top"/>
+            <Button x:Name="buttonRefresh" Content="Refresh" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" Height="25.24"/>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="159,134.64,0,39.36" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="34.246,20.573,0,0" FontSize="18.667" VerticalAlignment="Top"/>
-            <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="225.053,20.573,0,0" FontSize="18.667" VerticalAlignment="Top"/>
-            <Button x:Name="buttonRefresh" Content="Refresh" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" Height="25.24"/>
-            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,75.76,60,115.24" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="White"/>
+            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,76.76,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold"/>
         </Grid>
-        <Grid Height="209.521" Margin="10,0,10,79.239" VerticalAlignment="Bottom" Background="#FFF0F0F0">
+        <Grid Height="209.521" Margin="10,649.24,10,0" VerticalAlignment="Top" Background="#FFF0F0F0">
             <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="79.194,0,0,0" VerticalAlignment="Top" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
             <Label x:Name="labelPriceRequest" Content="label" Margin="212.624,158.508,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.094,0.674" Foreground="#FFFF2F2F" FontSize="18.667" Height="30.24" HorizontalAlignment="Left" Width="70.981"/>
             <Label x:Name="labelBooked" Content="label" Margin="355.325,-0.999,354.218,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667" d:LayoutOverrides="VerticalAlignment"/>

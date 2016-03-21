@@ -153,9 +153,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="4f5f50e3-00ab-4ed2-9e9d-79eb022d001c_5.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
