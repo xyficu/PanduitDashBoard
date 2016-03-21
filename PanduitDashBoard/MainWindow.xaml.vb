@@ -48,8 +48,6 @@ Class MainWindow
     Private Sub buttonRefresh_Click(sender As Object, e As RoutedEventArgs) Handles buttonRefresh.Click
 
         'StartTimer()
-        'Refresh()
-        'FillDataGrid()
         RollOrders()
 
 
@@ -62,9 +60,12 @@ Class MainWindow
 
     Private Function RollOrders()
 
-        Dim index As Int32 = dataGridUrgent.SelectedIndex
-        dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
-        dataGridUrgent.Focus()
+        If dataGridUrgent.Items.Count > 0 Then
+            Dim index As Int32 = dataGridUrgent.SelectedIndex
+            dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
+            dataGridUrgent.Focus()
+        End If
+
 
         Return Nothing
 
@@ -102,8 +103,12 @@ Class MainWindow
 
 
     Private Sub dataGridUrgent_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridUrgent.SelectionChanged
-        'dataGridUrgent
-        ShowTrainStation()
+        'scroll to the selected item
+        If dataGridUrgent.Items.Count > 0 Then
+            dataGridUrgent.ScrollIntoView(dataGridUrgent.Items(dataGridUrgent.SelectedIndex))
+            ShowTrainStation()
+        End If
+
     End Sub
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
