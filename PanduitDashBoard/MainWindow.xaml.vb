@@ -30,12 +30,12 @@ Class MainWindow
 
 
         'fill Not booked orders
-        dtNotBooked = New DataTable
-        db.GetNotBookedOrders(dtNotBooked)
-        If dtNotBooked IsNot Nothing Then
-            'dataGridOrders.ItemsSource = dtNotBooked.DefaultView
-            dataGridOrders.ItemsSource = dtNotBooked.DefaultView
-        End If
+        'dtNotBooked = New DataTable
+        'db.GetNotBookedOrders(dtNotBooked)
+        'If dtNotBooked IsNot Nothing Then
+        '    'dataGridOrders.ItemsSource = dtNotBooked.DefaultView
+        '    dataGridOrders.ItemsSource = dtNotBooked.DefaultView
+        'End If
 
 
         labelOrderCount.Content = db.GetOrderCount.ToString()
@@ -60,10 +60,12 @@ Class MainWindow
     'End Sub
 
     Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
-        Dim dataRow As DataRowView
-        dataRow = dataGridUrgent.SelectedItem
-        trainStation = New TrainStation(dataRow)
-        trainStation.ShowDialog()
+        'Dim dataRow As DataRowView
+        'dataRow = dataGridUrgent.SelectedItem
+        'trainStation = New TrainStation(dataRow)
+        'trainStation.ShowDialog()
+        'ShowTrainStation()
+
     End Sub
 
 
@@ -96,5 +98,29 @@ Class MainWindow
     Private Sub StopTimer()
         timer.Enabled = False
 
+    End Sub
+
+    Private Function ShowTrainStation()
+        Dim dr As DataRowView
+        dr = dataGridUrgent.SelectedItem
+
+
+        labelLoginTime.Content = dr.Item("Login_Order_Time").ToString
+        labelPriceRequestTime.Content = dr.Item("Send_To_Pricing_Time").ToString
+
+        Dim loginTime, priceTime As New DateTime
+        loginTime = dr.Item("Login_Order_Time").ToString
+        priceTime = dr.Item("Send_To_Pricing_Time").ToString
+
+        Dim t4 As TimeSpan = priceTime - loginTime
+        labelPriceSubLoginTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
+
+
+        Return Nothing
+    End Function
+
+
+    Private Sub dataGridUrgent_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridUrgent.SelectionChanged
+        ShowTrainStation()
     End Sub
 End Class

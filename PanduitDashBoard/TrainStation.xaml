@@ -60,6 +60,6 @@
                 <DropShadowEffect ShadowDepth="2"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Right" Height="25.24" Margin="0,77.093,72.593,0" Style="{DynamicResource LabelStyle1}" VerticalAlignment="Top" Width="55.333"/>
+        <Label x:Name="label" Content="Hours" HorizontalAlignment="Right" Height="25.24" Margin="0,77.093,72.593,0" Style="{DynamicResource LabelStyle1}" VerticalAlignment="Top" Width="92.666"/>
     </Grid>
 </Window>

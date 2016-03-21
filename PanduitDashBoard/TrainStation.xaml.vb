@@ -14,7 +14,7 @@ Public Class TrainStation
             sendToPriceTime = dr.Item("Send_To_Pricing_Time").ToString
 
             Dim t4 As TimeSpan = sendToPriceTime - loginTime
-            labelFinishTime.Content = Math.Round((t4.TotalHours), 3).ToString()
+            labelFinishTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
 
 
         Catch ex As Exception

@@ -6,50 +6,82 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Name="PanduitDashboardMain" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="Dashboard-Panduit" Height="878.949" Width="800">
+        Title="Dashboard-Panduit" Height="1015.949" Width="800">
     <Window.Resources>
         <Style x:Key="GridStyle1" TargetType="{x:Type Grid}"/>
     </Window.Resources>
-    <Grid Height="803" VerticalAlignment="Top">
+    <Grid Height="983" VerticalAlignment="Top">
+        <Grid.Background>
+            <ImageBrush ImageSource="background.png"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGridUrgent" Margin="10,25,10,0" Height="229" VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A"/>
+        <DataGrid x:Name="dataGridUrgent" Margin="10,25,10,0" Height="377" VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A"/>
         <Label x:Name="labelUrgentOrders" Content="Urgent Orders" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="92" d:LayoutOverrides="HorizontalAlignment"/>
-        <Label x:Name="labelNormalOrders" Content="Normal Orders" HorizontalAlignment="Left" Margin="0,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.443,0.586" Height="25" Width="106"/>
-        <DataGrid x:Name="dataGridOrders" Margin="10,289,10,0" VerticalAlignment="Top" Height="300" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FF69DDFF"/>
-        <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="89.462,623.827,0,0" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311"/>
-        <Button x:Name="buttonRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="679,609,0,0" VerticalAlignment="Top" Width="92" Height="25.24"/>
-        <Label x:Name="labelPriceRequest" Content="label" HorizontalAlignment="Left" Margin="189.523,767.76,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.094,0.674" Foreground="#FFFF2F2F" FontSize="18.667" Height="30.24" Width="58.763"/>
-        <Label x:Name="labelBooked" Content="label" Margin="346.136,623.827,383.407,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667"/>
-        <Ellipse x:Name="shapeTotal" Fill="#FF79B553" HorizontalAlignment="Left" Height="41" Margin="48.463,0,0,104.466" Stroke="Transparent" VerticalAlignment="Bottom" Width="41" >
-            <Ellipse.Effect>
-                <DropShadowEffect/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Label x:Name="label" Content="Total orders" HorizontalAlignment="Left" Margin="10.269,0,0,152.24" VerticalAlignment="Bottom"/>
-        <Label x:Name="label1" Content="Booked orders" HorizontalAlignment="Left" Margin="251.939,0,0,152.24" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalAlignment"/>
-        <ed:BlockArrow x:Name="arrow1" Fill="#FFF6FF2F" HorizontalAlignment="Left" Margin="107,657.534,0,117.932" Orientation="Right" Stroke="#FFB2DE6E" Width="182">
-            <ed:BlockArrow.Effect>
-                <DropShadowEffect/>
-            </ed:BlockArrow.Effect>
-        </ed:BlockArrow>
-        <Label x:Name="label2" Content="Price Request orders" HorizontalAlignment="Left" Margin="48.463,0,0,5" VerticalAlignment="Bottom"/>
-        <Ellipse x:Name="shapePriceRequest" Fill="#FFFF2F2F" HorizontalAlignment="Left" Height="41" Margin="180.463,0,0,35.24" Stroke="Transparent" VerticalAlignment="Bottom" Width="41" >
-            <Ellipse.Effect>
-                <DropShadowEffect/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Ellipse x:Name="shapeBooked" Fill="#FF2FBDFF" HorizontalAlignment="Left" Height="41" Margin="305.136,0,0,104.466" Stroke="Transparent" VerticalAlignment="Bottom" Width="41" >
-            <Ellipse.Effect>
-                <DropShadowEffect/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <ed:LineArrow Fill="GreenYellow" HorizontalAlignment="Left" Height="54" Margin="82,0,0,50.466" Stroke="#FF8D8D8D" VerticalAlignment="Bottom" Width="80.463" StrokeThickness="10" StartCorner="BottomRight" StartArrow="Arrow" EndArrow="NoArrow"/>
-        <ed:LineArrow Fill="#FFF6FF2F" HorizontalAlignment="Left" Height="49" Margin="233.463,0,0,50.466" Stroke="#FF8D8D8D" VerticalAlignment="Bottom" Width="82.673" StartCorner="TopRight" EndArrow="NoArrow" StartArrow="Arrow" StrokeThickness="10"/>
+        <Label x:Name="label3" Content="Status" HorizontalAlignment="Left" Margin="0,407,0,0" VerticalAlignment="Top" Width="82"/>
+        <Grid Margin="10,437.24,10,313.76" Background="#FFF0F0F0">
+            <Rectangle Fill="#FFBDD7EE" Margin="69,76.76,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="74,50.28,0,54.72" Stretch="None" Stroke="Black" StartAngle="90" Width="197" StrokeThickness="0" d:LayoutOverrides="VerticalAlignment"/>
+            <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="69,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="234,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="152,0,0,54.72" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="34.246,20.573,0,0" FontSize="18.667" VerticalAlignment="Top"/>
+            <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="225.053,20.573,0,0" FontSize="18.667" VerticalAlignment="Top"/>
+            <Button x:Name="buttonRefresh" Content="Refresh" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" Height="25.24"/>
+            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,75.76,60,115.24" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="White"/>
+        </Grid>
+        <Grid Height="209.521" Margin="10,0,10,79.239" VerticalAlignment="Bottom" Background="#FFF0F0F0">
+            <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="79.194,0,0,0" VerticalAlignment="Top" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
+            <Label x:Name="labelPriceRequest" Content="label" Margin="212.624,158.508,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.094,0.674" Foreground="#FFFF2F2F" FontSize="18.667" Height="30.24" HorizontalAlignment="Left" Width="70.981"/>
+            <Label x:Name="labelBooked" Content="label" Margin="355.325,-0.999,354.218,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667" d:LayoutOverrides="VerticalAlignment"/>
+            <Ellipse x:Name="shapeTotal" Fill="#FF79B553" HorizontalAlignment="Left" Margin="40.195,39.321,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="label" Content="Total orders" HorizontalAlignment="Left" Margin="0,5.775,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="label1" Content="Booked orders" HorizontalAlignment="Left" Margin="256.128,4.081,0,0" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment"/>
+            <ed:BlockArrow x:Name="arrow1" Fill="#FFF6FF2F" Margin="105.868,37.014,0,120.986" Orientation="Right" Stroke="#FFB2DE6E" HorizontalAlignment="Left" Width="220.218" StrokeThickness="0">
+                <ed:BlockArrow.Effect>
+                    <DropShadowEffect/>
+                </ed:BlockArrow.Effect>
+            </ed:BlockArrow>
+            <Label x:Name="label2" Content="Price Request orders" Margin="79.194,0,0,20.773" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <Ellipse x:Name="shapeBooked" Fill="#FF2FBDFF" HorizontalAlignment="Left" Margin="342.325,39.321,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <ed:LineArrow Fill="GreenYellow" Margin="79.194,88.535,0,68.213" Stroke="#FF8D8D8D" StrokeThickness="10" StartCorner="BottomRight" StartArrow="Arrow" EndArrow="NoArrow" HorizontalAlignment="Left" Width="88.463"/>
+            <ed:LineArrow Fill="#FFF6FF2F" Margin="256.128,88.535,0,68.213" Stroke="#FF8D8D8D" StartCorner="TopRight" EndArrow="NoArrow" StartArrow="Arrow" StrokeThickness="10" HorizontalAlignment="Left" Width="88"/>
+            <Ellipse x:Name="shapeBooked_Copy" Fill="Red" HorizontalAlignment="Left" Margin="193.325,0,0,56.013" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Bottom" >
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+            </Ellipse>
+
+
+        </Grid>
 
 
     </Grid>
