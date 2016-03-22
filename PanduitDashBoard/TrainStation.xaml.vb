@@ -1,21 +1,27 @@
 ﻿Imports System.Data
 
 Public Class TrainStation
-    Public Sub New(ByRef dr As DataRowView)
+    Public Sub New(ByRef drv As DataRowView)
 
         InitializeComponent()
 
         Try
-            labelStartTime.Content = dr.Item("Login_Order_Time").ToString
-            labelFinishTime.Content = dr.Item("Send_To_Pricing_Time").ToString
+            labelLoginTime.Content = drv.Item("Login_Order_Time").ToString
+            labelPriceRequestTime.Content = drv.Item("Send_To_Pricing_Time").ToString
 
             Dim loginTime, sendToPriceTime As New DateTime
-            loginTime = dr.Item("Login_Order_Time").ToString
-            sendToPriceTime = dr.Item("Send_To_Pricing_Time").ToString
+            loginTime = drv.Item("Login_Order_Time").ToString
+            sendToPriceTime = drv.Item("Send_To_Pricing_Time").ToString
 
             Dim t4 As TimeSpan = sendToPriceTime - loginTime
-            labelFinishTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
+            labelPriceSubLoginTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
 
+            labelId.Content = drv.Item("ID").ToString
+            labelCustomerId.Content = drv.Item("Customer_ID").ToString
+            labelCustomerOrder.Content = drv.Item("Customer_Order").ToString
+            labelPanduitOrder.Content = drv.Item("Panduit_Order").ToString
+            labelStatus.Content = drv.Item("Status").ToString
+            labelUrgent.Content = drv.Item("Urgent").ToString
 
         Catch ex As Exception
             'MessageBox.Show(ex.Message)

@@ -152,5 +152,10 @@ Class MainWindow
 
     End Sub
 
-
+    Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
+        Dim drv As DataRowView
+        drv = dataGridUrgent.SelectedItem
+        trainStation = New TrainStation(drv)
+        trainStation.ShowDialog()
+    End Sub
 End Class

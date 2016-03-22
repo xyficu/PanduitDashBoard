@@ -6,60 +6,57 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="TrainStation"
         mc:Ignorable="d"
-        Title="TrainStation" Height="243.956" Width="606.593">
-    <Grid Margin="0,0,2,1.623">
-        <Rectangle Fill="#FFBDD7EE" Height="24.666" Margin="66.666,77.667,72.593,0" Stroke="Transparent" VerticalAlignment="Top" RadiusX="5" RadiusY="5">
+        Title="Selected Order" Height="440.623" Width="830.26">
+    <Grid Margin="10,172.695,13,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
+        <Rectangle Fill="#FFBDD7EE" Margin="69,76.76,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
             <Rectangle.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
+                <DropShadowEffect ShadowDepth="3"/>
             </Rectangle.Effect>
         </Rectangle>
-        <Label x:Name="labelStartTime" Content="time1" HorizontalAlignment="Left" Margin="10,47.427,0,0" VerticalAlignment="Top"/>
-        <Ellipse x:Name="yellow" Fill="#FFFFC608" HorizontalAlignment="Left" Height="24.085" Margin="201.248,0,0,10" Stroke="Transparent" VerticalAlignment="Bottom" Width="24.085">
+        <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="75,49.64,0,43.36" Stretch="None" Stroke="Black" StartAngle="90" Width="197" StrokeThickness="0"/>
+        <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="69,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
             <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
+                <DropShadowEffect ShadowDepth="3"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse x:Name="red" Fill="Red" HorizontalAlignment="Left" Height="24.085" Margin="230.333,0,0,10" Stroke="Transparent" VerticalAlignment="Bottom" Width="24.085">
+        <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="234,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
             <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
+                <DropShadowEffect ShadowDepth="3"/>
             </Ellipse.Effect>
         </Ellipse>
-        <ed:Arc ArcThickness="15" EndAngle="180" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="86.668,45.668,0,59.667" Stretch="None" Stroke="Transparent" Width="72.665" RenderTransformOrigin="0.5,0.5">
-            <ed:Arc.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ed:Arc.RenderTransform>
-        </ed:Arc>
-        <Ellipse x:Name="green_Copy" Fill="#FF70B244" HorizontalAlignment="Left" Height="24.085" Margin="154.666,78.248,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="24.085">
+        <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="22.876,30.319,0,0" FontSize="18.667" VerticalAlignment="Top" Foreground="Black"/>
+        <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="214.053,30.319,0,0" FontSize="18.667" VerticalAlignment="Top" Foreground="Black"/>
+        <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="159,134.64,0,39.36" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
             <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
+                <DropShadowEffect ShadowDepth="3"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse x:Name="green" Fill="#FF70B244" HorizontalAlignment="Left" Height="24.085" Margin="66.666,78.248,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="24.085">
-            <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Ellipse x:Name="grey" Fill="#FFA5A5A5" HorizontalAlignment="Left" Height="24.085" Margin="111,0,0,72.333" Stroke="Transparent" VerticalAlignment="Bottom" Width="24.085">
-            <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Label x:Name="labelFinishTime" Content="time4" HorizontalAlignment="Left" Margin="147.332,47.427,0,0" VerticalAlignment="Top"/>
-        <Ellipse x:Name="green_Copy1" Fill="#FF70B244" HorizontalAlignment="Left" Height="24.085" Margin="172.163,0,0,10" Stroke="Transparent" VerticalAlignment="Bottom" Width="24.085">
-            <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Ellipse x:Name="grey_Copy" Fill="#FFA5A5A5" HorizontalAlignment="Left" Height="24.085" Margin="143.078,0,0,10" Stroke="Transparent" VerticalAlignment="Bottom" Width="24.085">
-            <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="2"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Label x:Name="label" Content="Hours" HorizontalAlignment="Right" Height="25.24" Margin="0,77.093,72.593,0" Style="{DynamicResource LabelStyle1}" VerticalAlignment="Top" Width="92.666"/>
+        <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,76.76,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center"/>
+        <Label x:Name="label3" Content="Login time" HorizontalAlignment="Left" Margin="22.876,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label4" Content="Price request time" HorizontalAlignment="Left" Margin="211,10,0,0" VerticalAlignment="Top"/>
+        <Grid Height="150" Margin="0,-158.695,0,0" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Left" Margin="27,21,0,23.76" Width="230.693" Background="#FFFFF6BF">
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Grid.Effect>
+                <Label x:Name="label" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="label1" Content="Customer ID" HorizontalAlignment="Left" Margin="0,40" d:LayoutOverrides="Height" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="label2" Content="Customer Order" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="labelId" Content="ID" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+                <Label x:Name="labelCustomerId" Content="Customer ID" HorizontalAlignment="Right" Margin="0,40" d:LayoutOverrides="Height" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+                <Label x:Name="labelCustomerOrder" Content="Customer Order" HorizontalAlignment="Right" Margin="0,0,-0.001,0" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+            </Grid>
+            <Grid Margin="378,21,0,23.76" Background="#FFFFF6BF" HorizontalAlignment="Left" Width="221.087">
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Grid.Effect>
+                <Label x:Name="label5" Content="Panduit Order" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="label6" Content="Status" Margin="0,40,0,39.999" d:LayoutOverrides="Height" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="label7" Content="Urgent" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold"/>
+                <Label x:Name="labelPanduitOrder" Content="Panduit Order" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+                <Label x:Name="labelStatus" Content="Status" HorizontalAlignment="Right" Margin="0,40,0,39.999" d:LayoutOverrides="Height" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+                <Label x:Name="labelUrgent" Content="Urgent" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
