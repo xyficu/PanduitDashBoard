@@ -16,16 +16,6 @@ TrainStation
 InitializeComponent
 </summary>
 </member>
-<member name="T:PanduitDashBoard.Window1">
-<summary>
-Window1
-</summary>
-</member>
-<member name="M:PanduitDashBoard.Window1.InitializeComponent">
-<summary>
-InitializeComponent
-</summary>
-</member>
 <member name="T:PanduitDashBoard.Application">
 <summary>
 Application
@@ -97,6 +87,16 @@ InitializeComponent
 <summary>
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:PanduitDashBoard.Window1">
+<summary>
+Window1
+</summary>
+</member>
+<member name="M:PanduitDashBoard.Window1.InitializeComponent">
+<summary>
+InitializeComponent
 </summary>
 </member>
 </members>

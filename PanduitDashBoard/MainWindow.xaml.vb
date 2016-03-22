@@ -1,5 +1,7 @@
-﻿Imports System.Data
-
+﻿Imports System.ComponentModel
+Imports System.Data
+Imports System.Threading
+Imports System.Windows.Threading
 
 Class MainWindow
     Private trainStation As TrainStation
@@ -7,15 +9,22 @@ Class MainWindow
     Private timer As New Timers.Timer()
     Dim dtUrgent As DataTable
     Dim dtNotBooked As DataTable
+    Private threadAutoScrollDataGrid As Thread
 
+    '声明更新界面委托
+    Delegate Function UpdateUIDelegate()
+    Dim rollOrderDelegate As New UpdateUIDelegate(AddressOf RollOrders)
 
+    '设定滚动时间
+    Private threadSleepTime As Int32 = 1
 
+    '窗体加载时填充datagrid
     Private Sub PanduitDashboardMain_Loaded(sender As Object, e As RoutedEventArgs) Handles PanduitDashboardMain.Loaded
         FillDataGrid()
 
     End Sub
 
-
+    '填充datagrid
     Private Function FillDataGrid()
 
         'fill urgent orders
@@ -28,16 +37,6 @@ Class MainWindow
             dataGridUrgent.SetBinding(DataGrid.ItemsSourceProperty, binding)
         End If
 
-
-        'fill Not booked orders
-        'dtNotBooked = New DataTable
-        'db.GetNotBookedOrders(dtNotBooked)
-        'If dtNotBooked IsNot Nothing Then
-        '    'dataGridOrders.ItemsSource = dtNotBooked.DefaultView
-        '    dataGridOrders.ItemsSource = dtNotBooked.DefaultView
-        'End If
-
-
         labelOrderCount.Content = db.GetOrderCount.ToString()
         labelPriceRequest.Content = db.GetPriceRequestOrderCount.ToString()
         labelBooked.Content = db.GetBookedOrderCount.ToString()
@@ -45,44 +44,38 @@ Class MainWindow
         Return Nothing
     End Function
 
-    Private Sub buttonRefresh_Click(sender As Object, e As RoutedEventArgs) Handles buttonRefresh.Click
 
-        'StartTimer()
-        RollOrders()
+    Private Sub DealThread()
 
+        While True
+            Dispatcher.Invoke(AddressOf RollOrders)
+            'Dispatcher.BeginInvoke(DispatcherPriority.Normal, rollOrderDelegate)
+            Thread.Sleep(1000 * threadSleepTime)
+        End While
 
     End Sub
+
 
     'Private Sub buttonTotal_Click(sender As Object, e As RoutedEventArgs) Handles buttonTotal.Click
     '    shapeTotal.Fill = New SolidColorBrush(Colors.Red)
     'End Sub
 
-
+    '遍历显示datagrid条目
     Private Function RollOrders()
 
-        If dataGridUrgent.Items.Count > 0 Then
-            Dim index As Int32 = dataGridUrgent.SelectedIndex
-            dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
-            dataGridUrgent.Focus()
-        End If
-
+        Try
+            If dataGridUrgent.Items.Count > 0 Then
+                Dim index As Int32 = dataGridUrgent.SelectedIndex
+                dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
+                dataGridUrgent.Focus()
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
 
         Return Nothing
 
     End Function
-
-
-    Private Sub StartTimer()
-        timer.Interval = 2000
-        AddHandler timer.Elapsed, AddressOf RollOrders
-        timer.AutoReset = True
-        timer.Enabled = True
-    End Sub
-
-    Private Sub StopTimer()
-        timer.Enabled = False
-
-    End Sub
 
     Private Function ShowTrainStation()
         Dim dr As DataRowView
@@ -113,10 +106,37 @@ Class MainWindow
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
 
+        threadAutoScrollDataGrid = New Thread(AddressOf DealThread)
+
         If dataGridUrgent IsNot Nothing Then
             dataGridUrgent.SelectedIndex = 0
             dataGridUrgent.Focus()
         End If
 
+
     End Sub
+
+    Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        threadAutoScrollDataGrid.Abort()
+    End Sub
+
+    '启动自动刷新
+    Private Sub buttonAutoScroll_Click(sender As Object, e As RoutedEventArgs) Handles buttonAutoScroll.Click
+        If threadAutoScrollDataGrid.ThreadState = ThreadState.Unstarted Then
+            threadAutoScrollDataGrid.Start()
+            buttonAutoScroll.Content = "Stop Auto Scroll"
+
+        ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
+            threadAutoScrollDataGrid.Resume()
+            buttonAutoScroll.Content = "Stop Auto Scroll"
+
+        ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.WaitSleepJoin Then
+            threadAutoScrollDataGrid.Suspend()
+            buttonAutoScroll.Content = "Start Auto Scroll"
+
+        End If
+
+    End Sub
+
+
 End Class

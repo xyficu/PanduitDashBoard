@@ -21,7 +21,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="dataGridUrgent" Margin="10,73,10,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" Height="346.24" VerticalAlignment="Top" SelectedIndex="0" Cursor="Pen"/>
-        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" HorizontalAlignment="Left" Width="136" d:LayoutOverrides="HorizontalAlignment" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="Red" Height="30" VerticalAlignment="Top"/>
+        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="Red" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="136"/>
         <Grid Margin="10,424.24,10,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
             <Rectangle Fill="#FFBDD7EE" Margin="69,76.76,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
@@ -41,13 +41,13 @@
             </Ellipse>
             <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="33.246,30.319,0,0" FontSize="18.667" VerticalAlignment="Top"/>
             <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="234,30.319,0,0" FontSize="18.667" VerticalAlignment="Top"/>
-            <Button x:Name="buttonRefresh" Content="Refresh" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" Height="25.24"/>
+            <Button x:Name="buttonAutoScroll" Content="Start Auto Scroll" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="131" Height="25.24"/>
             <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="159,134.64,0,39.36" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,76.76,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold"/>
+            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,76.76,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center"/>
         </Grid>
         <Grid Height="209.521" Margin="10,649.24,10,0" VerticalAlignment="Top" Background="#FFF0F0F0">
             <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="79.194,0,0,0" VerticalAlignment="Top" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
