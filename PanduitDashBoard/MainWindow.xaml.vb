@@ -117,24 +117,38 @@ Class MainWindow
     End Sub
 
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        threadAutoScrollDataGrid.Abort()
+        Try
+            If threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
+                threadAutoScrollDataGrid.Resume()
+            End If
+
+            threadAutoScrollDataGrid.Abort()
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
+
     End Sub
 
     '启动自动刷新
     Private Sub buttonAutoScroll_Click(sender As Object, e As RoutedEventArgs) Handles buttonAutoScroll.Click
-        If threadAutoScrollDataGrid.ThreadState = ThreadState.Unstarted Then
-            threadAutoScrollDataGrid.Start()
-            buttonAutoScroll.Content = "Stop Auto Scroll"
+        Try
+            If threadAutoScrollDataGrid.ThreadState = ThreadState.Unstarted Then
+                threadAutoScrollDataGrid.Start()
+                buttonAutoScroll.Content = "Stop Auto Scroll"
 
-        ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
-            threadAutoScrollDataGrid.Resume()
-            buttonAutoScroll.Content = "Stop Auto Scroll"
+            ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
+                threadAutoScrollDataGrid.Resume()
+                buttonAutoScroll.Content = "Stop Auto Scroll"
 
-        ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.WaitSleepJoin Then
-            threadAutoScrollDataGrid.Suspend()
-            buttonAutoScroll.Content = "Start Auto Scroll"
+            ElseIf threadAutoScrollDataGrid.ThreadState = ThreadState.WaitSleepJoin Then
+                threadAutoScrollDataGrid.Suspend()
+                buttonAutoScroll.Content = "Start Auto Scroll"
 
-        End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
+
 
     End Sub
 

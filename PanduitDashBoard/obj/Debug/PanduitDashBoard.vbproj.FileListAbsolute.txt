@@ -1,7 +1,4 @@
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\PanduitDashBoard.exe.config
-D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.exe
-D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.xml
-D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.pdb
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\PanduitDashBoard.exe
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\PanduitDashBoard.pdb
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\bin\Debug\PanduitDashBoard.xml
@@ -28,4 +25,6 @@ D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\Window1.baml
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.g.resources
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.Resources.resources
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbproj.GenerateResource.Cache
-D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbprojResolveAssemblyReference.cache
+D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.exe
+D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.xml
+D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.pdb
