@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Name="PanduitDashboardMain" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="Dashboard-Panduit" Height="947.949" Width="800">
+        Title="Dashboard-Panduit" Height="900" Width="1600">
     <Window.Resources>
         <Style x:Key="GridStyle1" TargetType="{x:Type Grid}"/>
     </Window.Resources>
@@ -20,41 +20,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGridUrgent" Margin="10,73,10,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" Height="346.24" VerticalAlignment="Top" SelectedIndex="0" Cursor="Pen"/>
+        <DataGrid x:Name="dataGridUrgent" Margin="10,73,10,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" Height="192.795" VerticalAlignment="Top" SelectedIndex="0" Cursor="Pen"/>
         <Label x:Name="labelUrgentOrders" Content="Urgent Orders" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="Red" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="136"/>
-        <Grid Margin="10,424.24,10,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
-            <Rectangle Fill="#FFBDD7EE" Margin="69,76.76,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
-                <Rectangle.Effect>
-                    <DropShadowEffect ShadowDepth="3"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFF8CBAD" HorizontalAlignment="Left" Margin="75,49.64,0,43.36" Stretch="None" Stroke="Black" StartAngle="90" Width="197" StrokeThickness="0"/>
-            <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="69,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
-                <Ellipse.Effect>
-                    <DropShadowEffect ShadowDepth="3"/>
-                </Ellipse.Effect>
-            </Ellipse>
-            <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="234,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
-                <Ellipse.Effect>
-                    <DropShadowEffect ShadowDepth="3"/>
-                </Ellipse.Effect>
-            </Ellipse>
-            <Label x:Name="labelLoginTime" Content="time1" HorizontalAlignment="Left" Margin="22.876,30.319,0,0" FontSize="18.667" VerticalAlignment="Top" Foreground="Black"/>
-            <Label x:Name="labelPriceRequestTime" Content="time4" HorizontalAlignment="Left" Margin="214.053,30.319,0,0" FontSize="18.667" VerticalAlignment="Top" Foreground="Black"/>
-            <Button x:Name="buttonAutoScroll" Content="Start Auto Scroll" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="131" Height="25.24"/>
-            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="159,134.64,0,39.36" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
-                <Ellipse.Effect>
-                    <DropShadowEffect ShadowDepth="3"/>
-                </Ellipse.Effect>
-            </Ellipse>
-            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,76.76,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center"/>
-            <Label x:Name="label3" Content="Login time" HorizontalAlignment="Left" Margin="22.876,10,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="label4" Content="Price request time" HorizontalAlignment="Left" Margin="211,10,0,0" VerticalAlignment="Top"/>
-        </Grid>
-        <Grid Height="209.521" Margin="10,649.24,10,0" VerticalAlignment="Top" Background="#FFF0F0F0">
+        <Grid Height="208.721" Margin="20,598.84,0,0" VerticalAlignment="Top" Background="#FFF0F0F0">
             <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="79.194,0,0,0" VerticalAlignment="Top" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
             <Label x:Name="labelPriceRequest" Content="label" Margin="212.624,158.508,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.094,0.674" Foreground="#FFFF2F2F" FontSize="18.667" Height="30.24" HorizontalAlignment="Left" Width="70.981"/>
-            <Label x:Name="labelBooked" Content="label" Margin="355.325,-0.999,354.218,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667" d:LayoutOverrides="VerticalAlignment"/>
+            <Label x:Name="labelBooked" Content="label" Margin="355.325,-0.999,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="75.07"/>
             <Ellipse x:Name="shapeTotal" Fill="#FF79B553" HorizontalAlignment="Left" Margin="40.195,39.321,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
                 <Ellipse.Effect>
                     <DropShadowEffect/>
@@ -68,7 +39,7 @@
                 </ed:BlockArrow.Effect>
             </ed:BlockArrow>
             <Label x:Name="label2" Content="Price Request orders" Margin="79.194,0,0,20.773" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-            <Ellipse x:Name="shapeBooked" Fill="#FF2FBDFF" HorizontalAlignment="Left" Margin="342.325,39.321,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
+            <Ellipse x:Name="shapeBooked" Fill="#FF2FBDFF" HorizontalAlignment="Left" Margin="331.086,39.321,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
                 <Ellipse.Effect>
                     <DropShadowEffect/>
                 </Ellipse.Effect>
@@ -80,8 +51,242 @@
                     <DropShadowEffect/>
                 </Ellipse.Effect>
             </Ellipse>
+            <Ellipse x:Name="shapeTotal_Copy" Fill="#FF79B553" HorizontalAlignment="Left" Margin="389.395,46.735,0,0" Stroke="Transparent" Width="41" Height="41" VerticalAlignment="Top" >
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+            </Ellipse>
 
 
+        </Grid>
+        <Grid Margin="10,344.24,10,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Left" Margin="395.475,0,0,-189.598" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Rectangle Fill="#FFFF1717" Margin="419.1,299.056,0,-119.056" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="206">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="#FFFF1717" Margin="155.8,44.156,0,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="206" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Left" Margin="132.175,67.674,0,65.302" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="138.13,43.156,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Button x:Name="buttonAutoScroll" Content="Start Auto Scroll" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="131" Height="25.24"/>
+            <Label x:Name="label3" Content="Order Received" HorizontalAlignment="Left" Margin="88.946,16.09,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+            <Label x:Name="labelLoginTime_Copy" Content="Order Number:" HorizontalAlignment="Left" Margin="0,50.519,0,0" FontSize="18.667" Foreground="Black" FontFamily="Arial Narrow" VerticalAlignment="Top"/>
+            <Rectangle Fill="#FF7CB659" Margin="361.8,44.156,0,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="206" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" HorizontalAlignment="Left" Margin="231.243,65.119,0,67.857" Stretch="None" Stroke="Black" StartAngle="90" Width="160.504" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="239.8,135.54,0,43.46" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="label3_Copy" Content="Order Booked" HorizontalAlignment="Left" Margin="303.346,15.756,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" HorizontalAlignment="Left" Margin="432.843,65.119,0,67.857" Stretch="None" Stroke="Black" StartAngle="90" Width="160.504" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Left" Margin="333.775,67.674,0,65.302" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="441.4,135.54,0,43.46" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="338.8,43.156,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="label3_Copy1" Content="Price Request" HorizontalAlignment="Left" Margin="202.546,0,0,6.84" VerticalAlignment="Bottom" FontFamily="Arial" FontSize="16"/>
+            <Label x:Name="label3_Copy2" Content="Manfacturing" HorizontalAlignment="Left" Margin="417.746,0,0,6.84" VerticalAlignment="Bottom" FontFamily="Arial" FontSize="16"/>
+            <Label x:Name="label3_Copy3" Content="Warehouse" HorizontalAlignment="Left" Margin="520.146,16.09,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" Margin="634.443,65.119,778.653,67.857" Stretch="None" Stroke="Black" StartAngle="90" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Left" Margin="535.375,67.674,0,65.302" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="643,135.54,0,43.46" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Rectangle Fill="#FFBDD7EE" Margin="757,45.156,600.2,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="#FFBDD7EE" Margin="551,44.156,0,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216.4" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="745.4,44.156,0,134.844" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="541.2,44.156,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="label3_Copy4" Content="Credit" HorizontalAlignment="Left" Margin="643,0,0,6.84" VerticalAlignment="Bottom" FontFamily="Arial" FontSize="16"/>
+            <Label x:Name="label3_Copy5" Content="WHSE Pick" Margin="723.346,16.09,759.02,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" d:LayoutOverrides="Width"/>
+            <Rectangle Fill="#FFBDD7EE" Margin="0,45.156,401,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Right" Width="216.4">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Right" Height="41" Margin="0,44.156,592,134.844" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Label x:Name="label3_Copy6" Content="Ready to Pick" Margin="0,15.756,551.82,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" HorizontalAlignment="Right"/>
+            <Label x:Name="label3_Copy7" Content="Order Close" Margin="0,15.756,350.22,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" HorizontalAlignment="Right"/>
+            <Rectangle Fill="#FFBDD7EE" Margin="0,45.156,60,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="341" d:LayoutOverrides="VerticalAlignment">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,44.156,60,0" Style="{DynamicResource LabelStyle2}" Width="164" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
+            <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Right" Height="41" Margin="0,43.156,382.4,135.844" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+                <Ellipse.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" Margin="494.543,0,0,-187.043" Stretch="None" Stroke="Black" StartAngle="90" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="160.504">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Left" Margin="601.475,0,0,-189.598" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" Margin="700.543,0,712.553,-187.043" Stretch="None" Stroke="Black" StartAngle="90" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Rectangle Fill="#FFFF1717" Margin="625.1,299.056,742.5,-119.056" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FFFFC617" HorizontalAlignment="Right" Margin="0,0,602.712,-189.598" Stretch="None" Stroke="Black" StartAngle="90" Width="163.413" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="35.718"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <ed:Arc ArcThickness="32" ArcThicknessUnit="Pixel" EndAngle="270" Fill="#FF7CB659" Margin="0,0,506.553,-187.043" Stretch="None" Stroke="Black" StartAngle="90" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="87.024" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="160.504">
+                <ed:Arc.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="319.774"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Arc.RenderTransform>
+            </ed:Arc>
+            <Rectangle Fill="#FFFF1717" Margin="0,299.056,536.5,-119.056" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="206">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="#FFBDD7EE" Margin="0,299.056,320.1,-119.056" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="216.4">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Rectangle.Effect>
+            </Rectangle>
         </Grid>
 
 

@@ -6,7 +6,7 @@ Public Class DBHelper
 
     'constructor
     Public Sub New()
-        m_DBConStr = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source = " + AppDomain.CurrentDomain.BaseDirectory + "\Order.accdb;"
+        m_DBConStr = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source = " + AppDomain.CurrentDomain.BaseDirectory + "\Track.accdb;"
         'm_DBConStr = "C:\Order.accdb;;"
         m_DBConnIns = New OleDb.OleDbConnection
         m_DBConnIns.ConnectionString = m_DBConStr
@@ -40,21 +40,21 @@ Public Class DBHelper
 
     'get Not booked orders order by time
     Public Function GetNotBookedOrders(ByRef dt As DataTable)
-        Dim sqlCmdGetBooked As String = "select * from [Order] where [Status] <> 'Booked' order by [Send_To_Pricing_Time] "
+        Dim sqlCmdGetBooked As String = "select * from [SPANewColor] where [Status] <> 'Booked' order by [Send_To_Pricing_Time] "
         GetOrders(dt, sqlCmdGetBooked)
         Return Nothing
     End Function
 
     'get urgent orders
     Public Function GetUrgentOrders(ByRef dt As DataTable)
-        Dim sqlCmdGetUrgent As String = "select * from [Order] where [Urgent] = True"
+        Dim sqlCmdGetUrgent As String = "select * from [SPANewColor] where [Urgent] = True"
         GetOrders(dt, sqlCmdGetUrgent)
         Return Nothing
     End Function
 
     'get order count
     Public Function GetOrderCount()
-        Dim sqlCmd As String = "select * from [Order]"
+        Dim sqlCmd As String = "select * from [SPANewColor]"
         Dim dt As New DataTable
         GetOrders(dt, sqlCmd)
         Return dt.Rows.Count
@@ -63,7 +63,7 @@ Public Class DBHelper
 
     'get booked order count
     Public Function GetBookedOrderCount()
-        Dim sqlCmd As String = "select * from [Order] where [Status] = 'Booked'"
+        Dim sqlCmd As String = "select * from [SPANewColor] where [Status] = 'Booked'"
         Dim dt As New DataTable
         GetOrders(dt, sqlCmd)
         Return dt.Rows.Count
@@ -72,7 +72,7 @@ Public Class DBHelper
 
     'get price request order count
     Public Function GetPriceRequestOrderCount()
-        Dim sqlCmd As String = "select * from [Order] where [Status] = 'Price Request'"
+        Dim sqlCmd As String = "select * from [SPANewColor] where [Status] = 'Price Request'"
         Dim dt As New DataTable
         GetOrders(dt, sqlCmd)
         Return dt.Rows.Count

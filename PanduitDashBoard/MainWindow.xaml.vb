@@ -81,8 +81,8 @@ Class MainWindow
         Dim dr As DataRowView
         dr = dataGridUrgent.SelectedItem
 
-        labelLoginTime.Content = dr.Item("Login_Order_Time").ToString
-        labelPriceRequestTime.Content = dr.Item("Send_To_Pricing_Time").ToString
+        'labelLoginTime.Content = dr.Item("Login_Order_Time").ToString
+        'labelPriceRequestTime.Content = dr.Item("Send_To_Pricing_Time").ToString
 
         Dim loginTime, priceTime As New DateTime
         loginTime = dr.Item("Login_Order_Time").ToString
