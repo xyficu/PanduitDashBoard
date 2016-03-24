@@ -40,7 +40,7 @@ Class MainWindow
         labelOrderCount.Content = db.GetOrderCount.ToString()
         labelPriceRequest.Content = db.GetPriceRequestOrderCount.ToString()
         labelBooked.Content = db.GetBookedOrderCount.ToString()
-
+        'alskjfdl;l
         Return Nothing
     End Function
 
