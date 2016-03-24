@@ -16,7 +16,7 @@ Class MainWindow
     Dim rollOrderDelegate As New UpdateUIDelegate(AddressOf RollOrders)
 
     '设定滚动时间
-    Private threadSleepTime As Int32 = 1
+    Private threadSleepTime As Int32 = 3
 
     '窗体加载时填充datagrid
     Private Sub PanduitDashboardMain_Loaded(sender As Object, e As RoutedEventArgs) Handles PanduitDashboardMain.Loaded
@@ -37,10 +37,11 @@ Class MainWindow
             dataGridUrgent.SetBinding(DataGrid.ItemsSourceProperty, binding)
         End If
 
-        labelOrderCount.Content = db.GetOrderCount.ToString()
-        labelPriceRequest.Content = db.GetPriceRequestOrderCount.ToString()
-        labelBooked.Content = db.GetBookedOrderCount.ToString()
-        'alskjfdl;l
+        GetTotalStatistics()
+        'labelOrderCount.Content = db.GetOrderCount.ToString()
+        'labelPriceRequest.Content = db.GetPriceRequestOrderCount.ToString()
+        'labelBooked.Content = db.GetBookedOrderCount.ToString()
+
         Return Nothing
     End Function
 
@@ -49,16 +50,12 @@ Class MainWindow
 
         While True
             Dispatcher.Invoke(AddressOf RollOrders)
+
             'Dispatcher.BeginInvoke(DispatcherPriority.Normal, rollOrderDelegate)
             Thread.Sleep(1000 * threadSleepTime)
         End While
 
     End Sub
-
-
-    'Private Sub buttonTotal_Click(sender As Object, e As RoutedEventArgs) Handles buttonTotal.Click
-    '    shapeTotal.Fill = New SolidColorBrush(Colors.Red)
-    'End Sub
 
     '遍历显示datagrid条目
     Private Function RollOrders()
@@ -68,6 +65,7 @@ Class MainWindow
                 Dim index As Int32 = dataGridUrgent.SelectedIndex
                 dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
                 dataGridUrgent.Focus()
+                CheckCurrentOrderTime()
             End If
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
@@ -89,7 +87,7 @@ Class MainWindow
         priceTime = dr.Item("Send_To_Pricing_Time").ToString
 
         Dim t4 As TimeSpan = priceTime - loginTime
-        labelPriceSubLoginTime.Content = Math.Round((t4.TotalHours), 3).ToString() + " Hours"
+        labelPriceSubLoginTime.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
 
         Return Nothing
     End Function
@@ -100,6 +98,8 @@ Class MainWindow
         If dataGridUrgent.Items.Count > 0 Then
             dataGridUrgent.ScrollIntoView(dataGridUrgent.Items(dataGridUrgent.SelectedIndex))
             ShowTrainStation()
+            CheckCurrentOrderTime()
+
         End If
 
     End Sub
@@ -147,6 +147,7 @@ Class MainWindow
             End If
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
+
         End Try
 
 
@@ -158,4 +159,69 @@ Class MainWindow
         trainStation = New TrainStation(drv)
         trainStation.ShowDialog()
     End Sub
+
+    '检查Order数据，如果超时则改变流程颜色
+    Private Function CheckCurrentOrderTime()
+        Dim dr As DataRowView
+        dr = dataGridUrgent.SelectedItem
+
+
+        Dim t1, t2, t3, t4, t5, t6 As New DateTime
+        t1 = dr.Item("Login_Order_Time").ToString
+        t2 = dr.Item("Send_To_Pricing_Time").ToString
+        t3 = dr.Item("Price_Modify_Time").ToString
+        t4 = dr.Item("Price_Send_Back_Time").ToString
+        t5 = dr.Item("Book_Order_Time").ToString
+        t6 = t5
+
+        dotLogin.Fill = CheckColor(t1, t2)
+        barLoginToPrice.Fill = CheckColor(t2, t3)
+        dotPrice.Fill = CheckColor(t3, t4)
+        barPriceToBook.Fill = CheckColor(t4, t5)
+        dotBook.Fill = CheckColor(t1, t6)
+
+
+
+        Return Nothing
+    End Function
+
+    '根据节点时间改变颜色
+    Private Function CheckColor(t1 As DateTime, t2 As DateTime)
+        Dim t As TimeSpan = t2 - t1
+
+        Dim f As Double = t.TotalMinutes
+        If f <= 0 Then
+            Return New SolidColorBrush(Colors.Gray)
+        ElseIf f > 0 And f <= 10 Then
+            Return New SolidColorBrush(Colors.Green)
+        ElseIf f > 10 And f <= 15 Then
+            Return New SolidColorBrush(Colors.Yellow)
+        ElseIf f > 15 Then
+            Return New SolidColorBrush(Colors.Red)
+        End If
+
+        Return New SolidColorBrush(Colors.White)
+    End Function
+
+    Private Function GetTotalStatistics()
+        Dim totalCount As Int32 = 0
+        Dim totalFailedCount As Int32 = 0
+        Dim prictCount As Int32 = 0
+        Dim priceFailedCount As Int32 = 0
+        Dim bookCount As Int32 = 0
+        Dim bookFailedCount As Int32 = 0
+        db.GetTotalOrderFailCount(totalCount, totalFailedCount,
+                                  prictCount, priceFailedCount,
+                                  bookCount, bookFailedCount)
+
+
+        labelOrderCount.Content = totalFailedCount.ToString + "/" + totalCount.ToString
+        labelPriceRequest.Content = priceFailedCount.ToString + "/" + prictCount.ToString
+        labelBooked.Content = bookFailedCount.ToString + "/" + bookCount.ToString
+
+    End Function
+
 End Class
+
+
+

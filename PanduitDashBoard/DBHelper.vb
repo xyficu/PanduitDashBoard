@@ -79,5 +79,69 @@ Public Class DBHelper
 
     End Function
 
+    Public Function GetTotalOrderFailCount(ByRef _totalCount, ByRef _totalFailedCount,
+                                           ByRef _totalPriceCount, ByRef _priceFailedCount,
+                                           ByRef _totalBookCount, ByRef _bookFailedCount)
+        Dim totalCount As Int32 = 0
+        Dim totalFailedCount As Int32 = 0
+        Dim totalPriceCount As Int32 = 0
+        Dim priceFailedCount As Int32 = 0
+        Dim totalBookCount As Int32 = 0
+        Dim bookFailedCount As Int32 = 0
+
+        'Calculate SPA 
+        Dim sqlCmd As String = "select * from [SPANewColor]"
+        Dim dt As New DataTable
+        GetOrders(dt, sqlCmd)
+        totalCount += dt.Rows.Count
+        totalPriceCount += dt.Select("[Status] = 'Price Request'").Count
+        totalBookCount += dt.Select("[Status] = 'Booked'").Count
+
+        Dim t1SPA, t2SPA, t3SPA, t4SPA As DateTime
+        For Each row As DataRow In dt.Rows
+            t1SPA = row.Item("Login_Order_Time").ToString
+            t2SPA = row.Item("Send_To_Pricing_Time").ToString
+            t3SPA = row.Item("Price_Modify_Time").ToString
+            t4SPA = row.Item("Price_Send_Back_Time").ToString
+            Dim t21 As TimeSpan = t2SPA - t1SPA
+            Dim t43 As TimeSpan = t4SPA - t3SPA
+            If t21.TotalMinutes > 15 Then
+                totalFailedCount += 1
+            End If
+            If t43.TotalMinutes > 15 Then
+                priceFailedCount += 1
+            End If
+
+        Next
+
+        'Calculate Normal
+        sqlCmd = "select * from [NormalOrder]"
+        dt.Clear()
+        GetOrders(dt, sqlCmd)
+        totalCount += dt.Rows.Count
+        totalPriceCount += dt.Select("[Status] = 'Price Request'").Count
+        totalBookCount += dt.Select("[Status] = 'Booked'").Count
+
+        Dim t1Normal, t6Normal As DateTime
+        For Each row As DataRow In dt.Rows
+            t1Normal = row.Item("Login_Order_Time").ToString
+            t6Normal = row.Item("Book_Order_Time").ToString
+            Dim t61 As TimeSpan = t6Normal - t1Normal
+            If t61.TotalMinutes > 15 Then
+                totalFailedCount += 1
+            End If
+        Next
+
+        _totalCount = totalCount
+        _totalFailedCount = totalFailedCount
+        _totalPriceCount = totalPriceCount
+        _priceFailedCount = priceFailedCount
+        _totalBookCount = totalBookCount
+        _bookFailedCount = bookFailedCount
+
+        Return Nothing
+    End Function
+
+
 
 End Class
