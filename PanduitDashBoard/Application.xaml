@@ -208,6 +208,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <!--<Style x:Key="contentCenterStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>-->
+        <Style TargetType="DataGrid">
+            <!--网格线颜色-->
+            <Setter Property="CanUserResizeColumns" Value="false"/>
+            <Setter Property="Background" Value="#E6DBBB" />
+            <Setter Property="BorderBrush" Value="#d6c79b" />
+            <Setter Property="HorizontalGridLinesBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#d6c79b"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalGridLinesBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#d6c79b"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

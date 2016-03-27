@@ -94,3 +94,4 @@ D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashB
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.exe
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.xml
 D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.pdb
+D:\workspace\VSProjects\PanduitDashBoard\PanduitDashBoard\obj\Debug\PanduitDashBoard.vbprojResolveAssemblyReference.cache

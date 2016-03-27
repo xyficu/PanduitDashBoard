@@ -205,23 +205,14 @@ Class MainWindow
 
             'labelPriceSubLoginTime.HorizontalContentAlignment = HorizontalAlignment.Left
 
+
         End If
 
 
     End Sub
 
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        Try
-            'Thread.Sleep(1000 * threadSleepTime)
-            If threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
-                threadAutoScrollDataGrid.Resume()
 
-            End If
-            'threadAutoScrollDataGrid.Interrupt()
-            threadAutoScrollDataGrid.Abort()
-        Catch ex As Exception
-            'MessageBox.Show(ex.ToString)
-        End Try
 
     End Sub
 
@@ -331,6 +322,21 @@ Class MainWindow
         drv = dataGridTimeout.SelectedItem
         trainStation = New TrainStation(drv)
         trainStation.ShowDialog()
+    End Sub
+
+    Private Sub MainWindow_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        Try
+            Thread.Sleep(1000 * threadSleepTime)
+            If threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
+                threadAutoScrollDataGrid.Resume()
+
+            End If
+            'threadAutoScrollDataGrid.Interrupt()
+            threadAutoScrollDataGrid.Abort()
+        Catch ex As Exception
+            'MessageBox.Show(ex.ToString)
+
+        End Try
     End Sub
 End Class
 
