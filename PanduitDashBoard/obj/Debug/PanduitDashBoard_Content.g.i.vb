@@ -11,5 +11,5 @@
 Option Strict Off
 Option Explicit On
 
-<Assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("background.png")> 
+<Assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("background1.png")> 
 

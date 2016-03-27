@@ -47,7 +47,7 @@ Public Class DBHelper
 
     'get urgent orders
     Public Function GetUrgentOrders(ByRef dt As DataTable)
-        Dim sqlCmdGetUrgent As String = "select * from [SPANewColor] where [Urgent] = True"
+        Dim sqlCmdGetUrgent As String = "select * from [SPANewColor] where [Urgent] = 'Yes'"
         GetOrders(dt, sqlCmdGetUrgent)
         Return Nothing
     End Function
@@ -141,7 +141,6 @@ Public Class DBHelper
 
         Return Nothing
     End Function
-
 
 
 End Class
