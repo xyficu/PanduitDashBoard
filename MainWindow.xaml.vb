@@ -7,16 +7,16 @@ Class MainWindow
     Private trainStation As TrainStation
     Private db As New DBHelper
     Private timer As New Timers.Timer()
-    Dim dtUrgent, dtTimeout As DataTable
+    Dim dtUrgent, dtBreach As DataTable
     Dim dtNotBooked As DataTable
     Private threadAutoScrollDataGrid As Thread
 
     '声明更新界面委托
-    Delegate Function UpdateUIDelegate()
-    Dim rollOrderDelegate As New UpdateUIDelegate(AddressOf RollOrders)
+    'Delegate Function UpdateUIDelegate()
+    'Dim rollOrderDelegate As New UpdateUIDelegate(AddressOf RollOrders)
 
     '设定滚动时间
-    Private threadSleepTime As Int32 = 3
+    Private threadSleepTime As Int32 = 1
 
     '窗体加载时填充datagrid
     Private Sub PanduitDashboardMain_Loaded(sender As Object, e As RoutedEventArgs) Handles PanduitDashboardMain.Loaded
@@ -68,9 +68,9 @@ Class MainWindow
 
         'fill urgent orders
         dtUrgent = New DataTable
-        dtTimeout = New DataTable
+        dtBreach = New DataTable
         db.GetUrgentOrders(dtUrgent)
-        db.GetUrgentOrders(dtTimeout)
+        db.GetUrgentOrders(dtBreach)
 
         If dtUrgent IsNot Nothing Then
             'dataGridUrgent.ItemsSource = dtUrgent.DefaultView
@@ -87,23 +87,23 @@ Class MainWindow
             dataGridUrgent.Columns(11).Visibility = Visibility.Collapsed
         End If
 
-        If dtTimeout IsNot Nothing Then
+        If dtBreach IsNot Nothing Then
             '只获取超时的数据
-            GetTimeoutDataTable(dtTimeout)
+            GetTimeoutDataTable(dtBreach)
 
             Dim binding = New Binding()
-            binding.Source = dtTimeout.DefaultView
-            dataGridTimeout.SetBinding(DataGrid.ItemsSourceProperty, binding)
+            binding.Source = dtBreach.DefaultView
+            dataGridBreach.SetBinding(DataGrid.ItemsSourceProperty, binding)
 
-            dataGridTimeout.Columns(0).Visibility = Visibility.Hidden
-            dataGridTimeout.Columns(5).Visibility = Visibility.Hidden
-            dataGridTimeout.Columns(6).Visibility = Visibility.Hidden
-            dataGridTimeout.Columns(9).Visibility = Visibility.Hidden
-            dataGridTimeout.Columns(10).Visibility = Visibility.Hidden
-            dataGridTimeout.Columns(11).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(0).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(5).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(6).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(9).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(10).Visibility = Visibility.Hidden
+            dataGridBreach.Columns(11).Visibility = Visibility.Hidden
 
             '根据紧急程度标注颜色
-            For Each dr As DataRowView In dataGridTimeout.Items
+            For Each dr As DataRowView In dataGridBreach.Items
                 Dim t1, t2, t3, t4, t5, t6 As New DateTime
                 t1 = dr.Item("Login_Order_Time").ToString
                 t2 = dr.Item("Send_To_Pricing_Time").ToString
@@ -131,7 +131,8 @@ Class MainWindow
     Private Sub DealThread()
 
         While True
-            Dispatcher.Invoke(AddressOf RollOrders)
+            Dispatcher.Invoke(AddressOf RollOrdersBreach)
+            Dispatcher.Invoke(AddressOf RollOrdersUrgent)
 
             'Dispatcher.BeginInvoke(DispatcherPriority.Normal, rollOrderDelegate)
             Thread.Sleep(1000 * threadSleepTime)
@@ -139,8 +140,26 @@ Class MainWindow
 
     End Sub
 
-    '遍历显示datagrid条目
-    Private Function RollOrders()
+    '遍历显示datagrid breach条目
+    Private Function RollOrdersBreach()
+
+        Try
+            If dataGridBreach.Items.Count > 0 Then
+                Dim index As Int32 = dataGridBreach.SelectedIndex
+                dataGridBreach.SelectedIndex = (index + 1) Mod dataGridBreach.Items.Count
+                dataGridBreach.Focus()
+                CheckCurrentOrderTime()
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
+
+        Return Nothing
+
+    End Function
+
+    '遍历显示datagrid urgent条目
+    Private Function RollOrdersUrgent()
 
         Try
             If dataGridUrgent.Items.Count > 0 Then
@@ -194,7 +213,7 @@ Class MainWindow
             dataGridUrgent.SelectedIndex = 0
             dataGridUrgent.Focus()
 
-            dataGridTimeout.SelectedIndex = 0
+            dataGridBreach.SelectedIndex = 0
 
             'Dim style As New Style
             'style.Setters.Add(New Setter(HorizontalAlignmentProperty, HorizontalAlignment.Center))
@@ -252,8 +271,8 @@ Class MainWindow
         Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetUrgentOrders(dt)
-        If dataGridUrgent.SelectedIndex > 0 Then
-            dr = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
+        If dataGridBreach.SelectedIndex > 0 Then
+            dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
 
             Dim t1, t2, t3, t4, t5, t6 As New DateTime
             t1 = dr.Item("Login_Order_Time").ToString
@@ -263,13 +282,13 @@ Class MainWindow
             t5 = dr.Item("Book_Order_Time").ToString
             t6 = t5
 
-            dotLogin.Fill = CheckColor(t1, t2)
-            barLoginToPrice.Fill = CheckColor(t2, t3)
-            dotPrice.Fill = CheckColor(t3, t4)
-            barPriceToBook.Fill = CheckColor(t4, t5)
-            dotBook.Fill = CheckColor(t1, t6)
+            dotLoginBreached.Fill = CheckColor(t1, t2)
+            barLoginToPriceBreached.Fill = CheckColor(t2, t3)
+            dotPriceBreached.Fill = CheckColor(t3, t4)
+            barPriceToBookBreached.Fill = CheckColor(t4, t5)
+            dotBookBreached.Fill = CheckColor(t1, t6)
 
-            labelCurrentPandiutOrder.Content = dr.Item("Panduit_Order").ToString
+            labelCurrentPandiutOrderBreached.Content = dr.Item("Panduit_Order").ToString
         End If
 
         Return Nothing
@@ -317,11 +336,12 @@ Class MainWindow
 
     End Function
 
-    Private Sub dataGridTimeout_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridTimeout.MouseUp
+    Private Sub dataGridTimeout_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridBreach.MouseUp
         Dim drv As DataRowView
-        drv = dataGridTimeout.SelectedItem
+        drv = dataGridBreach.SelectedItem
         trainStation = New TrainStation(drv)
         trainStation.ShowDialog()
+
     End Sub
 
     Private Sub MainWindow_Closed(sender As Object, e As EventArgs) Handles Me.Closed
