@@ -173,7 +173,7 @@
         <DataGrid x:Name="dataGridBreach" Margin="10,81,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen" HorizontalAlignment="Left" Width="783.2" Height="212.289" VerticalAlignment="Top"/>
         <Label x:Name="labelUrgentOrders_Copy1" Content="Breached Orders" FontSize="18.667" FontWeight="Bold" Margin="10,41,0,0" Foreground="Red" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="184" d:LayoutOverrides="HorizontalAlignment"/>
         <DataGrid x:Name="dataGridUrgent" Margin="798.8,81,9.4,0" VerticalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen" HorizontalContentAlignment="Center" Height="212.289" VerticalAlignment="Top"/>
-        <Grid HorizontalAlignment="Right" Margin="0,298.289,10,49.508" Width="232" Background="#FFB34A4A">
+        <Grid HorizontalAlignment="Right" Margin="0,298.289,10,0" Width="232" Background="#FFB34A4A" Height="508.754" VerticalAlignment="Top">
             <Label x:Name="label_Copy1" Content="Total Running Order Number" Margin="32,75,36,0" VerticalAlignment="Top" FontFamily="Arial"/>
             <Label x:Name="labelTotalRunningOrderCount" Content="Total Order Number" Margin="32,103.8,9.625,0" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
             <Label x:Name="labelOrderCount" Content="label" HorizontalAlignment="Left" Margin="161,183.796,0,0" VerticalAlignment="Top" Foreground="#FF6DB040" FontSize="18.667" RenderTransformOrigin="1.19,0.311"/>
@@ -182,8 +182,8 @@
             <Label x:Name="label2" Content="Price Request orders" Margin="32,234.456,77,0" VerticalAlignment="Top"/>
             <Label x:Name="labelBooked" Content="label" Margin="0,274.313,-4,0" VerticalAlignment="Top" RenderTransformOrigin="1.014,0.622" Foreground="#FF2FBDFF" FontSize="18.667" HorizontalAlignment="Right" Width="75"/>
             <Label x:Name="label1" Content="Booked orders" HorizontalAlignment="Left" Margin="32,280.456,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="labelTotalTimeoutOrderCount" Content="" Margin="24.211,445.228,10,0" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center"/>
-            <Label x:Name="label_Copy" Content="Breached Order number" Margin="32,416.427,61,0" FontFamily="Arial" VerticalAlignment="Top"/>
+            <Label x:Name="labelTotalTimeoutOrderCount" Content="" Margin="24.586,425.727,9.625,0" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center"/>
+            <Label x:Name="label_Copy" Content="Breached Order number" Margin="32,396.927,61,0" FontFamily="Arial" VerticalAlignment="Top"/>
         </Grid>
         <Label x:Name="label4" Content="Running Order Summary" HorizontalAlignment="Right" Margin="0,317.794,78,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Button x:Name="buttonAutoScroll" Content="Start Auto Scroll" HorizontalAlignment="Right" Margin="0,523.289,293.5,0" Width="131" Height="25.24" VerticalAlignment="Top"/>

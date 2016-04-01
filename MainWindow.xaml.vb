@@ -34,7 +34,7 @@ Class MainWindow
 
     End Function
 
-    Private Function GetTimeoutDataTable(ByRef dt As DataTable)
+    Private Function GetBreachedDataTable(ByRef dt As DataTable)
         '只获取超时的Order，移除非超时的order
         For Each dr As DataRowView In dt.DefaultView
             Dim t1, t2, t3, t4, t5, t6 As New DateTime
@@ -89,7 +89,7 @@ Class MainWindow
 
         If dtBreach IsNot Nothing Then
             '只获取超时的数据
-            GetTimeoutDataTable(dtBreach)
+            GetBreachedDataTable(dtBreach)
 
             Dim binding = New Binding()
             binding.Source = dtBreach.DefaultView
@@ -148,7 +148,7 @@ Class MainWindow
                 Dim index As Int32 = dataGridBreach.SelectedIndex
                 dataGridBreach.SelectedIndex = (index + 1) Mod dataGridBreach.Items.Count
                 dataGridBreach.Focus()
-                CheckCurrentOrderTime()
+                CheckCurrentOrderTimeBreached()
             End If
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
@@ -166,7 +166,7 @@ Class MainWindow
                 Dim index As Int32 = dataGridUrgent.SelectedIndex
                 dataGridUrgent.SelectedIndex = (index + 1) Mod dataGridUrgent.Items.Count
                 dataGridUrgent.Focus()
-                CheckCurrentOrderTime()
+                CheckCurrentOrderTimeUrgent()
             End If
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
@@ -176,11 +176,11 @@ Class MainWindow
 
     End Function
 
-    Private Function ShowTrainStation()
+    Private Function ShowTrainStation(ByRef dg As DataGrid)
         Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetUrgentOrders(dt)
-        dr = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
+        dr = dt.DefaultView.Item(dg.SelectedIndex)
 
         Dim loginTime, priceTime As New DateTime
         loginTime = dr.Item("Login_Order_Time").ToString
@@ -198,8 +198,8 @@ Class MainWindow
         'scroll to the selected item
         If dataGridUrgent.Items.Count > 0 Then
             dataGridUrgent.ScrollIntoView(dataGridUrgent.Items(dataGridUrgent.SelectedIndex))
-            ShowTrainStation()
-            CheckCurrentOrderTime()
+            ShowTrainStation(dataGridUrgent)
+            CheckCurrentOrderTimeUrgent()
 
         End If
 
@@ -267,10 +267,12 @@ Class MainWindow
     End Sub
 
     'check order, change color when timeout
-    Private Function CheckCurrentOrderTime()
+    Private Function CheckCurrentOrderTimeBreached()
         Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetUrgentOrders(dt)
+        '只获取超时的table
+        GetBreachedDataTable(dt)
         If dataGridBreach.SelectedIndex > 0 Then
             dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
 
@@ -289,6 +291,34 @@ Class MainWindow
             dotBookBreached.Fill = CheckColor(t1, t6)
 
             labelCurrentPandiutOrderBreached.Content = dr.Item("Panduit_Order").ToString
+        End If
+
+        Return Nothing
+    End Function
+
+    'check order, change color when timeout
+    Private Function CheckCurrentOrderTimeUrgent()
+        Dim dr As DataRowView
+        Dim dt As New DataTable
+        db.GetUrgentOrders(dt)
+        If dataGridUrgent.SelectedIndex > 0 Then
+            dr = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
+
+            Dim t1, t2, t3, t4, t5, t6 As New DateTime
+            t1 = dr.Item("Login_Order_Time").ToString
+            t2 = dr.Item("Send_To_Pricing_Time").ToString
+            t3 = dr.Item("Price_Modify_Time").ToString
+            t4 = dr.Item("Price_Send_Back_Time").ToString
+            t5 = dr.Item("Book_Order_Time").ToString
+            t6 = t5
+
+            dotLoginUrgent.Fill = CheckColor(t1, t2)
+            barLoginToPriceUrgent.Fill = CheckColor(t2, t3)
+            dotPriceUrgent.Fill = CheckColor(t3, t4)
+            barPriceToBookUrgent.Fill = CheckColor(t4, t5)
+            dotBookUrgent.Fill = CheckColor(t1, t6)
+
+            labelCurrentPandiutOrderUrgent.Content = dr.Item("Panduit_Order").ToString
         End If
 
         Return Nothing
@@ -356,6 +386,16 @@ Class MainWindow
             'MessageBox.Show(ex.ToString)
 
         End Try
+    End Sub
+
+    Private Sub dataGridBreach_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridBreach.SelectionChanged
+        'scroll to the selected item
+        If dataGridBreach.Items.Count > 0 Then
+            dataGridBreach.ScrollIntoView(dataGridBreach.Items(dataGridBreach.SelectedIndex))
+            ShowTrainStation(dataGridBreach)
+            CheckCurrentOrderTimeBreached()
+
+        End If
     End Sub
 End Class
 
