@@ -85,7 +85,6 @@ Class MainWindow
             dataGridUrgent.Columns(9).Visibility = Visibility.Collapsed
             dataGridUrgent.Columns(10).Visibility = Visibility.Collapsed
             dataGridUrgent.Columns(11).Visibility = Visibility.Collapsed
-
         End If
 
         If dtTimeout IsNot Nothing Then

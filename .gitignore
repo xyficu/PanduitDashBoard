@@ -1,0 +1,4 @@
+#git ignore files
+#
+PanduitDashBoard/PanduitDashBoard/bin/
+PanduitDashBoard/PanduitDashBoard/obj/
