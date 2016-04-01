@@ -6,7 +6,7 @@ Public Class DBHelper
 
     'constructor
     Public Sub New()
-        m_DBConStr = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source = " + AppDomain.CurrentDomain.BaseDirectory + "\Track.accdb;"
+        m_DBConStr = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source = \\pweng\PWshares\departments\AP Process Improvement\Database\SecureDatabase\Track.accdb;"
         'm_DBConStr = "C:\Order.accdb;;"
         m_DBConnIns = New OleDb.OleDbConnection
         m_DBConnIns.ConnectionString = m_DBConStr
