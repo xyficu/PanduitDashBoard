@@ -151,7 +151,7 @@
 
 
         </Grid>
-        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" FontSize="18.667" FontWeight="Bold" Margin="10,41,0,0" Foreground="#FFFF9300" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="156.8"/>
+        <Label x:Name="labelUrgentOrders" Content="Urgent Orders" FontSize="18.667" FontWeight="Bold" Margin="0,41,636.4,0" Foreground="#FFFF9300" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Width="156.8"/>
         <Grid Margin="10,110.495,10,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top" Grid.Row="1" d:LayoutOverrides="VerticalAlignment">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="398*"/>
@@ -318,9 +318,9 @@
             <Label x:Name="labelCurrentPandiutOrder" Content="" Margin="10,45.156,0,0" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" Width="126.133" d:LayoutOverrides="VerticalAlignment" HorizontalContentAlignment="Stretch"/>
         </Grid>
         <Label x:Name="labelUrgentOrders_Copy" Content="Running Order Summary" FontSize="18.667" FontWeight="Bold" Margin="10,332.495,0,0" Foreground="#FF000146" Height="33.733" VerticalAlignment="Top" HorizontalAlignment="Left" Width="262.4" FontFamily="Arial" Grid.Row="1"/>
-        <DataGrid x:Name="dataGridTimeout" Margin="798.8,81,10,-105.495" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen"/>
-        <Label x:Name="labelUrgentOrders_Copy1" Content="Breached Orders" FontSize="18.667" FontWeight="Bold" Margin="798.8,41,0,0" Foreground="Red" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="184"/>
-        <DataGrid x:Name="dataGridUrgent" Margin="10,81,0,-105.495" VerticalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen" HorizontalAlignment="Left" Width="783.8" HorizontalContentAlignment="Center"/>
+        <DataGrid x:Name="dataGridTimeout" Margin="10,81,798.8,-105.495" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen"/>
+        <Label x:Name="labelUrgentOrders_Copy1" Content="Breached Orders" FontSize="18.667" FontWeight="Bold" Margin="10,41,0,0" Foreground="Red" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="184" d:LayoutOverrides="HorizontalAlignment"/>
+        <DataGrid x:Name="dataGridUrgent" Margin="0,81,9.4,-105.495" VerticalContentAlignment="Center" Foreground="#FFC90000" IsReadOnly="True" AlternationCount="2" AlternatingRowBackground="#FFFF9A9A" SelectedIndex="0" Cursor="Pen" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="783.8"/>
 
 
     </Grid>
