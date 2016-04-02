@@ -28,7 +28,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label x:Name="labelUrgentOrders" Content="Urgent Orders" FontSize="18.667" FontWeight="Bold" Margin="798.8,41,0,0" Foreground="#FFFF9300" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="156.8"/>
-        <Grid Margin="10,298.289,247,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
+        <Grid x:Name="gridBreached" Margin="10,298.289,247,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -91,7 +91,7 @@
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Label x:Name="labelPriceSubLoginTime" Content="Hours" HorizontalAlignment="Right" Margin="0,44.156,10,0" Style="{DynamicResource LabelStyle2}" Width="142" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
+            <Label x:Name="labelPriceSubLoginTimeBreached" Content="Hours" HorizontalAlignment="Right" Margin="0,44.156,10,0" Style="{DynamicResource LabelStyle2}" Width="142" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
             <Rectangle Fill="#FFBDD7EE" Margin="636.114,45.156,0,134.844" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="153.486">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
@@ -187,7 +187,7 @@
         </Grid>
         <Label x:Name="label4" Content="Running Order Summary" HorizontalAlignment="Right" Margin="0,317.794,78,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Button x:Name="buttonAutoScroll" Content="Start Auto Scroll" HorizontalAlignment="Right" Margin="0,523.289,293.5,0" Width="131" Height="25.24" VerticalAlignment="Top"/>
-        <Grid Margin="10,566.789,247,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
+        <Grid x:Name="gridUrgent" Margin="10,566.789,247,0" Background="#FFF0F0F0" Height="220" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -250,7 +250,7 @@
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Label x:Name="labelPriceSubLoginTime1" Content="Hours" HorizontalAlignment="Right" Margin="0,44.156,10,0" Style="{DynamicResource LabelStyle2}" Width="142" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
+            <Label x:Name="labelPriceSubLoginTimeUrgent" Content="Hours" HorizontalAlignment="Right" Margin="0,44.156,10,0" Style="{DynamicResource LabelStyle2}" Width="142" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" d:LayoutOverrides="VerticalAlignment"/>
             <Rectangle Fill="#FFBDD7EE" Margin="636.114,45.156,0,134.844" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="153.486">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
