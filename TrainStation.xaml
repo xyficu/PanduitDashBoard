@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PanduitDashBoard"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="TrainStation"
         mc:Ignorable="d"
-        Title="Selected Order" Height="675" Width="1200" FontFamily="Arial" FontSize="21.333">
+        Title="Selected Order" Height="675" Width="1360" FontFamily="Arial" FontSize="21.333">
     <Window.Background>
         <ImageBrush ImageSource="background1.png"/>
     </Window.Background>

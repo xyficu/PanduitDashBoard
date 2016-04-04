@@ -2,6 +2,7 @@
 Imports System.Data
 Imports System.Threading
 Imports System.Windows.Threading
+'Imports System.Windows.Threading
 
 Class MainWindow
     Private trainStation As TrainStation
@@ -10,6 +11,11 @@ Class MainWindow
     Dim dtUrgent, dtBreach As DataTable
     Dim dtNotBooked As DataTable
     Private threadAutoScrollDataGrid As Thread
+    Private threadLabelBreachedBlink As Thread
+    Private threadLabelUrgentBlink As Thread
+
+    Private oriLabelBreachedColor As Brush
+    Private oriLabelUrgentColor As Brush
 
     '声明更新界面委托
     'Delegate Function UpdateUIDelegate()
@@ -24,123 +30,90 @@ Class MainWindow
 
     End Sub
 
-    '检查是否超时
-    Private Function CheckTimeout(t1 As DateTime, t2 As DateTime)
-        Dim t As TimeSpan = t2 - t1
-        If t.TotalMinutes > 10 Then
-            Return True
-        End If
-        Return False
-
-    End Function
-
-    Private Function GetBreachedDataTable(ByRef dt As DataTable)
-        '只获取超时的Order，移除非超时的order
-        For Each dr As DataRowView In dt.DefaultView
-            Dim t1, t2, t3, t4, t5, t6 As New DateTime
-            t1 = dr.Item("Login_Order_Time").ToString
-            t2 = dr.Item("Send_To_Pricing_Time").ToString
-            t3 = dr.Item("Price_Modify_Time").ToString
-            t4 = dr.Item("Price_Send_Back_Time").ToString
-            t5 = dr.Item("Book_Order_Time").ToString
-            t6 = t5
-
-            If CheckTimeout(t1, t2) = True Then
-                Continue For
-            ElseIf CheckTimeout(t2, t3) = True Then
-                Continue For
-            ElseIf CheckTimeout(t3, t4) = True Then
-                Continue For
-            ElseIf CheckTimeout(t4, t5) = True Then
-                Continue For
-            ElseIf CheckTimeout(t1, t6) = True Then
-                Continue For
-            Else dt.Rows.Remove(dr.Row)
-            End If
-
-        Next
-
-        Return Nothing
-    End Function
-
     '填充datagrid
     Private Function FillDataGrid()
 
-        'fill urgent orders
-        dtUrgent = New DataTable
-        dtBreach = New DataTable
-        db.GetUrgentOrders(dtUrgent)
-        db.GetUrgentOrders(dtBreach)
+        Try
+            'fill urgent orders
+            dtUrgent = New DataTable
+            dtBreach = New DataTable
+            db.GetUrgentOrders(dtUrgent)
+            db.GetBreachedOrders(dtBreach)
 
-        If dtUrgent IsNot Nothing Then
-            'dataGridUrgent.ItemsSource = dtUrgent.DefaultView
+            If dtUrgent IsNot Nothing Then
 
-            Dim binding = New Binding()
-            binding.Source = dtUrgent.DefaultView
-            dataGridUrgent.SetBinding(DataGrid.ItemsSourceProperty, binding)
+                Dim binding = New Binding()
+                binding.Source = dtUrgent.DefaultView
+                dataGridUrgent.SetBinding(DataGrid.ItemsSourceProperty, binding)
 
-            dataGridUrgent.Columns(0).Visibility = Visibility.Collapsed
-            dataGridUrgent.Columns(5).Visibility = Visibility.Collapsed
-            dataGridUrgent.Columns(6).Visibility = Visibility.Collapsed
-            dataGridUrgent.Columns(9).Visibility = Visibility.Collapsed
-            dataGridUrgent.Columns(10).Visibility = Visibility.Collapsed
-            dataGridUrgent.Columns(11).Visibility = Visibility.Collapsed
-        End If
+                '隐藏不需要的列
+                dataGridUrgent.Columns(0).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(5).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(6).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(9).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(10).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(11).Visibility = Visibility.Collapsed
+            End If
 
-        If dtBreach IsNot Nothing Then
-            '只获取超时的数据
-            GetBreachedDataTable(dtBreach)
+            If dtBreach IsNot Nothing Then
 
-            Dim binding = New Binding()
-            binding.Source = dtBreach.DefaultView
-            dataGridBreach.SetBinding(DataGrid.ItemsSourceProperty, binding)
+                Dim binding = New Binding()
+                binding.Source = dtBreach.DefaultView
+                dataGridBreach.SetBinding(DataGrid.ItemsSourceProperty, binding)
 
-            dataGridBreach.Columns(0).Visibility = Visibility.Hidden
-            dataGridBreach.Columns(5).Visibility = Visibility.Hidden
-            dataGridBreach.Columns(6).Visibility = Visibility.Hidden
-            dataGridBreach.Columns(9).Visibility = Visibility.Hidden
-            dataGridBreach.Columns(10).Visibility = Visibility.Hidden
-            dataGridBreach.Columns(11).Visibility = Visibility.Hidden
+                '隐藏不需要的列
+                dataGridBreach.Columns(0).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(5).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(6).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(9).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(10).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(11).Visibility = Visibility.Hidden
 
-            '根据紧急程度标注颜色
-            For Each dr As DataRowView In dataGridBreach.Items
-                Dim t1, t2, t3, t4, t5, t6 As New DateTime
-                t1 = dr.Item("Login_Order_Time").ToString
-                t2 = dr.Item("Send_To_Pricing_Time").ToString
-                t3 = dr.Item("Price_Modify_Time").ToString
-                t4 = dr.Item("Price_Send_Back_Time").ToString
-                t5 = dr.Item("Book_Order_Time").ToString
-                t6 = t5
+                '根据紧急程度标注颜色
+                'For Each dr As DataRowView In dataGridBreach.Items
+                '    Dim t1, t2, t3, t4, t5, t6 As New DateTime
+                '    t1 = dr.Item("Login_Order_Time").ToString
+                '    t2 = dr.Item("Send_To_Pricing_Time").ToString
+                '    t3 = dr.Item("Price_Modify_Time").ToString
+                '    t4 = dr.Item("Price_Send_Back_Time").ToString
+                '    t5 = dr.Item("Book_Order_Time").ToString
+                '    t6 = t5
 
-            Next
+                'Next
 
-            'Dim row As DataGridRow = dataGridTimeout.ItemContainerGenerator.ContainerFromIndex(0)
-            'row.Background = New SolidColorBrush(Colors.Blue)
+                'Dim row As DataGridRow = dataGridTimeout.ItemContainerGenerator.ContainerFromIndex(0)
+                'row.Background = New SolidColorBrush(Colors.Blue)
 
-        End If
+            End If
 
-        GetTotalStatistics()
-        'labelOrderCount.Content = db.GetOrderCount.ToString()
-        'labelPriceRequest.Content = db.GetPriceRequestOrderCount.ToString()
-        'labelBooked.Content = db.GetBookedOrderCount.ToString()
+            GetTotalStatistics()
+
+        Catch ex As Exception
+            'MessageBox.Show(ex.ToString)
+        End Try
+
 
         Return Nothing
     End Function
 
 
     Private Sub DealThread()
-
+        Dim color() As Color = {Colors.Blue, Colors.Yellow}
         While True
             Dispatcher.Invoke(AddressOf RollOrdersBreach)
             Dispatcher.Invoke(AddressOf RollOrdersUrgent)
 
+            'Dispatcher.Invoke(ControllerBlink(color), New Object() {Colors.Blue, Colors.Yellow})
+
             'Dispatcher.BeginInvoke(DispatcherPriority.Normal, rollOrderDelegate)
             Thread.Sleep(1000 * threadSleepTime)
+
         End While
 
     End Sub
 
-    '遍历显示datagrid breach条目
+
+    '滚动显示datagrid breach条目
     Private Function RollOrdersBreach()
 
         Try
@@ -151,14 +124,14 @@ Class MainWindow
                 CheckCurrentOrderTimeBreached()
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.ToString)
+            'MessageBox.Show(ex.ToString)
         End Try
 
         Return Nothing
 
     End Function
 
-    '遍历显示datagrid urgent条目
+    '滚动显示datagrid urgent条目
     Private Function RollOrdersUrgent()
 
         Try
@@ -169,7 +142,7 @@ Class MainWindow
                 CheckCurrentOrderTimeUrgent()
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.ToString)
+            'MessageBox.Show(ex.ToString)
         End Try
 
         Return Nothing
@@ -189,6 +162,23 @@ Class MainWindow
         Dim t4 As TimeSpan = priceTime - loginTime
         labelPriceSubLoginTimeBreached.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
 
+        '变回原色
+        labelPriceSubLoginTimeBreached.Background = oriLabelBreachedColor
+        '如果t4超时label就变色，如果不超时就变回原色
+        If Math.Round((t4.TotalMinutes), 1) > 10 Then
+            If threadLabelBreachedBlink.ThreadState = ThreadState.Unstarted Then
+                threadLabelBreachedBlink.Start()
+            ElseIf threadLabelBreachedBlink.ThreadState = ThreadState.Suspended Then
+                threadLabelBreachedBlink.Resume()
+            End If
+        Else
+
+            If threadLabelBreachedBlink.ThreadState = ThreadState.WaitSleepJoin Then
+                threadLabelBreachedBlink.Suspend()
+            End If
+        End If
+
+
         Return Nothing
     End Function
 
@@ -205,6 +195,22 @@ Class MainWindow
 
         Dim t4 As TimeSpan = priceTime - loginTime
         labelPriceSubLoginTimeUrgent.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
+
+        '变回原色
+        labelPriceSubLoginTimeUrgent.Background = oriLabelUrgentColor
+        '如果t4超时label就变色，如果不超时就停止变色
+        If Math.Round((t4.TotalMinutes), 1) > 10 Then
+            If threadLabelUrgentBlink.ThreadState = ThreadState.Unstarted Then
+                threadLabelUrgentBlink.Start()
+            ElseIf threadLabelUrgentBlink.ThreadState = ThreadState.Suspended Then
+                threadLabelUrgentBlink.Resume()
+            End If
+        Else
+            If threadLabelUrgentBlink.ThreadState = ThreadState.WaitSleepJoin Then
+                threadLabelUrgentBlink.Suspend()
+            End If
+        End If
+
 
         Return Nothing
     End Function
@@ -224,6 +230,11 @@ Class MainWindow
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
 
         threadAutoScrollDataGrid = New Thread(AddressOf DealThread)
+        threadLabelBreachedBlink = New Thread(AddressOf DealBreachedBlink)
+        threadLabelUrgentBlink = New Thread(AddressOf DealUrgentBlink)
+
+        oriLabelBreachedColor = labelPriceSubLoginTimeBreached.Background
+        oriLabelUrgentColor = labelPriceSubLoginTimeUrgent.Background
 
         If dataGridUrgent IsNot Nothing Then
             dataGridUrgent.SelectedIndex = 0
@@ -243,10 +254,6 @@ Class MainWindow
 
         End If
 
-
-    End Sub
-
-    Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
 
 
     End Sub
@@ -286,9 +293,7 @@ Class MainWindow
     Private Function CheckCurrentOrderTimeBreached()
         Dim dr As DataRowView
         Dim dt As New DataTable
-        db.GetUrgentOrders(dt)
-        '只获取超时的table
-        GetBreachedDataTable(dt)
+        db.GetBreachedOrders(dt)
         If dataGridBreach.SelectedIndex >= 0 Then
             dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
 
@@ -369,7 +374,6 @@ Class MainWindow
                                   prictCount, priceFailedCount,
                                   bookCount, bookFailedCount)
 
-
         labelOrderCount.Content = totalFailedCount.ToString + "/" + totalCount.ToString
         labelPriceRequest.Content = priceFailedCount.ToString + "/" + prictCount.ToString
         labelBooked.Content = bookFailedCount.ToString + "/" + bookCount.ToString
@@ -395,9 +399,19 @@ Class MainWindow
             Thread.Sleep(1000 * threadSleepTime)
             If threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
                 threadAutoScrollDataGrid.Resume()
-
             End If
             threadAutoScrollDataGrid.Abort()
+
+            If threadLabelBreachedBlink.ThreadState = ThreadState.Suspended Then
+                threadLabelBreachedBlink.Resume()
+            End If
+            threadLabelBreachedBlink.Abort()
+
+            If threadLabelUrgentBlink.ThreadState = ThreadState.Suspended Then
+                threadLabelUrgentBlink.Resume()
+            End If
+            threadLabelUrgentBlink.Abort()
+
         Catch ex As Exception
             'MessageBox.Show(ex.ToString)
 
@@ -412,6 +426,59 @@ Class MainWindow
             CheckCurrentOrderTimeBreached()
 
         End If
+    End Sub
+
+    Private Function ControllerBlink(ByVal color() As Color)
+        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Blue)
+        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(color(0))
+        'Thread.Sleep(500 * threadSleepTime)
+        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(color(1))
+        'Thread.Sleep(500 * threadSleepTime)
+
+    End Function
+
+    'Private Delegate Function ControllerBlinkDelegate(<[ParamArray]()> ByVal color() As Color)
+
+    Private Sub DealBreachedBlink()
+        While True
+            Dispatcher.Invoke(AddressOf labelBreachedBlue)
+            Thread.Sleep(200)
+            Dispatcher.Invoke(AddressOf labelBreachedYellow)
+            Thread.Sleep(200)
+        End While
+
+
+    End Sub
+
+    Private Sub DealUrgentBlink()
+        While True
+            Dispatcher.Invoke(AddressOf labelUrgentBlue)
+            Thread.Sleep(200)
+            Dispatcher.Invoke(AddressOf labelUrgentYellow)
+            Thread.Sleep(200)
+        End While
+
+
+    End Sub
+
+    Private Sub labelBreachedBlue()
+        labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Blue)
+    End Sub
+    Private Sub labelBreachedYellow()
+        labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Yellow)
+    End Sub
+
+    Private Sub labelUrgentBlue()
+        labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.Blue)
+    End Sub
+    Private Sub labelUrgentYellow()
+        labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.Yellow)
+    End Sub
+
+    'label内容改变时调用
+    Private Sub labelPriceSubLoginTimeBreached_LayoutUpdated(sender As Object, e As EventArgs) Handles labelPriceSubLoginTimeBreached.LayoutUpdated
+        Dim i As Int32
+        i = 64
     End Sub
 End Class
 

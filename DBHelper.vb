@@ -52,6 +52,49 @@ Public Class DBHelper
         Return Nothing
     End Function
 
+    'get breached orders
+    Public Function GetBreachedOrders(ByRef dt As DataTable)
+        Dim sqlCmdGetUrgent As String = "select * from [SPANewColor] where [Urgent] = 'Yes'"
+        GetOrders(dt, sqlCmdGetUrgent)
+
+        '保留超时的Order，移除非超时的order，超过10分钟视为超时
+        For Each dr As DataRowView In dt.DefaultView
+            Dim t1, t2, t3, t4, t5, t6 As New DateTime
+            t1 = dr.Item("Login_Order_Time").ToString
+            t2 = dr.Item("Send_To_Pricing_Time").ToString
+            t3 = dr.Item("Price_Modify_Time").ToString
+            t4 = dr.Item("Price_Send_Back_Time").ToString
+            t5 = dr.Item("Book_Order_Time").ToString
+            t6 = t5
+
+            If CheckTimeout(t1, t2) = True Then
+                Continue For
+            ElseIf CheckTimeout(t2, t3) = True Then
+                Continue For
+            ElseIf CheckTimeout(t3, t4) = True Then
+                Continue For
+            ElseIf CheckTimeout(t4, t5) = True Then
+                Continue For
+            ElseIf CheckTimeout(t1, t6) = True Then
+                Continue For
+            Else dt.Rows.Remove(dr.Row)
+            End If
+
+        Next
+
+        Return Nothing
+    End Function
+
+    '检查是否超时
+    Private Function CheckTimeout(t1 As DateTime, t2 As DateTime)
+        Dim t As TimeSpan = t2 - t1
+        If t.TotalMinutes > 10 Then
+            Return True
+        End If
+        Return False
+
+    End Function
+
     'get order count
     Public Function GetOrderCount()
         Dim sqlCmd As String = "select * from [SPANewColor]"
