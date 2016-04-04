@@ -76,7 +76,7 @@
                 </TransformGroup>
             </ed:Arc.RenderTransform>
         </ed:Arc>
-        <ed:Arc x:Name="barLoginToPrice_Copy" ArcThickness="32" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Margin="149.35,8.011,0,39.286" Stretch="None" Stroke="Black" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="225.006" StartAngle="90" EndAngle="180">
+        <ed:Arc x:Name="barPriceToBook" ArcThickness="32" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Margin="149.35,8.011,0,39.286" Stretch="None" Stroke="Black" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="225.006" StartAngle="90" EndAngle="180">
             <ed:Arc.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -96,7 +96,7 @@
                 </TransformGroup>
             </ed:Arc.RenderTransform>
         </ed:Arc>
-        <Rectangle Fill="#FFBDD7EE" Margin="162.6,76.76,0,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="197.103">
+        <Rectangle x:Name="barLoginToBook1" Fill="#FFBDD7EE" Margin="162.6,76.76,0,0" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="197.103">
             <Rectangle.Effect>
                 <DropShadowEffect ShadowDepth="3"/>
             </Rectangle.Effect>
@@ -133,12 +133,12 @@
                 <DropShadowEffect ShadowDepth="3"/>
             </Rectangle.Effect>
         </Rectangle>
-        <Ellipse x:Name="dotLogin" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="529.503,76.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+        <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="529.503,76.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
             <Ellipse.Effect>
                 <DropShadowEffect ShadowDepth="3"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="241.8,167.14,0,35.86" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
+        <Ellipse x:Name="dotPrice" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Margin="241.8,167.14,0,35.86" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch">
             <Ellipse.Effect>
                 <DropShadowEffect ShadowDepth="2"/>
             </Ellipse.Effect>
@@ -153,12 +153,12 @@
                 <DropShadowEffect ShadowDepth="2"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="139.8,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+        <Ellipse x:Name="dotLogin" Fill="#FF7CB659" HorizontalAlignment="Left" Height="41" Margin="139.8,75.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
             <Ellipse.Effect>
                 <DropShadowEffect ShadowDepth="2"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="338.4,76.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
+        <Ellipse x:Name="dotBook" Fill="#FFFFC617" HorizontalAlignment="Left" Height="41" Margin="338.4,76.76,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="41" d:LayoutOverrides="VerticalAlignment">
             <Ellipse.Effect>
                 <DropShadowEffect ShadowDepth="2"/>
             </Ellipse.Effect>

@@ -283,26 +283,26 @@ Class MainWindow
     End Sub
 
     Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
-        Dim drv As DataRowView
-        drv = dataGridUrgent.SelectedItem
-        trainStation = New TrainStation(drv)
+        'Dim drv As DataRowView
+        'drv = dataGridUrgent.SelectedItem
+        trainStation = New TrainStation(selectedDrUrgent)
         trainStation.ShowDialog()
     End Sub
 
     'check order, change color when timeout
+    Private selectedDrBreached As DataRowView
     Private Function CheckCurrentOrderTimeBreached()
-        Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetBreachedOrders(dt)
         If dataGridBreach.SelectedIndex >= 0 Then
-            dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
+            selectedDrBreached = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
 
             Dim t1, t2, t3, t4, t5, t6 As New DateTime
-            t1 = dr.Item("Login_Order_Time").ToString
-            t2 = dr.Item("Send_To_Pricing_Time").ToString
-            t3 = dr.Item("Price_Modify_Time").ToString
-            t4 = dr.Item("Price_Send_Back_Time").ToString
-            t5 = dr.Item("Book_Order_Time").ToString
+            t1 = selectedDrBreached.Item("Login_Order_Time").ToString
+            t2 = selectedDrBreached.Item("Send_To_Pricing_Time").ToString
+            t3 = selectedDrBreached.Item("Price_Modify_Time").ToString
+            t4 = selectedDrBreached.Item("Price_Send_Back_Time").ToString
+            t5 = selectedDrBreached.Item("Book_Order_Time").ToString
             t6 = t5
 
             dotLoginBreached.Fill = CheckColor(t1, t2)
@@ -311,26 +311,26 @@ Class MainWindow
             barPriceToBookBreached.Fill = CheckColor(t4, t5)
             dotBookBreached.Fill = CheckColor(t1, t6)
 
-            labelCurrentPandiutOrderBreached.Content = dr.Item("Panduit_Order").ToString
+            labelCurrentPandiutOrderBreached.Content = selectedDrBreached.Item("Panduit_Order").ToString
         End If
 
         Return Nothing
     End Function
 
     'check order, change color when timeout
+    Private selectedDrUrgent As DataRowView
     Private Function CheckCurrentOrderTimeUrgent()
-        Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetUrgentOrders(dt)
         If dataGridUrgent.SelectedIndex >= 0 Then
-            dr = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
+            selectedDrUrgent = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
 
             Dim t1, t2, t3, t4, t5, t6 As New DateTime
-            t1 = dr.Item("Login_Order_Time").ToString
-            t2 = dr.Item("Send_To_Pricing_Time").ToString
-            t3 = dr.Item("Price_Modify_Time").ToString
-            t4 = dr.Item("Price_Send_Back_Time").ToString
-            t5 = dr.Item("Book_Order_Time").ToString
+            t1 = selectedDrUrgent.Item("Login_Order_Time").ToString
+            t2 = selectedDrUrgent.Item("Send_To_Pricing_Time").ToString
+            t3 = selectedDrUrgent.Item("Price_Modify_Time").ToString
+            t4 = selectedDrUrgent.Item("Price_Send_Back_Time").ToString
+            t5 = selectedDrUrgent.Item("Book_Order_Time").ToString
             t6 = t5
 
             dotLoginUrgent.Fill = CheckColor(t1, t2)
@@ -339,7 +339,7 @@ Class MainWindow
             barPriceToBookUrgent.Fill = CheckColor(t4, t5)
             dotBookUrgent.Fill = CheckColor(t1, t6)
 
-            labelCurrentPandiutOrderUrgent.Content = dr.Item("Panduit_Order").ToString
+            labelCurrentPandiutOrderUrgent.Content = selectedDrUrgent.Item("Panduit_Order").ToString
         End If
 
         Return Nothing
@@ -387,9 +387,9 @@ Class MainWindow
     End Function
 
     Private Sub dataGridTimeout_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridBreach.MouseUp
-        Dim drv As DataRowView
-        drv = dataGridBreach.SelectedItem
-        trainStation = New TrainStation(drv)
+        'Dim drv As DataRowView
+        'drv = dataGridBreach.SelectedItem
+        trainStation = New TrainStation(selectedDrBreached)
         trainStation.ShowDialog()
 
     End Sub
