@@ -69,21 +69,6 @@ Class MainWindow
                 dataGridBreach.Columns(10).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(11).Visibility = Visibility.Hidden
 
-                '根据紧急程度标注颜色
-                'For Each dr As DataRowView In dataGridBreach.Items
-                '    Dim t1, t2, t3, t4, t5, t6 As New DateTime
-                '    t1 = dr.Item("Login_Order_Time").ToString
-                '    t2 = dr.Item("Send_To_Pricing_Time").ToString
-                '    t3 = dr.Item("Price_Modify_Time").ToString
-                '    t4 = dr.Item("Price_Send_Back_Time").ToString
-                '    t5 = dr.Item("Book_Order_Time").ToString
-                '    t6 = t5
-
-                'Next
-
-                'Dim row As DataGridRow = dataGridTimeout.ItemContainerGenerator.ContainerFromIndex(0)
-                'row.Background = New SolidColorBrush(Colors.Blue)
-
             End If
 
             GetTotalStatistics()
@@ -96,10 +81,25 @@ Class MainWindow
         Return Nothing
     End Function
 
+    Private Sub RefreshDB()
+        Try
+            Dim curIndexUrgent As Int32 = dataGridUrgent.SelectedIndex
+            Dim curIndexBreached As Int32 = dataGridBreach.SelectedIndex
+            dtUrgent.Rows.Clear()
+            db.GetUrgentOrders(dtUrgent)
+            dataGridUrgent.SelectedIndex = curIndexUrgent
+            dtBreach.Rows.Clear()
+            db.GetBreachedOrders(dtBreach)
+            dataGridBreach.SelectedIndex = curIndexBreached
+        Catch ex As Exception
+            'MessageBox.Show(ex.ToString)
+        End Try
+    End Sub
 
     Private Sub DealThread()
-        Dim color() As Color = {Colors.Blue, Colors.Yellow}
+        'Dim color() As Color = {Colors.Blue, Colors.Yellow}
         While True
+            Dispatcher.Invoke(AddressOf RefreshDB)
             Dispatcher.Invoke(AddressOf RollOrdersBreach)
             Dispatcher.Invoke(AddressOf RollOrdersUrgent)
 

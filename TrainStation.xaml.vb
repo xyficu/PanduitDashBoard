@@ -50,10 +50,9 @@ Public Class TrainStation
 
             outDrv = drv
 
-
-
         Catch ex As Exception
             'MessageBox.Show(ex.Message)
+
         End Try
 
     End Sub
