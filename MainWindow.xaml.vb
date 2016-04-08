@@ -38,7 +38,7 @@ Class MainWindow
             dtUrgent = New DataTable
             dtBreach = New DataTable
             db.GetUrgentOrders(dtUrgent)
-            db.GetBreachedOrders(dtBreach)
+
 
             If dtUrgent IsNot Nothing Then
 
@@ -47,14 +47,32 @@ Class MainWindow
                 dataGridUrgent.SetBinding(DataGrid.ItemsSourceProperty, binding)
 
                 '隐藏不需要的列
-                dataGridUrgent.Columns(0).Visibility = Visibility.Collapsed
-                dataGridUrgent.Columns(5).Visibility = Visibility.Collapsed
-                dataGridUrgent.Columns(6).Visibility = Visibility.Collapsed
-                dataGridUrgent.Columns(9).Visibility = Visibility.Collapsed
-                dataGridUrgent.Columns(10).Visibility = Visibility.Collapsed
-                dataGridUrgent.Columns(11).Visibility = Visibility.Collapsed
+                dataGridUrgent.Columns(0).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(1).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(2).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(6).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(7).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(8).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(10).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(11).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(12).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(13).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(14).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(15).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(16).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(17).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(18).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(19).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(20).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(21).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(22).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(23).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(24).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(25).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(26).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(27).Visibility = Visibility.Hidden
             End If
-
+            db.GetBreachedOrders(dtBreach)
             If dtBreach IsNot Nothing Then
 
                 Dim binding = New Binding()
@@ -63,23 +81,29 @@ Class MainWindow
 
                 '隐藏不需要的列
                 dataGridBreach.Columns(0).Visibility = Visibility.Hidden
-                dataGridBreach.Columns(5).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(1).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(2).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(6).Visibility = Visibility.Hidden
-                dataGridBreach.Columns(9).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(7).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(8).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(10).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(11).Visibility = Visibility.Hidden
-
-                '根据紧急程度标注颜色
-                'For Each dr As DataRowView In dataGridBreach.Items
-                '    Dim t1, t2, t3, t4, t5, t6 As New DateTime
-                '    t1 = dr.Item("Login_Order_Time").ToString
-                '    t2 = dr.Item("Send_To_Pricing_Time").ToString
-                '    t3 = dr.Item("Price_Modify_Time").ToString
-                '    t4 = dr.Item("Price_Send_Back_Time").ToString
-                '    t5 = dr.Item("Book_Order_Time").ToString
-                '    t6 = t5
-
-                'Next
+                dataGridBreach.Columns(12).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(13).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(14).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(15).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(16).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(17).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(18).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(19).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(20).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(21).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(22).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(23).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(24).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(25).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(26).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(27).Visibility = Visibility.Hidden
 
                 'Dim row As DataGridRow = dataGridTimeout.ItemContainerGenerator.ContainerFromIndex(0)
                 'row.Background = New SolidColorBrush(Colors.Blue)
@@ -89,7 +113,7 @@ Class MainWindow
             GetTotalStatistics()
 
         Catch ex As Exception
-            'MessageBox.Show(ex.ToString)
+            MessageBox.Show(ex.ToString)
         End Try
 
 
@@ -156,8 +180,8 @@ Class MainWindow
         dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
 
         Dim loginTime, priceTime As New DateTime
-        loginTime = dr.Item("Login_Order_Time").ToString
-        priceTime = dr.Item("Send_To_Pricing_Time").ToString
+        loginTime = dr.Item("Login_Order_Time")
+        priceTime = dr.Item("Send_To_Pricing_Time")
 
         Dim t4 As TimeSpan = priceTime - loginTime
         labelPriceSubLoginTimeBreached.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
@@ -281,7 +305,20 @@ Class MainWindow
 
 
     End Sub
-
+    Private Sub RefreshDB()
+        Try
+            Dim curIndexUrgent As Int32 = dataGridUrgent.SelectedIndex
+            Dim curIndexBreached As Int32 = dataGridBreach.SelectedIndex
+            dtUrgent.Rows.Clear()
+            db.GetUrgentOrders(dtUrgent)
+            dataGridUrgent.SelectedIndex = curIndexUrgent
+            dtBreach.Rows.Clear()
+            db.GetBreachedOrders(dtBreach)
+            dataGridBreach.SelectedIndex = curIndexBreached
+        Catch ex As Exception
+            'MessageBox.Show(ex.ToString)
+        End Try
+    End Sub
     Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
         'Dim drv As DataRowView
         'drv = dataGridUrgent.SelectedItem
@@ -296,21 +333,7 @@ Class MainWindow
         db.GetBreachedOrders(dt)
         If dataGridBreach.SelectedIndex >= 0 Then
             selectedDrBreached = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
-
-            Dim t1, t2, t3, t4, t5, t6 As New DateTime
-            t1 = selectedDrBreached.Item("Login_Order_Time").ToString
-            t2 = selectedDrBreached.Item("Send_To_Pricing_Time").ToString
-            t3 = selectedDrBreached.Item("Price_Modify_Time").ToString
-            t4 = selectedDrBreached.Item("Price_Send_Back_Time").ToString
-            t5 = selectedDrBreached.Item("Book_Order_Time").ToString
-            t6 = t5
-
-            dotLoginBreached.Fill = CheckColor(t1, t2)
-            barLoginToPriceBreached.Fill = CheckColor(t2, t3)
-            dotPriceBreached.Fill = CheckColor(t3, t4)
-            barPriceToBookBreached.Fill = CheckColor(t4, t5)
-            dotBookBreached.Fill = CheckColor(t1, t6)
-
+            ChangeColor(selectedDrBreached, "breach")
             labelCurrentPandiutOrderBreached.Content = selectedDrBreached.Item("Panduit_Order").ToString
         End If
 
@@ -324,21 +347,7 @@ Class MainWindow
         db.GetUrgentOrders(dt)
         If dataGridUrgent.SelectedIndex >= 0 Then
             selectedDrUrgent = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
-
-            Dim t1, t2, t3, t4, t5, t6 As New DateTime
-            t1 = selectedDrUrgent.Item("Login_Order_Time").ToString
-            t2 = selectedDrUrgent.Item("Send_To_Pricing_Time").ToString
-            t3 = selectedDrUrgent.Item("Price_Modify_Time").ToString
-            t4 = selectedDrUrgent.Item("Price_Send_Back_Time").ToString
-            t5 = selectedDrUrgent.Item("Book_Order_Time").ToString
-            t6 = t5
-
-            dotLoginUrgent.Fill = CheckColor(t1, t2)
-            barLoginToPriceUrgent.Fill = CheckColor(t2, t3)
-            dotPriceUrgent.Fill = CheckColor(t3, t4)
-            barPriceToBookUrgent.Fill = CheckColor(t4, t5)
-            dotBookUrgent.Fill = CheckColor(t1, t6)
-
+            ChangeColor(selectedDrUrgent, "urgent")
             labelCurrentPandiutOrderUrgent.Content = selectedDrUrgent.Item("Panduit_Order").ToString
         End If
 
@@ -346,17 +355,17 @@ Class MainWindow
     End Function
 
     'change color depend on dot time
-    Private Function CheckColor(t1 As DateTime, t2 As DateTime)
+    Private Function CheckColor(t1 As DateTime, t2 As DateTime, yellowtime As Int32, redtime As Int32)
         Dim t As TimeSpan = t2 - t1
 
         Dim f As Double = t.TotalMinutes
         If f <= 0 Then
             Return New SolidColorBrush(Colors.Gray)
-        ElseIf f > 0 And f <= 10 Then
+        ElseIf f > 0 And f <= yellowtime Then
             Return New SolidColorBrush(Colors.Green)
-        ElseIf f > 10 And f <= 15 Then
+        ElseIf f > yellowtime And f <= redtime Then
             Return New SolidColorBrush(Colors.Yellow)
-        ElseIf f > 15 Then
+        ElseIf f > redtime Then
             Return New SolidColorBrush(Colors.Red)
         End If
 
@@ -374,16 +383,15 @@ Class MainWindow
                                   prictCount, priceFailedCount,
                                   bookCount, bookFailedCount)
 
-        labelOrderCount.Content = totalFailedCount.ToString + "/" + totalCount.ToString
-        labelPriceRequest.Content = priceFailedCount.ToString + "/" + prictCount.ToString
-        labelBooked.Content = bookFailedCount.ToString + "/" + bookCount.ToString
+        labelTotalOrderBreachSum.Content = totalFailedCount.ToString()
+        labelTotalOrderSum.Content = totalCount.ToString()
+        labelTotalPriceSum.Content = priceFailedCount.ToString()
+        labelTotalPriceBreachSum.Content = prictCount.ToString()
+        labelTotalBookBreachSum.Content = bookFailedCount.ToString()
+        labelTotalBookSum.Content = bookCount.ToString()
 
-        'show total order count
-        labelTotalRunningOrderCount.Content = totalCount.ToString
 
-        'show timeout order count
-        labelTotalTimeoutOrderCount.Content = totalFailedCount.ToString
-
+        Return Nothing
     End Function
 
     Private Sub dataGridTimeout_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridBreach.MouseUp
@@ -434,7 +442,7 @@ Class MainWindow
         'Thread.Sleep(500 * threadSleepTime)
         'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(color(1))
         'Thread.Sleep(500 * threadSleepTime)
-
+        Return Nothing
     End Function
 
     'Private Delegate Function ControllerBlinkDelegate(<[ParamArray]()> ByVal color() As Color)
@@ -462,14 +470,14 @@ Class MainWindow
     End Sub
 
     Private Sub labelBreachedBlue()
-        labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Blue)
+        labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.LightBlue)
     End Sub
     Private Sub labelBreachedYellow()
         labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Yellow)
     End Sub
 
     Private Sub labelUrgentBlue()
-        labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.Blue)
+        labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.LightBlue)
     End Sub
     Private Sub labelUrgentYellow()
         labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.Yellow)
@@ -480,6 +488,755 @@ Class MainWindow
         Dim i As Int32
         i = 64
     End Sub
+    Public Function ChangeColor(ByRef dr As DataRowView, ByVal category As String)
+        Dim t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, tm As New DateTime
+
+        If dr.Item("Tag").ToString = "SPANewColor" Then
+
+            If dr.Item("Status").ToString = "Price Request" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, tm, category)
+
+            ElseIf dr.Item("Status").ToString = "Price Modified" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, tm, category)
+
+            ElseIf dr.Item("Status").ToString = "Booked" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, t5, category)
+                DotBook(t4, t5, category)
+                If t6.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarBookToCredit(t5, tm, category)
+                Else
+                    BarBookToCredit(t5, t6, category)
+                    DotCredit(t6, tm, category)
+                End If
+                '检查Credit
+            ElseIf dr.Item("Status").ToString = "Credit" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, t5, category)
+                DotBook(t4, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+
+
+                '检查在工厂的订单
+            ElseIf dr.Item("Status").ToString = "Manufacturing" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time").ToString
+                t9 = dr.Item("MFG_Complete_Time").ToString
+                t10 = dr.Item("WH_Start_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, t5, category)
+                DotBook(t4, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                BarCreditToMFG(t7, t8, category)
+                DotMFG(t8, t9, category)
+                If t10.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarMFGToWHSEPick(t9, tm, category)
+                Else
+                    BarMFGToWHSEPick(t9, t10, category)
+                    DotWHSEPick(t10, tm, category)
+                End If
+
+                '仓库Pick Release
+            ElseIf dr.Item("Status").ToString = "Warehouse Pick Release" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, t5, category)
+                DotBook(t4, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    DotWHSEPick(t10, t11, category)
+                    If t12.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarPickReleaseToReadyToPick(t11, tm, category)
+                    Else
+                        BarPickReleaseToReadyToPick(t11, t12, category)
+                        DotWHSEPick(t12, tm, category)
+                    End If
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+                    DotWHSEPick(t10, t11, category)
+                    If t12.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarPickReleaseToReadyToPick(t11, tm, category)
+                    Else
+                        t12 = dr.Item("Ready_To_Pick_ST").ToString
+                        BarPickReleaseToReadyToPick(t11, t12, category)
+                        DotWHSEPick(t12, tm, category)
+                    End If
+                End If
+
+                '检查是否备货完全
+            ElseIf dr.Item("Status").ToString = "Ready For Pick" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t2 = dr.Item("Send_To_Pricing_Time").ToString
+                t3 = dr.Item("Price_Modify_Time").ToString
+                t4 = dr.Item("Price_Send_Back_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST").ToString
+                t13 = dr.Item("Ready_To_Pick_CT").ToString
+                t14 = dr.Item("Customer_Pick_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarLoginToPrice(t2, t3, category)
+                DotPrice(t3, t4, category)
+                BarPriceToBook(t4, t5, category)
+                DotBook(t4, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                DotWHSEPick(t10, t11, category)
+                BarPickReleaseToReadyToPick(t11, t12, category)
+                DotReadyToPick(t12, t13, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    If t14.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarReadyToPickToCustomerPick(t13, tm, category)
+                    Else
+                        t14 = dr.Item("Customer_Pick_Time").ToString
+                        BarReadyToPickToCustomerPick(t13, t14, category)
+                    End If
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+
+                    If t14.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarReadyToPickToCustomerPick(t13, tm, category)
+                    Else
+                        t14 = dr.Item("Customer_Pick_Time").ToString
+                        BarReadyToPickToCustomerPick(t13, t14, category)
+                    End If
+                End If
+            End If
+            'NormalOrder表格
+        ElseIf dr.Item("Tag").ToString = "NormalOrder" Then
+
+            If dr.Item("Status").ToString = "Booked" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                If t6.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarBookToCredit(t5, tm, category)
+                Else
+                    t6 = dr.Item("Credit_Check_Time").ToString
+                    BarBookToCredit(t5, t6, category)
+                    DotCredit(t6, tm, category)
+                End If
+
+                '检查Credit
+            ElseIf dr.Item("Status").ToString = "Credit" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+
+                '检查在工厂的订单
+            ElseIf dr.Item("Status").ToString = "Manufacturing" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time").ToString
+                t9 = dr.Item("MFG_Complete_Time").ToString
+                t10 = dr.Item("WH_Start_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                BarCreditToMFG(t7, t8, category)
+                DotMFG(t8, t9, category)
+                If t10.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarMFGToWHSEPick(t9, tm, category)
+                Else
+                    t10 = dr.Item("WH_Start_Time").ToString
+                    BarMFGToWHSEPick(t9, t10, category)
+                    DotWHSEPick(t10, tm, category)
+                End If
+
+                '仓库Pick Release
+            ElseIf dr.Item("Status").ToString = "Warehouse Pick Release" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                DotWHSEPick(t10, t11, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    If t12.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarPickReleaseToReadyToPick(t11, tm, category)
+                    Else
+                        t12 = dr.Item("Ready_To_Pick_ST").ToString
+                        BarPickReleaseToReadyToPick(t11, t12, category)
+                        DotReadyToPick(t12, tm, category)
+                    End If
+
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+
+                    If t12.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarPickReleaseToReadyToPick(t11, tm, category)
+                    Else
+                        t12 = dr.Item("Ready_To_Pick_ST").ToString
+                        BarPickReleaseToReadyToPick(t11, t12, category)
+                        DotReadyToPick(t12, tm, category)
+                    End If
+                End If
+
+                '检查是否备货完全
+            ElseIf dr.Item("Status").ToString = "Ready For Pick" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST").ToString
+                t13 = dr.Item("Ready_To_Pick_CT").ToString
+                t14 = dr.Item("Customer_Pick_Time")
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                DotWHSEPick(t10, t11, category)
+                BarPickReleaseToReadyToPick(t11, t12, category)
+                DotReadyToPick(t12, t13, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    If t14.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarReadyToPickToCustomerPick(t13, tm, category)
+                    Else
+                        t14 = dr.Item("Customer_Pick_Time").ToString
+                        BarReadyToPickToCustomerPick(t13, t14, category)
+                    End If
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+                    If t14.ToString("HH:mm:ss") = "00:00:00" Then
+                        BarReadyToPickToCustomerPick(t13, tm, category)
+                    Else
+                        t14 = dr.Item("Customer_Pick_Time").ToString
+                        BarReadyToPickToCustomerPick(t13, t14, category)
+                    End If
+                End If
+            End If
+            'SPAExpire表格
+        ElseIf dr.Item("Tag").ToString = "SPAExpire" Then
+            'Dim t21 As New TimeSpan
+            If dr.Item("Status").ToString = "Pending" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                't2 = dr.Item("Pending_Time").ToString
+                tm = DateTime.Now()
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                'DotOrderLogin(t1, t2, category)
+                'BarBookPending(t2, tm, category)
+
+            ElseIf dr.Item("Status").ToString = "Booked" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                't2 = dr.Item("Pending_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time")
+                tm = DateTime.Now()
+                't21 = t2 - t1
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t5, category)
+                BarBookPending(t1, t5, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                If t6.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarBookToCredit(t5, tm, category)
+                Else
+                    t6 = dr.Item("Credit_Check_Time").ToString
+                    BarBookToCredit(t5, t6, category)
+                    DotCredit(t6, tm, category)
+                End If
+
+                '检查Credit
+            ElseIf dr.Item("Status").ToString = "Credit" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                't2 = dr.Item("Pending_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                tm = DateTime.Now()
+                't21 = t2 - t1
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                'BarBookPending(t2, t5, category)
+                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+
+
+                '检查在工厂的订单
+            ElseIf dr.Item("Status").ToString = "Manufacturing" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                't2 = dr.Item("Pending_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time").ToString
+                t9 = dr.Item("MFG_Complete_Time").ToString
+                t10 = dr.Item("WH_Start_Time")
+                tm = DateTime.Now()
+                't21 = t2 - t1
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                'BarBookPending(t2, t5, category)
+                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                BarCreditToMFG(t7, t8, category)
+                DotMFG(t8, t9, category)
+                If t10.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarMFGToWHSEPick(t9, tm, category)
+                Else
+                    t10 = dr.Item("WH_Start_Time").ToString
+                    BarMFGToWHSEPick(t9, t10, category)
+                    DotWHSEPick(t10, tm, category)
+                End If
+
+                '仓库Pick Release
+            ElseIf dr.Item("Status").ToString = "Warehouse Pick Release" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                ' t2 = dr.Item("Pending_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST")
+                tm = DateTime.Now()
+                't21 = t2 - t1
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                'BarBookPending(t2, t5, category)
+                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    DotWHSEPick(t10, t11, category)
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+                End If
+
+                If t12.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarPickReleaseToReadyToPick(t11, tm, category)
+                Else
+                    t12 = dr.Item("Ready_To_Pick_ST").ToString
+                    BarPickReleaseToReadyToPick(t11, t12, category)
+                    DotReadyToPick(t12, tm, category)
+                End If
+
+                '检查是否备货完全
+            ElseIf dr.Item("Status").ToString = "Ready For Pick" Then
+                t0 = dr.Item("Receive_Order_Time").ToString
+                t1 = dr.Item("Login_Order_Time").ToString
+                't2 = dr.Item("Pending_Time").ToString
+                t5 = dr.Item("Book_Order_Time").ToString
+                t6 = dr.Item("Credit_Check_Time").ToString
+                t7 = dr.Item("Credit_Complete_Time").ToString
+                t8 = dr.Item("MFG_Start_Time")
+                t10 = dr.Item("WH_Start_Time").ToString
+                t11 = dr.Item("WH_Complete_Time").ToString
+                t12 = dr.Item("Ready_To_Pick_ST").ToString
+                t13 = dr.Item("Ready_To_Pick_CT").ToString
+                t14 = dr.Item("Customer_Pick_Time")
+                tm = DateTime.Now()
+                't21 = t2 - t1
+                BarOrderReceiveToOrderEnter(t0, t1, category)
+                DotOrderLogin(t1, t2, category)
+                BarOrderLoginToOrderBook(t1, t5, category)
+                DotBook(t1, t5, category)
+                'BarBookPending(t2, t5, category)
+                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookToCredit(t5, t6, category)
+                DotCredit(t6, t7, category)
+                If t8.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarCreditToWHSEPick(t7, t10, category)
+                    DotWHSEPick(t10, t11, category)
+                Else
+                    t8 = dr.Item("MFG_Start_Time").ToString
+                    t9 = dr.Item("MFG_Complete_Time").ToString
+                    BarCreditToMFG(t7, t8, category)
+                    DotMFG(t8, t9, category)
+                    BarMFGToWHSEPick(t9, t10, category)
+                End If
+                BarPickReleaseToReadyToPick(t11, t12, category)
+                DotReadyToPick(t12, t13, category)
+                If t14.ToString("HH:mm:ss") = "00:00:00" Then
+                    BarReadyToPickToCustomerPick(t13, tm, category)
+                Else
+                    t14 = dr.Item("Customer_Pick_Time").ToString
+                    BarReadyToPickToCustomerPick(t13, t14, category)
+                End If
+            End If
+        End If
+        Return Nothing
+    End Function
+
+    Private Function BarOrderReceiveToOrderEnter(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            BarReceiveToEnterBreached.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarReceiveToEnterUrgent.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotOrderLogin(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotLoginBreached.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotLoginUrgent.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarOrderLoginToOrderBook(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barLoginToBookBreached.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            barLoginToBookUrgent.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarLoginToPrice(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barLoginToPriceBreached.Fill = CheckColor(t1, t2, 240, 360)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            barLoginToPriceUrgent.Fill = CheckColor(t1, t2, 240, 360)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotPrice(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotPriceBreached.Fill = CheckColor(t1, t2, 30, 60)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotPriceUrgent.Fill = CheckColor(t1, t2, 30, 60)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarPriceToBook(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barPriceToBookBreached.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            barPriceToBookUrgent.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotBook(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotBookBreached.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotBookUrgent.Fill = CheckColor(t1, t2, 10, 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarBookToCredit(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barBookToCreditBreached.Fill = CheckColor(t1, t2, 30, 60)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarBookToCreditUrgent.Fill = CheckColor(t1, t2, 30, 60)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotCredit(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotCreditBreached.Fill = CheckColor(t1, t2, 480, 1440)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotCreditUrgent.Fill = CheckColor(t1, t2, 480, 1440)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarCreditToWHSEPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barCreditToPickReleaseBreached.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarCreditToPickReleaseUrgent.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+    Private Function BarCreditToMFG(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barCreditToMFGBreached.Fill = CheckColor(t1, t2, 1440, 2880)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarCreditToMFGUrgent.Fill = CheckColor(t1, t2, 1440, 2880)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotMFG(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotMFGBreached.Fill = CheckColor(t1, t2, 1440, 2880)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotMFGUrgent.Fill = CheckColor(t1, t2, 1440, 2880)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+
+    Private Function BarMFGToWHSEPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barMFGToPickReleaseBreached.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarMFGToPickReleaseUrgent.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotWHSEPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotPickReleaseBreached.Fill = CheckColor(t1, t2, 10, 20)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotPickReleaseUrgent.Fill = CheckColor(t1, t2, 10, 20)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarPickReleaseToReadyToPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barPickReleaseToReadyToPickBreached.Fill = CheckColor(t1, t2, 120, 240)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarPickReleaseToReadyToPickUrgent.Fill = CheckColor(t1, t2, 120, 240)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function DotReadyToPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            dotReadyToPickBreached.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotReadyToPickUrgent.Fill = CheckColor(t1, t2, 1440, 2160)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function BarReadyToPickToCustomerPick(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barReadyToPickToCustomerPickBreached.Fill = CheckColor(t1, t2, 4320, 7200)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            BarReadyToPickToCustomerPickUrgent.Fill = CheckColor(t1, t2, 4320, 7200)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+    Private Function BarBookPending(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String)
+        If category = "breach" Then
+            barLoginToBookBreached.Fill = CheckColor(t1, t2, 4320, 7200)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            barLoginToBookUrgent.Fill = CheckColor(t1, t2, 4320, 7200)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
+    Private Function DotBookPending(ByVal t1 As DateTime, ByVal t2 As DateTime, ByVal category As String, ByVal pendingtime As Int32)
+        If category = "breach" Then
+            dotBookBreached.Fill = CheckColor(t1, t2, pendingtime + 10, pendingtime + 15)
+            Return Nothing
+        ElseIf category = "urgent" Then
+            dotBookUrgent.Fill = CheckColor(t1, t2, pendingtime + 10, pendingtime + 15)
+            Return Nothing
+        Else
+            Return Nothing
+        End If
+    End Function
 End Class
 
 
