@@ -71,6 +71,8 @@ Class MainWindow
                 dataGridUrgent.Columns(25).Visibility = Visibility.Hidden
                 dataGridUrgent.Columns(26).Visibility = Visibility.Hidden
                 dataGridUrgent.Columns(27).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(28).Visibility = Visibility.Hidden
+                dataGridUrgent.Columns(29).Visibility = Visibility.Hidden
             End If
             db.GetBreachedOrders(dtBreach)
             If dtBreach IsNot Nothing Then
@@ -104,7 +106,8 @@ Class MainWindow
                 dataGridBreach.Columns(25).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(26).Visibility = Visibility.Hidden
                 dataGridBreach.Columns(27).Visibility = Visibility.Hidden
-
+                dataGridBreach.Columns(28).Visibility = Visibility.Hidden
+                dataGridBreach.Columns(29).Visibility = Visibility.Hidden
                 'Dim row As DataGridRow = dataGridTimeout.ItemContainerGenerator.ContainerFromIndex(0)
                 'row.Background = New SolidColorBrush(Colors.Blue)
 
@@ -173,30 +176,25 @@ Class MainWindow
 
     End Function
 
-    Private Function UpdateTrainStationBreached()
+    Private Function UpdateTrainStationBreached(ByRef lasttime As DateTime, ByVal limit As Int32)
         Dim dr As DataRowView
         Dim dt As New DataTable
-        db.GetUrgentOrders(dt)
+        db.GetBreachedOrders(dt)
         dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
-
-        Dim loginTime, priceTime As New DateTime
-        loginTime = dr.Item("Login_Order_Time")
-        priceTime = dr.Item("Send_To_Pricing_Time")
-
-        Dim t4 As TimeSpan = priceTime - loginTime
-        labelPriceSubLoginTimeBreached.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
-
+        Dim loginTime As New DateTime
+        loginTime = dr.Item("Receive_Order_Time")
+        Dim t4 As TimeSpan = lasttime - loginTime
+        labelPriceSubLoginTimeBreached.Content = Math.Round((t4.TotalHours), 1).ToString() + " Hours"
         '变回原色
         labelPriceSubLoginTimeBreached.Background = oriLabelBreachedColor
         '如果t4超时label就变色，如果不超时就变回原色
-        If Math.Round((t4.TotalMinutes), 1) > 10 Then
+        If Math.Round((t4.TotalHours), 1) > limit Then
             If threadLabelBreachedBlink.ThreadState = ThreadState.Unstarted Then
                 threadLabelBreachedBlink.Start()
             ElseIf threadLabelBreachedBlink.ThreadState = ThreadState.Suspended Then
                 threadLabelBreachedBlink.Resume()
             End If
         Else
-
             If threadLabelBreachedBlink.ThreadState = ThreadState.WaitSleepJoin Then
                 threadLabelBreachedBlink.Suspend()
             End If
@@ -205,8 +203,8 @@ Class MainWindow
 
         Return Nothing
     End Function
-
-    Private Function UpdateTrainStationUrgent()
+    'Label变色
+    Private Function UpdateTrainStationUrgent(ByRef lasttime As DateTime, ByVal limit As Int32)
         Dim dr As DataRowView
         Dim dt As New DataTable
         db.GetUrgentOrders(dt)
@@ -214,16 +212,16 @@ Class MainWindow
 
 
         Dim loginTime, priceTime As New DateTime
-        loginTime = dr.Item("Login_Order_Time").ToString
-        priceTime = dr.Item("Send_To_Pricing_Time").ToString
+        loginTime = dr.Item("Receive_Order_Time")
 
-        Dim t4 As TimeSpan = priceTime - loginTime
-        labelPriceSubLoginTimeUrgent.Content = Math.Round((t4.TotalMinutes), 1).ToString() + " Minutes"
+
+        Dim t4 As TimeSpan = lasttime - loginTime
+        labelPriceSubLoginTimeUrgent.Content = Math.Round((t4.TotalHours), 1).ToString() + " Hours"
 
         '变回原色
         labelPriceSubLoginTimeUrgent.Background = oriLabelUrgentColor
         '如果t4超时label就变色，如果不超时就停止变色
-        If Math.Round((t4.TotalMinutes), 1) > 10 Then
+        If Math.Round((t4.TotalHours), 1) > limit Then
             If threadLabelUrgentBlink.ThreadState = ThreadState.Unstarted Then
                 threadLabelUrgentBlink.Start()
             ElseIf threadLabelUrgentBlink.ThreadState = ThreadState.Suspended Then
@@ -242,11 +240,30 @@ Class MainWindow
 
     Private Sub dataGridUrgent_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridUrgent.SelectionChanged
         'scroll to the selected item
+        dotStarturgent.Fill = New SolidColorBrush(Colors.Green)
+        BarReceiveToEnterUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotLoginUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        barLoginToBookUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        barLoginToPriceUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotPriceUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        barPriceToBookUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotBookUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarBookToCreditUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotCreditUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarCreditToPickReleaseUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarCreditToMFGUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotMFGUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarMFGToPickReleaseUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotPickReleaseUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarPickReleaseToReadyToPickUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotReadyToPickUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        BarReadyToPickToCustomerPickUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        dotCustomerPickUrgent.Fill = New SolidColorBrush(Colors.LightGray)
+        barEndUrgent.Fill = New SolidColorBrush(Colors.LightGray)
         If dataGridUrgent.Items.Count > 0 Then
             dataGridUrgent.ScrollIntoView(dataGridUrgent.Items(dataGridUrgent.SelectedIndex))
-            UpdateTrainStationUrgent()
+            UpdateTrainStationUrgent(DateTime.Now(), 2400)
             CheckCurrentOrderTimeUrgent()
-
         End If
 
     End Sub
@@ -320,8 +337,8 @@ Class MainWindow
         End Try
     End Sub
     Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
-        'Dim drv As DataRowView
-        'drv = dataGridUrgent.SelectedItem
+        Dim drv As DataRowView
+        drv = dataGridUrgent.SelectedItem
         trainStation = New TrainStation(selectedDrUrgent)
         trainStation.ShowDialog()
     End Sub
@@ -429,23 +446,35 @@ Class MainWindow
     Private Sub dataGridBreach_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dataGridBreach.SelectionChanged
         'scroll to the selected item
         If dataGridBreach.Items.Count > 0 Then
-            dataGridBreach.ScrollIntoView(dataGridBreach.Items(dataGridBreach.SelectedIndex))
-            UpdateTrainStationBreached()
-            CheckCurrentOrderTimeBreached()
-
+            dotStartBreach.Fill = New SolidColorBrush(Colors.Green)
+            BarReceiveToEnterBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotLoginBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barLoginToBookBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barLoginToPriceBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotPriceBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barPriceToBookBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotBookBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barBookToCreditBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotCreditBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barCreditToPickReleaseBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barCreditToMFGBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotMFGBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barMFGToPickReleaseBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotPickReleaseBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barPickReleaseToReadyToPickBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotReadyToPickBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barReadyToPickToCustomerPickBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            dotCustomerPickBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            barEndBreached.Fill = New SolidColorBrush(Colors.LightGray)
+            Try
+                dataGridBreach.ScrollIntoView(dataGridBreach.Items(dataGridBreach.SelectedIndex))
+                UpdateTrainStationBreached(DateTime.Now(), 2400)
+                CheckCurrentOrderTimeBreached()
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try
         End If
     End Sub
-
-    Private Function ControllerBlink(ByVal color() As Color)
-        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(Colors.Blue)
-        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(color(0))
-        'Thread.Sleep(500 * threadSleepTime)
-        'labelPriceSubLoginTimeBreached.Background = New SolidColorBrush(color(1))
-        'Thread.Sleep(500 * threadSleepTime)
-        Return Nothing
-    End Function
-
-    'Private Delegate Function ControllerBlinkDelegate(<[ParamArray]()> ByVal color() As Color)
 
     Private Sub DealBreachedBlink()
         While True
@@ -841,30 +870,30 @@ Class MainWindow
             End If
             'SPAExpire表格
         ElseIf dr.Item("Tag").ToString = "SPAExpire" Then
-            'Dim t21 As New TimeSpan
+            Dim t21 As New TimeSpan
             If dr.Item("Status").ToString = "Pending" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                't2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 tm = DateTime.Now()
                 BarOrderReceiveToOrderEnter(t0, t1, category)
-                'DotOrderLogin(t1, t2, category)
-                'BarBookPending(t2, tm, category)
+                DotOrderLogin(t1, t2, category)
+                BarBookPending(t2, tm, category)
 
             ElseIf dr.Item("Status").ToString = "Booked" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                't2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 t5 = dr.Item("Book_Order_Time").ToString
                 t6 = dr.Item("Credit_Check_Time")
                 tm = DateTime.Now()
-                't21 = t2 - t1
+                t21 = t2 - t1
                 BarOrderReceiveToOrderEnter(t0, t1, category)
-                DotOrderLogin(t1, t5, category)
-                BarBookPending(t1, t5, category)
-                BarOrderLoginToOrderBook(t1, t5, category)
-                DotBook(t1, t5, category)
-                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                DotOrderLogin(t1, t2, category)
+                BarBookPending(t2, t5, category)
+
+
+                DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
                 If t6.ToString("HH:mm:ss") = "00:00:00" Then
                     BarBookToCredit(t5, tm, category)
                 Else
@@ -877,18 +906,16 @@ Class MainWindow
             ElseIf dr.Item("Status").ToString = "Credit" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                't2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 t5 = dr.Item("Book_Order_Time").ToString
                 t6 = dr.Item("Credit_Check_Time").ToString
                 t7 = dr.Item("Credit_Complete_Time").ToString
                 tm = DateTime.Now()
-                't21 = t2 - t1
+                t21 = t2 - t1
                 BarOrderReceiveToOrderEnter(t0, t1, category)
                 DotOrderLogin(t1, t2, category)
-                BarOrderLoginToOrderBook(t1, t5, category)
-                DotBook(t1, t5, category)
-                'BarBookPending(t2, t5, category)
-                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookPending(t2, t5, category)
+                DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
                 BarBookToCredit(t5, t6, category)
                 DotCredit(t6, t7, category)
 
@@ -897,7 +924,7 @@ Class MainWindow
             ElseIf dr.Item("Status").ToString = "Manufacturing" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                't2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 t5 = dr.Item("Book_Order_Time").ToString
                 t6 = dr.Item("Credit_Check_Time").ToString
                 t7 = dr.Item("Credit_Complete_Time").ToString
@@ -905,13 +932,11 @@ Class MainWindow
                 t9 = dr.Item("MFG_Complete_Time").ToString
                 t10 = dr.Item("WH_Start_Time")
                 tm = DateTime.Now()
-                't21 = t2 - t1
+                t21 = t2 - t1
                 BarOrderReceiveToOrderEnter(t0, t1, category)
                 DotOrderLogin(t1, t2, category)
-                BarOrderLoginToOrderBook(t1, t5, category)
-                DotBook(t1, t5, category)
-                'BarBookPending(t2, t5, category)
-                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookPending(t2, t5, category)
+                DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
                 BarBookToCredit(t5, t6, category)
                 DotCredit(t6, t7, category)
                 BarCreditToMFG(t7, t8, category)
@@ -928,7 +953,7 @@ Class MainWindow
             ElseIf dr.Item("Status").ToString = "Warehouse Pick Release" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                ' t2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 t5 = dr.Item("Book_Order_Time").ToString
                 t6 = dr.Item("Credit_Check_Time").ToString
                 t7 = dr.Item("Credit_Complete_Time").ToString
@@ -937,13 +962,11 @@ Class MainWindow
                 t11 = dr.Item("WH_Complete_Time").ToString
                 t12 = dr.Item("Ready_To_Pick_ST")
                 tm = DateTime.Now()
-                't21 = t2 - t1
+                t21 = t2 - t1
                 BarOrderReceiveToOrderEnter(t0, t1, category)
                 DotOrderLogin(t1, t2, category)
-                BarOrderLoginToOrderBook(t1, t5, category)
-                DotBook(t1, t5, category)
-                'BarBookPending(t2, t5, category)
-                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookPending(t2, t5, category)
+                DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
                 BarBookToCredit(t5, t6, category)
                 DotCredit(t6, t7, category)
                 If t8.ToString("HH:mm:ss") = "00:00:00" Then
@@ -969,7 +992,7 @@ Class MainWindow
             ElseIf dr.Item("Status").ToString = "Ready For Pick" Then
                 t0 = dr.Item("Receive_Order_Time").ToString
                 t1 = dr.Item("Login_Order_Time").ToString
-                't2 = dr.Item("Pending_Time").ToString
+                t2 = dr.Item("Pending_Time").ToString
                 t5 = dr.Item("Book_Order_Time").ToString
                 t6 = dr.Item("Credit_Check_Time").ToString
                 t7 = dr.Item("Credit_Complete_Time").ToString
@@ -980,13 +1003,11 @@ Class MainWindow
                 t13 = dr.Item("Ready_To_Pick_CT").ToString
                 t14 = dr.Item("Customer_Pick_Time")
                 tm = DateTime.Now()
-                't21 = t2 - t1
+                t21 = t2 - t1
                 BarOrderReceiveToOrderEnter(t0, t1, category)
                 DotOrderLogin(t1, t2, category)
-                BarOrderLoginToOrderBook(t1, t5, category)
-                DotBook(t1, t5, category)
-                'BarBookPending(t2, t5, category)
-                'DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
+                BarBookPending(t2, t5, category)
+                DotBookPending(t1, t5, category, Convert.ToInt32(t21.TotalMinutes))
                 BarBookToCredit(t5, t6, category)
                 DotCredit(t6, t7, category)
                 If t8.ToString("HH:mm:ss") = "00:00:00" Then

@@ -17,13 +17,13 @@
                     <DropShadowEffect ShadowDepth="3"/>
                 </Grid.Effect>
                 <Label x:Name="label1" Content="Customer ID" HorizontalAlignment="Left" Margin="0,10,0,0" FontSize="13.333" FontWeight="Bold" Height="34.64" VerticalAlignment="Top"/>
-                <Label x:Name="label2" Content="Customer Order" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold" Margin="0,49.64,0,64.67" d:LayoutOverrides="Height"/>
-                <Label x:Name="labelCustomerId" Content="Customer ID" HorizontalAlignment="Right" Margin="0,10,-0.001,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Height="30.64" VerticalAlignment="Top"/>
-                <Label x:Name="labelCustomerOrder" Content="Customer Order" HorizontalAlignment="Right" Margin="0,49.64,-0.001,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Height="35.098" VerticalAlignment="Top"/>
-                <Label x:Name="label5" Content="Panduit Order" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Margin="0,0,0,44.572" HorizontalAlignment="Left"/>
-                <Label x:Name="labelPanduitOrder" Content="Panduit Order" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,0,-0.001,44.572"/>
-                <Label x:Name="label5_Copy" Content="Last User" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Margin="-0.001,0,0,10" HorizontalAlignment="Left"/>
-                <Label x:Name="labelLastUser" Content="Last User" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,0,0,10"/>
+                <Label x:Name="label2" Content="Customer Order Number" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold" Margin="0,49.64,0,64.67" d:LayoutOverrides="Height"/>
+                <Label x:Name="labelCustomerId" Content="Customer ID" HorizontalAlignment="Right" Margin="0,10,-0.001,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Height="30.64" VerticalAlignment="Top" Width="137.273"/>
+                <Label x:Name="labelCustomerOrder" Content="Customer Order" HorizontalAlignment="Right" Margin="0,49.64,-0.001,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Height="35.098" VerticalAlignment="Top" Width="137.273"/>
+                <Label x:Name="label5" Content="Panduit Order Number" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Margin="0,0,0,44.572" HorizontalAlignment="Left"/>
+                <Label x:Name="labelPanduitOrder" Content="Panduit Order" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,0,-0.001,44.572" Width="133.668"/>
+                <Label x:Name="label5_Copy" Content="Last Modified User" VerticalAlignment="Bottom" FontSize="13.333" FontWeight="Bold" Margin="-0.001,0,0,10" HorizontalAlignment="Left"/>
+                <Label x:Name="labelLastUser" Content="Last User" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,0,0,10" Width="133.667"/>
             </Grid>
             <Grid Margin="794.8,0,0,0" Background="#FFFFF6BF" HorizontalAlignment="Left" Width="300" Height="159.64" VerticalAlignment="Top">
                 <Grid.Effect>
@@ -31,14 +31,14 @@
                 </Grid.Effect>
                 <Label x:Name="label6" Content="Status" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold" VerticalAlignment="Top"/>
                 <Label x:Name="label7" Content="Urgent" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold" Margin="0,61.33,0,72.98" d:LayoutOverrides="Height"/>
-                <Label x:Name="labelStatus" Content="Status" HorizontalAlignment="Right" Margin="0,10,0,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-                <Label x:Name="labelUrgent" Content="Urgent" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,61.33,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                <Label x:Name="labelStatus" Content="Status" HorizontalAlignment="Right" Margin="0,10,0,0" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="137.164"/>
+                <Label x:Name="labelUrgent" Content="Urgent" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,61.33,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="137.164"/>
                 <Label x:Name="label7_Copy" Content="SPA number" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="13.333" FontWeight="Bold" Margin="0,0,0,25.936"/>
-                <Label x:Name="labelSPANumber" Content="SPA number" HorizontalAlignment="Right" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,108.374,0,0" Width="93.964" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                <Label x:Name="labelSPANumber" Content="SPA number" FontSize="13.333" FontWeight="Bold" Foreground="#FF0074FF" Margin="0,108.374,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="127.164"/>
             </Grid>
         </Grid>
         <Canvas x:Name="gridBreached" Background="White" Height="202.8" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1330.6">
-            <ed:Arc x:Name="barMFGToPickReleaseBreached" ArcThickness="30" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StartAngle="270" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="177.254" Canvas.Left="571.075" Canvas.Top="-23.708" Width="209.406">
+            <ed:Arc x:Name="barMFGToPickRelease" ArcThickness="20" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StartAngle="270" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="177.254" Canvas.Left="620.275" Canvas.Top="-22.508" Width="209.406">
                 <ed:Arc.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </ed:Arc.Effect>
@@ -51,7 +51,7 @@
                     </TransformGroup>
                 </ed:Arc.RenderTransform>
             </ed:Arc>
-            <ed:Arc x:Name="barCreditToMFGBreached" ArcThickness="30" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" StartAngle="180" EndAngle="270" Height="166.953" Canvas.Left="585.804" Canvas.Top="-14.051" Width="194.947">
+            <ed:Arc x:Name="barCreditToMFG" ArcThickness="20" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" StartAngle="180" EndAngle="270" Height="166.953" Canvas.Left="617.804" Canvas.Top="-13.651" Width="194.947">
                 <ed:Arc.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </ed:Arc.Effect>
@@ -64,7 +64,7 @@
                     </TransformGroup>
                 </ed:Arc.RenderTransform>
             </ed:Arc>
-            <ed:Arc x:Name="barLoginToPrice" ArcThickness="30" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" Width="194.947" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" StartAngle="180" EndAngle="270" Height="166.953" Canvas.Left="295.137" Canvas.Top="-13.784">
+            <ed:Arc x:Name="barLoginToPrice" ArcThickness="20" ArcThicknessUnit="Pixel" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" Width="194.947" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" StartAngle="180" EndAngle="270" Height="166.953" Canvas.Left="298.337" Canvas.Top="-13.784">
                 <ed:Arc.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </ed:Arc.Effect>
@@ -77,13 +77,13 @@
                     </TransformGroup>
                 </ed:Arc.RenderTransform>
             </ed:Arc>
-            <Rectangle x:Name="BarReceiveToEnter" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" Width="145.581" Canvas.Left="170" Canvas.Top="45.156">
+            <Rectangle x:Name="BarReceiveToEnter" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="20" VerticalAlignment="Top" Width="131.181" Canvas.Left="172" Canvas.Top="54.156">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Label x:Name="label3" Content="Order Enter" FontFamily="Arial" FontSize="16" Canvas.Left="274.633" Canvas.Top="15.756"/>
-            <ed:Arc x:Name="barPriceToBook" ArcThickness="30" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StartAngle="270" Width="209.406" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="177.254" Canvas.Left="278.808" Canvas.Top="-21.041">
+            <Label x:Name="label3" Content="Order Enter" FontFamily="Arial" FontSize="16" Canvas.Left="259.166" Canvas.Top="15.756"/>
+            <ed:Arc x:Name="barPriceToBook" ArcThickness="20" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFBDD7EE" Stretch="None" Stroke="Black" StartAngle="270" Width="209.406" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" Height="177.254" Canvas.Left="283.608" Canvas.Top="-22.241">
                 <ed:Arc.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </ed:Arc.Effect>
@@ -96,91 +96,86 @@
                     </TransformGroup>
                 </ed:Arc.RenderTransform>
             </ed:Arc>
-            <Ellipse x:Name="dotPrice" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="370.681" Canvas.Top="117.536" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotPrice" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="374.414" Canvas.Top="124.934" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="label3_Copy10" Content="Book Order" FontFamily="Arial" FontSize="16" Canvas.Left="414.987" Canvas.Top="15.756"/>
+            <Label x:Name="label3_Copy10" Content="Book Order" FontFamily="Arial" FontSize="16" Canvas.Left="440.187" Canvas.Top="15.756"/>
             <Label x:Name="label3_Copy11" Content="Price Request" FontFamily="Arial" FontSize="16" Canvas.Left="336.181" Canvas.Top="170.934"/>
-            <Label x:Name="label3_Copy12" Content="Manfacturing" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="632.827" Canvas.Top="170.934"/>
-            <Rectangle x:Name="barPickReleaseToReadyToPickBreached" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="161.7" Height="40" Canvas.Left="759.975" Canvas.Top="45.156" d:LayoutOverrides="VerticalAlignment">
+            <Label x:Name="label3_Copy12" Content="Manfacturing" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="671.227" Canvas.Top="170.934"/>
+            <Rectangle x:Name="barPickReleaseToReadyToPick" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="161.7" Height="20" Canvas.Left="817.352" Canvas.Top="54.156" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Label x:Name="label3_Copy13" Content="Credit" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="570.185" Canvas.Top="15.756"/>
-            <Label x:Name="label3_Copy14" Content="WHSE Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="718.087" Canvas.Top="15.756"/>
-            <Rectangle x:Name="barReadyToPickToCustomerPickBreached" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="152.947" Height="40" Canvas.Left="910.9" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment">
+            <Label x:Name="label3_Copy13" Content="Credit" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="594.162" Canvas.Top="13.756"/>
+            <Label x:Name="label3_Copy14" Content="WHSE Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="775.687" Canvas.Top="13.756"/>
+            <Rectangle x:Name="barReadyToPickToCustomerPick" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="152.947" Height="20" Canvas.Left="979.052" Canvas.Top="54.156" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Label x:Name="label3_Copy15" Content="Ready to Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="862.427" Canvas.Top="15.756"/>
-            <Label x:Name="label3_Copy16" Content="Customer Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="996.972" Canvas.Top="15.756"/>
-            <Rectangle Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="154.953" Height="40" Canvas.Left="1048.847" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment">
+            <Label x:Name="label3_Copy15" Content="Ready to Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="924.827" Canvas.Top="15.756"/>
+            <Label x:Name="label3_Copy16" Content="Customer Pick" FontFamily="Arial" FontSize="16" HorizontalAlignment="Left" Canvas.Left="1058.572" Canvas.Top="15.756"/>
+            <Rectangle x:Name="barCreditToPickRelease" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="184.525" Height="20" Canvas.Left="632.827" Canvas.Top="54.156" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="barCreditToPickReleaseBreached" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" HorizontalAlignment="Left" Width="181.408" Height="40" Canvas.Left="590.719" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment">
+            <Rectangle x:Name="barLoginToBook" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="20" VerticalAlignment="Top" Width="174.433" Canvas.Left="303.181" Canvas.Top="54.156">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="barLoginToBook" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Height="40" VerticalAlignment="Top" Width="174.433" Canvas.Left="303.181" Canvas.Top="45.156">
-                <Rectangle.Effect>
-                    <DropShadowEffect ShadowDepth="3"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Ellipse Fill="#FF79B553" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="40.595" d:LayoutOverrides="VerticalAlignment, Height" Canvas.Left="159.798" Canvas.Top="45.156">
+            <Ellipse Fill="#FF79B553" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="40.595" d:LayoutOverrides="VerticalAlignment, Height" Canvas.Left="156.598" Canvas.Top="44.156">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="labelCurrentPandiutOrderBreached" Content="" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" Width="126.133" HorizontalContentAlignment="Stretch" Canvas.Top="47.156"/>
-            <Rectangle x:Name="barBookToCreditBreached" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Width="147.967" Height="40" Canvas.Left="458.28" Canvas.Top="45.156" d:LayoutOverrides="VerticalAlignment">
+            <Label x:Name="labelCurrentPandiutOrderBreached" Content="" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" Width="126.133" HorizontalContentAlignment="Stretch" Canvas.Top="45.156" Canvas.Left="10"/>
+            <Rectangle x:Name="barBookToCredit" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Width="147.967" Height="20" Canvas.Left="477.614" Canvas.Top="54.156" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Ellipse x:Name="dotBook" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="40.595" Canvas.Left="447.78" Canvas.Top="45.156">
+            <Ellipse x:Name="dotBook" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="40.595" Canvas.Left="459.913" Canvas.Top="44.156">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotPickReleaseBreached" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="40.595" VerticalAlignment="Stretch" Canvas.Left="744.205" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotPickRelease" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="40.595" VerticalAlignment="Stretch" Canvas.Left="798.205" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotReadyToPickBreached" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="40.595" VerticalAlignment="Stretch" Canvas.Left="896.027" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotReadyToPick" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="40.595" VerticalAlignment="Stretch" Canvas.Left="956.377" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotCustomerPickBreached" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="1035.746" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotCustomerPick" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="1094.546" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="label3_Copy17" Content="Order Receive" FontFamily="Arial" FontSize="16" Canvas.Left="125.664" Canvas.Top="13.756"/>
-            <Label x:Name="labelPriceSubLoginTime" Content="Minutes" HorizontalAlignment="Left" Background="#FFFFC728" Width="148.8" FontSize="14.667" FontWeight="Bold" FontStyle="Italic" Foreground="#FFFF0001" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="40" BorderBrush="#FF0DFF2E" Canvas.Left="1146.199" Canvas.Top="44.156">
+            <Label x:Name="label3_Copy17" Content="Order Receive" FontFamily="Arial" FontSize="16" Canvas.Left="124.464" Canvas.Top="15.756"/>
+            <Label x:Name="labelPriceSubLoginTime" Content="Minutes" HorizontalAlignment="Left" Background="#FFFFC728" Width="122.4" FontSize="14.667" FontWeight="Bold" FontStyle="Italic" Foreground="#FFFF0001" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="40" BorderBrush="#FF0DFF2E" Canvas.Left="1172.599" Canvas.Top="44.156">
                 <Label.Effect>
                     <DropShadowEffect/>
                 </Label.Effect>
             </Label>
-            <Ellipse x:Name="dotLogin" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="40.595" Canvas.Left="291.019" Canvas.Top="45.156">
+            <Ellipse x:Name="dotLogin" Fill="#FFA7A7A7" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="40.595" Canvas.Left="285.686" Canvas.Top="44.156">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotCreditBreached" Fill="#FFA7A7A7" Stroke="Black" StrokeThickness="0" Width="40.595" Height="41" Canvas.Left="576.319" Canvas.Top="45.156" d:LayoutOverrides="VerticalAlignment">
+            <Ellipse x:Name="dotCredit" Fill="#FFA7A7A7" Stroke="Black" StrokeThickness="0" Width="40.595" Height="41" Canvas.Left="606.247" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotMFGBreached" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="660.827" Canvas.Top="117.536" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotMFG" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="700.727" Canvas.Top="124.934" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>

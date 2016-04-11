@@ -41,46 +41,17 @@ Public Class DBHelper
 
     '获得所有表格里未完成的订单
     Public Function GetNotCompleteOrders(ByRef dt As DataTable)
-        Dim sqlCmdGetSPANewColorUnfinish As String = "select * from [SPANewColor] where [Customer_Pick] = false order by [Receive_Order_Time] "
-        Dim sqlCmdGetNormalOrderUnfinish As String = "select * from [NormalOrder] where [Customer_Pick] = false order by [Receive_Order_Time] "
-        Dim sqlCmdGetSPAExpireUnfinish As String = "select * from [SPAExpire] where [Customer_Pick] = false order by [Receive_Order_Time] "
-
-        Dim dt2, dt3 As New DataTable
-        GetOrders(dt, sqlCmdGetSPANewColorUnfinish)
-        GetOrders(dt2, sqlCmdGetNormalOrderUnfinish)
-        GetOrders(dt3, sqlCmdGetSPAExpireUnfinish)
-
-        'For Each Dr As DataRow In dt1.Rows
-        '    dt.ImportRow(Dr)
-        'Next
-        For Each Dr As DataRow In dt2.Rows
-            dt.ImportRow(Dr)
-        Next
-        For Each Dr As DataRow In dt3.Rows
-            dt.ImportRow(Dr)
-        Next
+        Dim sqlCmdGetOrderUnfinish As String = "select * from [OrderTable] where [Customer_Pick] = false order by [Receive_Order_Time] "
+        GetOrders(dt, sqlCmdGetOrderUnfinish)
         Return Nothing
     End Function
 
     '获得所有表格里未完成的Urgent订单
     Public Function GetUrgentOrders(ByRef dt As DataTable)
-        Dim sqlCmdGetSPANewColorUrgent As String = "select * from [SPANewColor] where [Urgent] = 'Yes'and [Customer_Pick] = false order by [Receive_Order_Time] "
-        Dim sqlCmdGetNormalOrderUrgent As String = "select * from [NormalOrder] where [Urgent] = 'Yes'and [Customer_Pick] = false order by [Receive_Order_Time]"
-        Dim sqlCmdGetSPAExpireUrgent As String = "select * from [SPAExpire] where [Urgent] = 'Yes'and [Customer_Pick] = false order by [Receive_Order_Time]"
-        Dim dt2, dt3 As New DataTable
-        GetOrders(dt, sqlCmdGetSPANewColorUrgent)
-        GetOrders(dt2, sqlCmdGetNormalOrderUrgent)
-        GetOrders(dt3, sqlCmdGetSPAExpireUrgent)
+        Dim sqlCmdGetOrderUrgent As String = "select * from [OrderTable] where [Urgent] = 'Yes'and [Customer_Pick] = false order by [Receive_Order_Time] "
 
-        'For Each Dr As DataRow In dt1.Rows
-        '    dt.ImportRow(Dr)
-        'Next
-        For Each Dr As DataRow In dt2.Rows
-            dt.ImportRow(Dr)
-        Next
-        For Each Dr As DataRow In dt3.Rows
-            dt.ImportRow(Dr)
-        Next
+        GetOrders(dt, sqlCmdGetOrderUrgent)
+
         Return Nothing
     End Function
 
