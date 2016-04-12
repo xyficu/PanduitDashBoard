@@ -1,6 +1,6 @@
 ﻿Imports System.Data
 Imports System.Threading
-
+Imports System.Windows.Shapes
 
 
 Public Class TrainStation
@@ -47,7 +47,7 @@ Public Class TrainStation
     Private curDotBook As Brush
 
     Private passedColor As Brush = New SolidColorBrush(Colors.Green)
-    Private failedColor As Brush = New SolidColorBrush(Colors.Gray)
+    Private defaultColor As Brush = New SolidColorBrush(Colors.Gray)
     Private timeout1Color As Brush = New SolidColorBrush(Colors.Yellow)
     Private timeout2Color As Brush = New SolidColorBrush(Colors.Red)
 
@@ -84,21 +84,25 @@ Public Class TrainStation
 
     End Sub
 
-    Private Function ControllerBlink(t As TimeSpan, thread As Thread, limit1 As Int32, Optional limit2 As Int32 = 60)
+    Private Overloads Function ControllerBlink(t As TimeSpan, thread As Thread, limit1 As Int32, Optional limit2 As Int32 = 60)
         '小于limit1
         '大于limit1,小于limit2
         '大于limit2
-        If Math.Round(t.TotalMinutes, 1) > limit1 Then
-            If thread.ThreadState = ThreadState.Unstarted Then
-                thread.Start()
-            ElseIf thread.ThreadState = ThreadState.Suspended Then
-                thread.Resume()
-            End If
-        Else
-            If thread.ThreadState = ThreadState.WaitSleepJoin Then
-                thread.Suspend()
-            End If
+
+        Dim timegap As Double = Math.Round(t.TotalMinutes, 1)
+        Dim limit() As Double = {timegap, CType(limit1, Double), CType(limit2, Double)}
+        'If timegap > limit1 Then
+        If thread.ThreadState = ThreadState.Unstarted Then
+            thread.Start(limit)
+        ElseIf thread.ThreadState = ThreadState.Suspended Then
+            thread.Resume()
         End If
+
+        'Else
+        '    If thread.ThreadState = ThreadState.WaitSleepJoin Then
+        '        thread.Suspend()
+        '    End If
+        'End If
         Return Nothing
     End Function
 
@@ -106,26 +110,33 @@ Public Class TrainStation
         MyBase.Finalize()
     End Sub
 
-    Dim args() As Brush = New Brush() {New SolidColorBrush(Colors.Blue), New SolidColorBrush(Colors.Yellow)}
-    Private Sub DealBarReceiveToLogin()
-        While True
-            Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), args(0))
-            Thread.Sleep(200)
-            Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), args(1))
-            Thread.Sleep(200)
-        End While
+    'Dim args() As Brush = New Brush() {New SolidColorBrush(Colors.Blue), New SolidColorBrush(Colors.Yellow)}
+    Private Sub DealBarReceiveToLogin(limit() As Double)
+        If limit(0) < limit(1) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), passedColor)
+        ElseIf limit(0) < limit(2) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf limit(0) > limit(2) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
 
     Delegate Sub DeleBarReceiveToLogin(args As Brush)
-    Private Sub BarReceiveToLogin(args As Brush)
-        BarReceiveToEnter.Fill = args
-    End Sub
-    Private Sub BarReceiveToLogin1(args() As Object)
-
-        BarReceiveToEnter.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarReceiveToLogin2()
-        BarReceiveToEnter.Fill = New SolidColorBrush(Colors.Yellow)
+    Private Sub BarReceiveToLogin(color As Brush)
+        BarReceiveToEnter.Fill = color
     End Sub
 
     Private Sub DealDotLogin()
@@ -369,7 +380,8 @@ Public Class TrainStation
     End Sub
 
     Private Sub TrainStation_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        threadBarReceiveToLogin = New Thread(AddressOf DealBarReceiveToLogin)
+        'threadBarReceiveToLogin = New Thread(AddressOf DealBarReceiveToLogin)
+        threadBarReceiveToLogin = New Thread(New ParameterizedThreadStart(AddressOf DealBarReceiveToLogin))
         threadDotLogin = New Thread(AddressOf DealDotLogin)
         threadDotPrice = New Thread(AddressOf DealDotPrice)
         threadDotBook = New Thread(AddressOf DealDotBook)
@@ -406,12 +418,23 @@ Public Class TrainStation
         oriColorDotReadyToPick = dotReadyToPick.Fill
         oriColorBarReadyToPickToCustomerPick = barReadyToPickToCustomerPick.Fill
 
-        't1 = outDrv.Item("Login_Order_Time").ToString
-        't2 = outDrv.Item("Send_To_Pricing_Time").ToString
-        't3 = outDrv.Item("Price_Modify_Time").ToString
-        't4 = outDrv.Item("Price_Send_Back_Time").ToString
-        't5 = outDrv.Item("Book_Order_Time").ToString
-        't6 = t5
+        BarReceiveToEnter.Fill = New SolidColorBrush(Colors.LightGray)
+        dotLogin.Fill = New SolidColorBrush(Colors.LightGray)
+        dotPrice.Fill = New SolidColorBrush(Colors.LightGray)
+        dotBook.Fill = New SolidColorBrush(Colors.LightGray)
+        barLoginToPrice.Fill = New SolidColorBrush(Colors.LightGray)
+        barPriceToBook.Fill = New SolidColorBrush(Colors.LightGray)
+        barLoginToBook.Fill = New SolidColorBrush(Colors.LightGray)
+        barBookToCredit.Fill = New SolidColorBrush(Colors.LightGray)
+        dotCredit.Fill = New SolidColorBrush(Colors.LightGray)
+        barCreditToMFG.Fill = New SolidColorBrush(Colors.LightGray)
+        dotMFG.Fill = New SolidColorBrush(Colors.LightGray)
+        barMFGToPickRelease.Fill = New SolidColorBrush(Colors.LightGray)
+        barCreditToPickRelease.Fill = New SolidColorBrush(Colors.LightGray)
+        dotPickRelease.Fill = New SolidColorBrush(Colors.LightGray)
+        barPickReleaseToReadyToPick.Fill = New SolidColorBrush(Colors.LightGray)
+        dotReadyToPick.Fill = New SolidColorBrush(Colors.LightGray)
+        barReadyToPickToCustomerPick.Fill = New SolidColorBrush(Colors.LightGray)
 
         Dim dr As DataRowView = outDrv
         Dim t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, tm As New DateTime
