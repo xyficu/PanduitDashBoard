@@ -47,9 +47,11 @@ Public Class TrainStation
     Private curDotBook As Brush
 
     Private passedColor As Brush = New SolidColorBrush(Colors.Green)
-    Private defaultColor As Brush = New SolidColorBrush(Colors.Gray)
+    Private defaultColor As Brush = New SolidColorBrush(Colors.LightGray)
     Private timeout1Color As Brush = New SolidColorBrush(Colors.Yellow)
     Private timeout2Color As Brush = New SolidColorBrush(Colors.Red)
+
+    'Public Delegate Sub ParameterizedThreadStart(obj() As Double)
 
 
     Private outDrv As DataRowView
@@ -69,7 +71,7 @@ Public Class TrainStation
 
             labelCustomerId.Content = drv.Item("Customer_ID").ToString
             labelCustomerOrder.Content = drv.Item("Customer_Order").ToString
-            labelPanduitOrder.Content = drv.Item("Panduit_Order").ToString
+            labelCurrentPandiutOrder.Content = drv.Item("Panduit_Order").ToString
             labelStatus.Content = drv.Item("Status").ToString
             labelUrgent.Content = drv.Item("Urgent").ToString
             labelSPANumber.Content = drv.Item("SPA_Number").ToString
@@ -84,13 +86,20 @@ Public Class TrainStation
 
     End Sub
 
-    Private Overloads Function ControllerBlink(t As TimeSpan, thread As Thread, limit1 As Int32, Optional limit2 As Int32 = 60)
-        '小于limit1
-        '大于limit1,小于limit2
-        '大于limit2
+    ''' <summary>
+    ''' 控制控件闪烁的函数。如果t小于时间节点1，控件为绿色不闪烁状态；如果t在时间节点1和节点2之间控件为黄色闪烁状态；
+    ''' 如果t大于时间节点2，控件为红色闪烁状态；不涉及控件为浅灰色状态不闪烁
+    ''' </summary>
+    ''' <param name="t">两个节点之间的时间间隔</param>
+    ''' <param name="thread">控制节点的线程</param>
+    ''' <param name="limit1">时间节点1</param>
+    ''' <param name="limit2">时间节点2</param>
+    ''' <returns></returns>
+    Private Overloads Function ControllerBlink(t As TimeSpan, thread As Thread, Optional limit1 As Int32 = 30, Optional limit2 As Int32 = 60)
 
         Dim timegap As Double = Math.Round(t.TotalMinutes, 1)
         Dim limit() As Double = {timegap, CType(limit1, Double), CType(limit2, Double)}
+
         'If timegap > limit1 Then
         If thread.ThreadState = ThreadState.Unstarted Then
             thread.Start(limit)
@@ -110,12 +119,12 @@ Public Class TrainStation
         MyBase.Finalize()
     End Sub
 
-    'Dim args() As Brush = New Brush() {New SolidColorBrush(Colors.Blue), New SolidColorBrush(Colors.Yellow)}
-    Private Sub DealBarReceiveToLogin(limit() As Double)
-        If limit(0) < limit(1) Then
+    Private Sub DealBarReceiveToLogin(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
             '控件绿色
             Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), passedColor)
-        ElseIf limit(0) < limit(2) Then
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
             '控件黄色闪烁
             While True
                 Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), timeout1Color)
@@ -123,7 +132,7 @@ Public Class TrainStation
                 Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), defaultColor)
                 Thread.Sleep(200)
             End While
-        ElseIf limit(0) > limit(2) Then
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
             '控件红色闪烁
             While True
                 Dispatcher.Invoke(New DeleBarReceiveToLogin(AddressOf BarReceiveToLogin), timeout2Color)
@@ -133,290 +142,520 @@ Public Class TrainStation
             End While
         End If
     End Sub
-
     Delegate Sub DeleBarReceiveToLogin(args As Brush)
     Private Sub BarReceiveToLogin(color As Brush)
         BarReceiveToEnter.Fill = color
     End Sub
 
-    Private Sub DealDotLogin()
-        While True
-            Dispatcher.Invoke(AddressOf DotLoginColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DotLoginColor2)
-            Thread.Sleep(200)
-        End While
+
+    Private Sub DealDotLogin(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotLoginColor(AddressOf DotLoginColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotLoginColor(AddressOf DotLoginColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotLoginColor(AddressOf DotLoginColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotLoginColor(AddressOf DotLoginColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotLoginColor(AddressOf DotLoginColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotLoginColor1()
-        dotLogin.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotLoginColor2()
-        dotLogin.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotLoginColor(color As Brush)
+    Private Sub DotLoginColor(color As Brush)
+        dotLogin.Fill = color
     End Sub
 
-    Private Sub DealDotPrice()
-        While True
-            Dispatcher.Invoke(AddressOf DotPriceColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DotPriceColor2)
-            Thread.Sleep(200)
-        End While
+
+    Private Sub DealDotPrice(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotPriceColor(AddressOf DotPriceColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotPriceColor(AddressOf DotPriceColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotPriceColor(AddressOf DotPriceColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotPriceColor(AddressOf DotPriceColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotPriceColor(AddressOf DotPriceColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotPriceColor1()
-        dotPrice.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotPriceColor2()
-        dotPrice.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotPriceColor(color As Brush)
+    Private Sub DotPriceColor(color As Brush)
+        dotPrice.Fill = color
     End Sub
 
-    Private Sub DealDotBook()
-        While True
-            Dispatcher.Invoke(AddressOf DotBookColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DotBookColor2)
-            Thread.Sleep(200)
-        End While
+
+    Private Sub DealDotBook(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotBookColor(AddressOf DotBookColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotBookColor(AddressOf DotBookColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotBookColor(AddressOf DotBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotBookColor(AddressOf DotBookColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotBookColor(AddressOf DotBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotBookColor1()
-        dotBook.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotBookColor2()
-        dotBook.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotBookColor(color As Brush)
+    Private Sub DotBookColor(color As Brush)
+        dotBook.Fill = color
     End Sub
 
-    Private Sub DealBarLoginToPrice()
-        While True
-            Dispatcher.Invoke(AddressOf BarLoginToPriceColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarLoginToPriceColor2)
-            Thread.Sleep(200)
-        End While
+
+    Private Sub DealBarLoginToPrice(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarLoginToPriceColor(AddressOf BarLoginToPriceColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarLoginToPriceColor(AddressOf BarLoginToPriceColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarLoginToPriceColor(AddressOf BarLoginToPriceColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarLoginToPriceColor(AddressOf BarLoginToPriceColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarLoginToPriceColor(AddressOf BarLoginToPriceColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarLoginToPriceColor1()
-        barLoginToPrice.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarLoginToPriceColor2()
-        barLoginToPrice.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarLoginToPriceColor(color As Brush)
+    Private Sub BarLoginToPriceColor(color As Brush)
+        barLoginToPrice.Fill = color
     End Sub
 
-    Private Sub DealBarPriceToBook()
-        While True
-            Dispatcher.Invoke(AddressOf BarPriceToBookColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarPriceToBookColor2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarPriceToBook(obj As Object)
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarPriceToBookColor(AddressOf BarPriceToBookColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarPriceToBookColor(AddressOf BarPriceToBookColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarPriceToBookColor(AddressOf BarPriceToBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarPriceToBookColor(AddressOf BarPriceToBookColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarPriceToBookColor(AddressOf BarPriceToBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarPriceToBookColor1()
-        barPriceToBook.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarPriceToBookColor2()
-        barPriceToBook.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarPriceToBookColor(color As Brush)
+    Private Sub BarPriceToBookColor(color As Brush)
+        barPriceToBook.Fill = color
     End Sub
 
-    Private Sub DealBarLoginToBook()
-        While True
-            Dispatcher.Invoke(AddressOf BarLoginToBookColor1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarLoginToBookColor2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarLoginToBook(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarLoginToBookColor1()
-        barLoginToBook.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarLoginToBookColor2()
-        barLoginToBook.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarLoginToBookColor(color As Brush)
+    Private Sub BarLoginToBookColor(color As Brush)
+        barLoginToBook.Fill = color
     End Sub
 
-    Private Sub DealBarBookToCredit()
-        While True
-            Dispatcher.Invoke(AddressOf BarBookToCredit1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarBookTocredit2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarBookToCredit(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarBookToCredit1()
-        barBookToCredit.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarBookTocredit2()
-        barBookToCredit.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarBookToCreditColor(color As Brush)
+    Private Sub BarBookToCreditColor(color As Brush)
+        barBookToCredit.Fill = color
     End Sub
 
-    Private Sub DealDotCredit()
-        While True
-            Dispatcher.Invoke(AddressOf DotCredit1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf Dotcredit2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealDotCredit(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotCreditColor(AddressOf DotCreditColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotCreditColor(AddressOf DotCreditColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotCreditColor(AddressOf DotCreditColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotCreditColor(AddressOf DotCreditColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotCreditColor(AddressOf DotCreditColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub Dotcredit1()
-        dotCredit.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub Dotcredit2()
-        dotCredit.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotCreditColor(color As Brush)
+    Private Sub DotCreditColor(color As Brush)
+        dotCredit.Fill = color
     End Sub
 
-    Private Sub DealBarCreditToMFG()
-        While True
-            Dispatcher.Invoke(AddressOf BarCreditToMFG1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarcreditToMFG2)
-            Thread.Sleep(200)
-        End While
+
+    Private Sub DealBarCreditToMFG(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarCreditToMFGColor(AddressOf BarCreditToMFGColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarCreditToMFGColor(AddressOf BarCreditToMFGColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarCreditToMFGColor(AddressOf BarCreditToMFGColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarCreditToMFGColor(AddressOf BarCreditToMFGColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarCreditToMFGColor(AddressOf BarCreditToMFGColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarCreditToMFG1()
-        barCreditToMFG.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarCreditToMFG2()
-        barCreditToMFG.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarCreditToMFGColor(color As Brush)
+    Private Sub BarCreditToMFGColor(color As Brush)
+        barCreditToMFG.Fill = color
     End Sub
 
-    Private Sub DealDotMFG()
-        While True
-            Dispatcher.Invoke(AddressOf DotMFG1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DotMFG2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealDotMFG(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotMFGColor(AddressOf DotMFGColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotMFGColor(AddressOf DotMFGColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotMFGColor(AddressOf DotMFGColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotMFGColor(AddressOf DotMFGColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotMFGColor(AddressOf DotMFGColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotMFG1()
-        dotMFG.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotMFG2()
-        dotMFG.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotMFGColor(color As Brush)
+    Private Sub DotMFGColor(color As Brush)
+        dotMFG.Fill = color
     End Sub
 
-    Private Sub DealBarMFGToPickRelease()
-        While True
-            Dispatcher.Invoke(AddressOf BarMFGToPickRelease1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarMFGToPickRelease2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarMFGToPickRelease(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarMFGToPickReleaseColor(AddressOf BarMFGToPickReleaseColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarMFGToPickReleaseColor(AddressOf BarMFGToPickReleaseColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarMFGToPickReleaseColor(AddressOf BarMFGToPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarMFGToPickReleaseColor(AddressOf BarMFGToPickReleaseColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarMFGToPickReleaseColor(AddressOf BarMFGToPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarMFGToPickRelease1()
-        barMFGToPickRelease.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarMFGToPickRelease2()
-        barMFGToPickRelease.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarMFGToPickReleaseColor(color As Brush)
+    Private Sub BarMFGToPickReleaseColor(color As Brush)
+        barMFGToPickRelease.Fill = color
     End Sub
 
-    Private Sub DealBarCreditToPickRelease()
-        While True
-            Dispatcher.Invoke(AddressOf BarCreditToPickRelease1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarCreditToPickRelease2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarCreditToPickRelease(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarCreditToPickReleaseColor(AddressOf BarCreditToPickReleaseColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarCreditToPickReleaseColor(AddressOf BarCreditToPickReleaseColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarCreditToPickReleaseColor(AddressOf BarCreditToPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarCreditToPickReleaseColor(AddressOf BarCreditToPickReleaseColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarCreditToPickReleaseColor(AddressOf BarCreditToPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarCreditToPickRelease1()
-        barCreditToPickRelease.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarCreditToPickRelease2()
-        barCreditToPickRelease.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarCreditToPickReleaseColor(color As Brush)
+    Private Sub BarCreditToPickReleaseColor(color As Brush)
+        barCreditToPickRelease.Fill = color
     End Sub
 
-    Private Sub DealDotPickRelease()
-        While True
-            Dispatcher.Invoke(AddressOf DotPickRelease1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DOtPickRelease2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealDotPickRelease(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotPickReleaseColor(AddressOf DotPickReleaseColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotPickReleaseColor(AddressOf DotPickReleaseColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotPickReleaseColor(AddressOf DotPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotPickReleaseColor(AddressOf DotPickReleaseColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotPickReleaseColor(AddressOf DotPickReleaseColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotPickRelease1()
-        dotPickRelease.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotPickRelease2()
-        dotPickRelease.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotPickReleaseColor(color As Brush)
+    Private Sub DotPickReleaseColor(color As Brush)
+        dotPickRelease.Fill = color
     End Sub
 
-    Private Sub DealBarPickReleaseToReadyToPick()
-        While True
-            Dispatcher.Invoke(AddressOf BarPickReleaseToReadyToPick1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarPickReleaseToReadyToPick2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarPickReleaseToReadyToPick(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarPickReleaseToReadyToPickColor(AddressOf BarPickReleaseToReadyToPickColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarPickReleaseToReadyToPickColor(AddressOf BarPickReleaseToReadyToPickColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarPickReleaseToReadyToPickColor(AddressOf BarPickReleaseToReadyToPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarPickReleaseToReadyToPickColor(AddressOf BarPickReleaseToReadyToPickColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarPickReleaseToReadyToPickColor(AddressOf BarPickReleaseToReadyToPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarPickReleaseToReadyToPick1()
-        barPickReleaseToReadyToPick.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub BarPickReleaseToReadyToPick2()
-        barPickReleaseToReadyToPick.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleBarPickReleaseToReadyToPickColor(color As Brush)
+    Private Sub BarPickReleaseToReadyToPickColor(color As Brush)
+        barPickReleaseToReadyToPick.Fill = color
     End Sub
 
-    Private Sub DealDotReadyToPick()
-        While True
-            Dispatcher.Invoke(AddressOf DotReadyToPick1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf DotReadyToPick2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealDotReadyToPick(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleDotReadyToPickColor(AddressOf DotReadyToPickColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotReadyToPickColor(AddressOf DotReadyToPickColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotReadyToPickColor(AddressOf DotReadyToPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleDotReadyToPickColor(AddressOf DotReadyToPickColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleDotReadyToPickColor(AddressOf DotReadyToPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub DotReadyToPick1()
-        dotReadyToPick.Fill = New SolidColorBrush(Colors.Blue)
-    End Sub
-    Private Sub DotReadyToPick2()
-        dotReadyToPick.Fill = New SolidColorBrush(Colors.Yellow)
+    Delegate Sub DeleDotReadyToPickColor(color As Brush)
+    Private Sub DotReadyToPickColor(color As Brush)
+        dotReadyToPick.Fill = color
     End Sub
 
-    Private Sub DealBarReadyToPickToCustomerPick()
-        While True
-            Dispatcher.Invoke(AddressOf BarReadyToPickToCustomerPick1)
-            Thread.Sleep(200)
-            Dispatcher.Invoke(AddressOf BarReadyToPickToCustomerPick2)
-            Thread.Sleep(200)
-        End While
+
+
+    Private Sub DealBarReadyToPickToCustomerPick(obj As Object)
+
+        Dim limit() As Double = CType(obj, Double())
+        If CType(limit(0), Double) < CType(limit(1), Double) Then
+            '控件绿色
+            Dispatcher.Invoke(New DeleBarReadyToPickToCustomerPickColor(AddressOf BarReadyToPickToCustomerPickColor), passedColor)
+        ElseIf CType(limit(0), Double) < CType(limit(2), Double) Then
+            '控件黄色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarReadyToPickToCustomerPickColor(AddressOf BarReadyToPickToCustomerPickColor), timeout1Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarReadyToPickToCustomerPickColor(AddressOf BarReadyToPickToCustomerPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        ElseIf CType(limit(0), Double) >= CType(limit(2), Double) Then
+            '控件红色闪烁
+            While True
+                Dispatcher.Invoke(New DeleBarReadyToPickToCustomerPickColor(AddressOf BarReadyToPickToCustomerPickColor), timeout2Color)
+                Thread.Sleep(200)
+                Dispatcher.Invoke(New DeleBarReadyToPickToCustomerPickColor(AddressOf BarReadyToPickToCustomerPickColor), defaultColor)
+                Thread.Sleep(200)
+            End While
+        End If
     End Sub
-    Private Sub BarReadyToPickToCustomerPick1()
-        barReadyToPickToCustomerPick.Fill = New SolidColorBrush(Colors.Blue)
+    Delegate Sub DeleBarReadyToPickToCustomerPickColor(color As Brush)
+    Private Sub BarReadyToPickToCustomerPickColor(color As Brush)
+        barReadyToPickToCustomerPick.Fill = color
     End Sub
-    Private Sub BarReadyToPickToCustomerPick2()
-        barReadyToPickToCustomerPick.Fill = New SolidColorBrush(Colors.Yellow)
-    End Sub
+
+
 
     Private Sub TrainStation_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        'threadBarReceiveToLogin = New Thread(AddressOf DealBarReceiveToLogin)
-        threadBarReceiveToLogin = New Thread(New ParameterizedThreadStart(AddressOf DealBarReceiveToLogin))
-        threadDotLogin = New Thread(AddressOf DealDotLogin)
-        threadDotPrice = New Thread(AddressOf DealDotPrice)
-        threadDotBook = New Thread(AddressOf DealDotBook)
-        threadBarLoginToPrice = New Thread(AddressOf DealBarLoginToPrice)
-        threadBarPriceToBook = New Thread(AddressOf DealBarPriceToBook)
-        threadBarLoginToBook = New Thread(AddressOf DealBarLoginToBook)
-        threadDotBook = New Thread(AddressOf DealDotBook)
-        threadBarBookToCredit = New Thread(AddressOf DealBarBookToCredit)
-        threadDotCredit = New Thread(AddressOf DealDotCredit)
-        threadBarCreditToMFG = New Thread(AddressOf DealBarCreditToMFG)
-        threadDotMFG = New Thread(AddressOf DealDotMFG)
-        threadBarMFGToPickRelease = New Thread(AddressOf DealBarMFGToPickRelease)
-        threadBarCreditToPickRelease = New Thread(AddressOf DealBarCreditToPickRelease)
-        threadDotPickRelease = New Thread(AddressOf DealDotPickRelease)
-        threadBarPickReleaseToReadyToPick = New Thread(AddressOf DealBarPickReleaseToReadyToPick)
-        threadDotReadyToPick = New Thread(AddressOf DealDotReadyToPick)
-        threadBarReadyToPickToCustomerPick = New Thread(AddressOf DealBarReadyToPickToCustomerPick)
 
-        oriColorBarReceiveToLogin = BarReceiveToEnter.Fill
-        oriColorDotLogin = dotLogin.Fill
-        oriColorDotPrice = dotPrice.Fill
-        oriColorDotBook = dotBook.Fill
-        oriColorBarLoginToPrice = barLoginToPrice.Fill
-        oriColorBarPriceToBook = barPriceToBook.Fill
-        oriColorBarLoginToBook = barLoginToBook.Fill
-        oriColorBarBookToCredit = barBookToCredit.Fill
-        oriColorDotCredit = dotCredit.Fill
-        oriColorBarCreditToMFG = barCreditToMFG.Fill
-        oriColorDotMFG = dotMFG.Fill
-        oriColorBarMFGToPickRelease = barMFGToPickRelease.Fill
-        oriColorBarCreditToPickRelease = barCreditToPickRelease.Fill
-        oriColorDotPickRelease = dotPickRelease.Fill
-        oriColorBarPickReleaseToReadyToPick = barPickReleaseToReadyToPick.Fill
-        oriColorDotReadyToPick = dotReadyToPick.Fill
-        oriColorBarReadyToPickToCustomerPick = barReadyToPickToCustomerPick.Fill
+        threadBarReceiveToLogin = New Thread(New ParameterizedThreadStart(AddressOf DealBarReceiveToLogin))
+        threadDotLogin = New Thread(New ParameterizedThreadStart(AddressOf DealDotLogin))
+        threadDotPrice = New Thread(New ParameterizedThreadStart(AddressOf DealDotPrice))
+        threadDotBook = New Thread(New ParameterizedThreadStart(AddressOf DealDotBook))
+        threadBarLoginToPrice = New Thread(New ParameterizedThreadStart(AddressOf DealBarLoginToPrice))
+        threadBarPriceToBook = New Thread(New ParameterizedThreadStart(AddressOf DealBarPriceToBook))
+        threadBarLoginToBook = New Thread(New ParameterizedThreadStart(AddressOf DealBarLoginToBook))
+        threadDotBook = New Thread(New ParameterizedThreadStart(AddressOf DealDotBook))
+        threadBarBookToCredit = New Thread(New ParameterizedThreadStart(AddressOf DealBarBookToCredit))
+        threadDotCredit = New Thread(New ParameterizedThreadStart(AddressOf DealDotCredit))
+        threadBarCreditToMFG = New Thread(New ParameterizedThreadStart(AddressOf DealBarCreditToMFG))
+        threadDotMFG = New Thread(New ParameterizedThreadStart(AddressOf DealDotMFG))
+        threadBarMFGToPickRelease = New Thread(New ParameterizedThreadStart(AddressOf DealBarMFGToPickRelease))
+        threadBarCreditToPickRelease = New Thread(New ParameterizedThreadStart(AddressOf DealBarCreditToPickRelease))
+        threadDotPickRelease = New Thread(New ParameterizedThreadStart(AddressOf DealDotPickRelease))
+        threadBarPickReleaseToReadyToPick = New Thread(New ParameterizedThreadStart(AddressOf DealBarPickReleaseToReadyToPick))
+        threadDotReadyToPick = New Thread(New ParameterizedThreadStart(AddressOf DealDotReadyToPick))
+        threadBarReadyToPickToCustomerPick = New Thread(New ParameterizedThreadStart(AddressOf DealBarReadyToPickToCustomerPick))
+
 
         BarReceiveToEnter.Fill = New SolidColorBrush(Colors.LightGray)
         dotLogin.Fill = New SolidColorBrush(Colors.LightGray)

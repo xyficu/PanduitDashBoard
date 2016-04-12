@@ -128,12 +128,12 @@
                     <DropShadowEffect ShadowDepth="3"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Ellipse Fill="#FF79B553" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="40.595" d:LayoutOverrides="VerticalAlignment, Height" Canvas.Left="156.598" Canvas.Top="44.156">
+            <Ellipse Fill="Green" Height="41" Stroke="Black" StrokeThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="40.595" d:LayoutOverrides="VerticalAlignment, Height" Canvas.Left="156.598" Canvas.Top="44.156">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Label x:Name="labelCurrentPandiutOrderBreached" Content="" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" Width="126.133" HorizontalContentAlignment="Stretch" Canvas.Top="45.156" Canvas.Left="10"/>
+            <Label x:Name="labelCurrentPandiutOrder" Content="Current Order" Style="{DynamicResource LabelStyle2}" FontSize="14.667" Foreground="Red" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontStyle="Italic" Width="126.133" HorizontalContentAlignment="Stretch" Canvas.Top="45.156" Canvas.Left="10"/>
             <Rectangle x:Name="barBookToCredit" Fill="#FFBDD7EE" Stroke="Black" RadiusX="10" RadiusY="10" StrokeThickness="0" Width="147.967" Height="20" Canvas.Left="477.614" Canvas.Top="54.156" d:LayoutOverrides="VerticalAlignment">
                 <Rectangle.Effect>
                     <DropShadowEffect ShadowDepth="3"/>
@@ -154,7 +154,7 @@
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>
             </Ellipse>
-            <Ellipse x:Name="dotCustomerPick" Fill="#FFA7A7A7" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="1094.546" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
+            <Ellipse x:Name="dotCustomerPick" Fill="LightGray" HorizontalAlignment="Left" Height="41" Stroke="Black" StrokeThickness="0" Width="41" VerticalAlignment="Stretch" Canvas.Left="1094.546" Canvas.Top="44.156" d:LayoutOverrides="VerticalAlignment, Height">
                 <Ellipse.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Ellipse.Effect>

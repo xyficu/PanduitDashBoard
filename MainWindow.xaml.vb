@@ -125,18 +125,12 @@ Class MainWindow
 
 
     Private Sub DealThread()
-        Dim color() As Color = {Colors.Blue, Colors.Yellow}
         While True
+            Dispatcher.Invoke(AddressOf RefreshDB)
             Dispatcher.Invoke(AddressOf RollOrdersBreach)
             Dispatcher.Invoke(AddressOf RollOrdersUrgent)
-
-            'Dispatcher.Invoke(ControllerBlink(color), New Object() {Colors.Blue, Colors.Yellow})
-
-            'Dispatcher.BeginInvoke(DispatcherPriority.Normal, rollOrderDelegate)
             Thread.Sleep(1000 * threadSleepTime)
-
         End While
-
     End Sub
 
 
