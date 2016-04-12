@@ -107,11 +107,6 @@ Public Class TrainStation
             thread.Resume()
         End If
 
-        'Else
-        '    If thread.ThreadState = ThreadState.WaitSleepJoin Then
-        '        thread.Suspend()
-        '    End If
-        'End If
         Return Nothing
     End Function
 
