@@ -126,10 +126,15 @@ Class MainWindow
 
     Private Sub DealThread()
         While True
+            Trace.Write("0:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
             Dispatcher.Invoke(AddressOf RefreshDB)
+            Trace.Write("1:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
             Dispatcher.Invoke(AddressOf RollOrdersBreach)
+            Trace.Write("2:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
             Dispatcher.Invoke(AddressOf RollOrdersUrgent)
+            Trace.Write("3:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
             Thread.Sleep(1000 * threadSleepTime)
+            Trace.Write("4:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
         End While
     End Sub
 
