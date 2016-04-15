@@ -1,8 +1,7 @@
-﻿Imports System.ComponentModel
-Imports System.Data
+﻿Imports System.Data
 Imports System.Threading
 Imports System.Windows.Threading
-'Imports System.Windows.Threading
+
 
 Class MainWindow
     Private trainStation As TrainStation
@@ -13,16 +12,19 @@ Class MainWindow
     Private threadAutoScrollDataGrid As Thread
     Private threadLabelBreachedBlink As Thread
     Private threadLabelUrgentBlink As Thread
+    Private threadUpdateDB As Thread
 
     Private oriLabelBreachedColor As Brush
     Private oriLabelUrgentColor As Brush
 
-    '声明更新界面委托
-    'Delegate Function UpdateUIDelegate()
-    'Dim rollOrderDelegate As New UpdateUIDelegate(AddressOf RollOrders)
+    Private timerUpdateDB As Timer
 
+    '设置是否需要更新数据库
+    Private needUpdateDB As Boolean = True
+    '设定数据库更新时间
+    Private updateDBInterval As Integer = 10
     '设定滚动时间
-    Private threadSleepTime As Int32 = 1
+    Private rollOverInterval As Integer = 1
 
     '窗体加载时填充datagrid
     Private Sub PanduitDashboardMain_Loaded(sender As Object, e As RoutedEventArgs) Handles PanduitDashboardMain.Loaded
@@ -126,15 +128,19 @@ Class MainWindow
 
     Private Sub DealThread()
         While True
-            Trace.Write("0:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
-            Dispatcher.Invoke(AddressOf RefreshDB)
-            Trace.Write("1:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
+
             Dispatcher.Invoke(AddressOf RollOrdersBreach)
-            Trace.Write("2:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
             Dispatcher.Invoke(AddressOf RollOrdersUrgent)
-            Trace.Write("3:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
-            Thread.Sleep(1000 * threadSleepTime)
-            Trace.Write("4:" + DateTime.Now.ToLongTimeString + "." + DateTime.Now.Millisecond.ToString + "\br")
+            Thread.Sleep(1000 * rollOverInterval)
+
+        End While
+    End Sub
+
+    '延迟1秒方法
+    Private Sub WaitSeconds(ByVal s As Integer)
+        Dim tmpNow As Date = Now
+        While Now.Subtract(tmpNow).Seconds < s
+            tmpNow.AddSeconds(1)
         End While
     End Sub
 
@@ -177,9 +183,9 @@ Class MainWindow
 
     Private Function UpdateTrainStationBreached(ByRef lasttime As DateTime, ByVal limit As Int32)
         Dim dr As DataRowView
-        Dim dt As New DataTable
-        db.GetBreachedOrders(dt)
-        dr = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
+        'Dim dt As New DataTable
+        'db.GetBreachedOrders(dt)
+        dr = dtBreach.DefaultView.Item(dataGridBreach.SelectedIndex)
         Dim loginTime As New DateTime
         loginTime = dr.Item("Receive_Order_Time")
         Dim t4 As TimeSpan = lasttime - loginTime
@@ -206,13 +212,11 @@ Class MainWindow
     Private Function UpdateTrainStationUrgent(ByRef lasttime As DateTime, ByVal limit As Int32)
         Dim dr As DataRowView
         Dim dt As New DataTable
-        db.GetUrgentOrders(dt)
-        dr = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
-
+        'db.GetUrgentOrders(dt)
+        dr = dtUrgent.DefaultView.Item(dataGridUrgent.SelectedIndex)
 
         Dim loginTime, priceTime As New DateTime
         loginTime = dr.Item("Receive_Order_Time")
-
 
         Dim t4 As TimeSpan = lasttime - loginTime
         labelPriceSubLoginTimeUrgent.Content = Math.Round((t4.TotalHours), 1).ToString() + " Hours"
@@ -272,6 +276,7 @@ Class MainWindow
         threadAutoScrollDataGrid = New Thread(AddressOf DealThread)
         threadLabelBreachedBlink = New Thread(AddressOf DealBreachedBlink)
         threadLabelUrgentBlink = New Thread(AddressOf DealUrgentBlink)
+        'threadUpdateDB = New Thread(AddressOf DealUpdateDatagridContent)
 
         oriLabelBreachedColor = labelPriceSubLoginTimeBreached.Background
         oriLabelUrgentColor = labelPriceSubLoginTimeUrgent.Background
@@ -282,19 +287,11 @@ Class MainWindow
 
             dataGridBreach.SelectedIndex = 0
 
-            'Dim style As New Style
-            'style.Setters.Add(New Setter(HorizontalAlignmentProperty, HorizontalAlignment.Center))
-            'dataGridUrgent.HorizontalContentAlignment = HorizontalAlignment.Right
-            'For Each col As DataGridColumn In dataGridUrgent.Columns
-            '    col.CellStyle = style
-            'Next
-
-            'labelPriceSubLoginTime.HorizontalContentAlignment = HorizontalAlignment.Left
-
-
         End If
 
-
+        If needUpdateDB = True Then
+            timerUpdateDB = New Timer(AddressOf DealUpdateDatagridContent, Nothing, 1000 * updateDBInterval, 1000 * updateDBInterval)
+        End If
 
     End Sub
 
@@ -321,7 +318,8 @@ Class MainWindow
 
 
     End Sub
-    Private Sub RefreshDB()
+
+    Private Function UpdateDatagridContent()
         Try
             Dim curIndexUrgent As Int32 = dataGridUrgent.SelectedIndex
             Dim curIndexBreached As Int32 = dataGridBreach.SelectedIndex
@@ -334,7 +332,15 @@ Class MainWindow
         Catch ex As Exception
             'MessageBox.Show(ex.ToString)
         End Try
+        Return Nothing
+    End Function
+
+    Private Sub DealUpdateDatagridContent(ByVal state As Object)
+        Thread.Sleep(1000 * updateDBInterval)
+        Dispatcher.Invoke(AddressOf UpdateDatagridContent)
+
     End Sub
+
     Private Sub dataGridUrgent_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridUrgent.MouseUp
         Dim drv As DataRowView
         drv = dataGridUrgent.SelectedItem
@@ -345,10 +351,9 @@ Class MainWindow
     'check order, change color when timeout
     Private selectedDrBreached As DataRowView
     Private Function CheckCurrentOrderTimeBreached()
-        Dim dt As New DataTable
-        db.GetBreachedOrders(dt)
+
         If dataGridBreach.SelectedIndex >= 0 Then
-            selectedDrBreached = dt.DefaultView.Item(dataGridBreach.SelectedIndex)
+            selectedDrBreached = dtBreach.DefaultView.Item(dataGridBreach.SelectedIndex)
             ChangeColor(selectedDrBreached, "breach")
             labelCurrentPandiutOrderBreached.Content = selectedDrBreached.Item("Panduit_Order").ToString
         End If
@@ -359,10 +364,9 @@ Class MainWindow
     'check order, change color when timeout
     Private selectedDrUrgent As DataRowView
     Private Function CheckCurrentOrderTimeUrgent()
-        Dim dt As New DataTable
-        db.GetUrgentOrders(dt)
+
         If dataGridUrgent.SelectedIndex >= 0 Then
-            selectedDrUrgent = dt.DefaultView.Item(dataGridUrgent.SelectedIndex)
+            selectedDrUrgent = dtUrgent.DefaultView.Item(dataGridUrgent.SelectedIndex)
             ChangeColor(selectedDrUrgent, "urgent")
             labelCurrentPandiutOrderUrgent.Content = selectedDrUrgent.Item("Panduit_Order").ToString
         End If
@@ -411,33 +415,38 @@ Class MainWindow
     End Function
 
     Private Sub dataGridTimeout_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles dataGridBreach.MouseUp
-        'Dim drv As DataRowView
-        'drv = dataGridBreach.SelectedItem
+
         trainStation = New TrainStation(selectedDrBreached)
         trainStation.ShowDialog()
 
     End Sub
 
     Private Sub MainWindow_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        Thread.Sleep(1000 * rollOverInterval)
+        AbortThread(threadAutoScrollDataGrid)
+
+    End Sub
+
+    Private Sub AbortThread(thread As Thread)
         Try
-            Thread.Sleep(1000 * threadSleepTime)
+
             If threadAutoScrollDataGrid.ThreadState = ThreadState.Suspended Then
-                threadAutoScrollDataGrid.Resume()
+                thread.Resume()
             End If
             threadAutoScrollDataGrid.Abort()
 
             If threadLabelBreachedBlink.ThreadState = ThreadState.Suspended Then
-                threadLabelBreachedBlink.Resume()
+                thread.Resume()
             End If
             threadLabelBreachedBlink.Abort()
 
             If threadLabelUrgentBlink.ThreadState = ThreadState.Suspended Then
-                threadLabelUrgentBlink.Resume()
+                thread.Resume()
             End If
             threadLabelUrgentBlink.Abort()
 
         Catch ex As Exception
-            'MessageBox.Show(ex.ToString)
+            'MessageBox.Show(ex.ToString)  threadUpdateDB
 
         End Try
     End Sub
@@ -511,11 +520,7 @@ Class MainWindow
         labelPriceSubLoginTimeUrgent.Background = New SolidColorBrush(Colors.Yellow)
     End Sub
 
-    'label内容改变时调用
-    Private Sub labelPriceSubLoginTimeBreached_LayoutUpdated(sender As Object, e As EventArgs) Handles labelPriceSubLoginTimeBreached.LayoutUpdated
-        Dim i As Int32
-        i = 64
-    End Sub
+
     Public Function ChangeColor(ByRef dr As DataRowView, ByVal category As String)
         Dim t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, tm As New DateTime
 

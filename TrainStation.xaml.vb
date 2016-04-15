@@ -1,6 +1,5 @@
 ﻿Imports System.Data
 Imports System.Threading
-Imports System.Windows.Shapes
 
 
 Public Class TrainStation
@@ -60,8 +59,11 @@ Public Class TrainStation
     End Sub
 
     ''' <summary>
-    ''' 控制控件闪烁的函数。如果t小于时间节点1，控件为绿色不闪烁状态；如果t在时间节点1和节点2之间控件为黄色闪烁状态；
-    ''' 如果t大于时间节点2，控件为红色闪烁状态；不涉及控件为浅灰色状态不闪烁
+    ''' 控制控件闪烁的函数。
+    ''' 如果t小于时间节点1，控件为绿色不闪烁状态；
+    ''' 如果t在时间节点1和节点2之间控件为黄色闪烁状态；
+    ''' 如果t大于时间节点2，控件为红色闪烁状态；
+    ''' 不涉及控件为浅灰色状态不闪烁
     ''' </summary>
     ''' <param name="t">两个节点之间的时间间隔</param>
     ''' <param name="thread">控制节点的线程</param>
@@ -176,12 +178,9 @@ Public Class TrainStation
     End Sub
 
 
-
     Private Sub DealBarLoginToBook(obj As Object)
-
         Dim limit() As Double = CType(obj, Double())
         Blink(limit, New DeleBarLoginToBookColor(AddressOf BarLoginToBookColor))
-
     End Sub
     Delegate Sub DeleBarLoginToBookColor(color As Brush)
     Private Sub BarLoginToBookColor(color As Brush)
@@ -189,18 +188,14 @@ Public Class TrainStation
     End Sub
 
 
-
     Private Sub DealBarBookToCredit(obj As Object)
-
         Dim limit() As Double = CType(obj, Double())
         Blink(limit, New DeleBarBookToCreditColor(AddressOf BarBookToCreditColor))
-
     End Sub
     Delegate Sub DeleBarBookToCreditColor(color As Brush)
     Private Sub BarBookToCreditColor(color As Brush)
         barBookToCredit.Fill = color
     End Sub
-
 
 
     Private Sub DealDotCredit(obj As Object)
